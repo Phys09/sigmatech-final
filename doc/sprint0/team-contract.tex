@@ -1,0 +1,208 @@
+% The base formatting that I use for all math homework, tutorials, notes, etc...
+\documentclass[hidelinks, 12pt]{article}    % hide the links, 12pt font
+
+% Packages
+\usepackage[margin=1in]{geometry} % set margins
+\usepackage{amsmath, amssymb, amsthm}   % math formatting and symbols
+\usepackage{graphicx}           % insert graphics
+\usepackage{derivative}         % easy derivatives
+\usepackage{fancyhdr}           % header formatting
+\usepackage{hyperref}           % allow table of contents
+\usepackage{physics}            % allow usage of many physics symbols
+\usepackage{tikz}               % allow usage of the tikz drawing abilities
+
+% Standard title + author
+\title{CSC301 Team Contract}
+
+\renewcommand*\contentsname{CSC301 Team Contract} % rename the table of contents
+% \setcounter{secnumdepth}{0} % remove numbering from sections
+% \setlength{\parindent}{0pt} % remove paragraph indentation
+\setlength{\parskip}{1em}
+
+% begin header formatting
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\nouppercase{\leftmark}}
+\fancyhead[R]{\thepage}
+\rfoot{}
+% end header formatting
+
+
+%----------------------------------------------------------------------------------------
+%	PARAGRAPH SPACING SPECIFICATIONS
+%----------------------------------------------------------------------------------------
+
+\setlength{\parindent}{0mm} % Don't indent paragraphs
+
+\setlength{\parskip}{2.5mm} % Whitespace between paragraphs
+
+%----------------------------------------------------------------------------------------
+%	PAGE LAYOUT SPECIFICATIONS
+%----------------------------------------------------------------------------------------
+
+\usepackage{geometry} % Required to modify the page layout
+
+\setlength{\textwidth}{16cm} % Width of the text on the page
+\setlength{\textheight}{24.5cm} % Height of the text on the page
+
+\setlength{\oddsidemargin}{0cm} % Width of the margin - negative to move text left, positive to move it right
+
+% Uncomment for offset margins if the 'twoside' document class option is used
+%\setlength{\evensidemargin}{-0.75cm} 
+%\setlength{\oddsidemargin}{0.75cm}
+
+\setlength{\topmargin}{-1.25cm} % Reduce the top margin
+
+%----------------------------------------------------------------------------------------
+%	FONT SPECIFICATIONS
+%----------------------------------------------------------------------------------------
+
+% If you are running Apple OS X, uncomment the next 4 lines and comment/delete the block below, you will now need to compile with XeLaTeX but your document will look much better
+
+%\usepackage[cm-default]{fontspec}
+%\usepackage{xunicode}
+
+%\setsansfont[Mapping=tex-text,Scale=1.1]{Gill Sans}
+%\setmainfont[Mapping=tex-text,Scale=1.0]{Hoefler Text}
+
+%-------------------------------------------
+
+\usepackage[utf8]{inputenc} % Required for including letters with accents
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+
+\usepackage{avant} % Use the Avantgarde font for headings
+\usepackage{mathptmx} % Use the Adobe Times Roman as the default text font together with math symbols from the Sym­bol, Chancery and Com­puter Modern fonts
+
+%----------------------------------------------------------------------------------------
+%	SECTION TITLE SPECIFICATIONS
+%----------------------------------------------------------------------------------------
+
+\usepackage{titlesec} % Required for modifying section titles
+
+\titleformat{\section} % Customize the \section{} section title
+{\sffamily\large\bfseries} % Title font customizations
+{\thesection} % Section number
+{16pt} % Whitespace between the number and title
+{\large} % Title font size
+\titlespacing*{\section}{0mm}{7mm}{0mm} % Left, top and bottom spacing around the title
+
+\titleformat{\subsection} % Customize the \subsection{} section title
+{\sffamily\normalsize\bfseries} % Title font customizations
+{\thesubsection} % Subsection number
+{16pt} % Whitespace between the number and title
+{\normalsize} % Title font size
+\titlespacing*{\subsection}{0mm}{5mm}{0mm} % Left, top and bottom spacing around the title
+
+
+% Begin body of the document
+\begin{document}
+    \maketitle
+    \pagebreak
+    \tableofcontents
+    \pagebreak
+
+    \section{Methods of Communication}
+        \subsection{How Members Will Communicate}
+            The methods of communication will be primarily through discord. Other forms of communication can include
+            (but are not limited to) call, txt, or email.
+
+    \section{Communication Response Times}
+        \subsection{Expected Response Time}
+            The response times for group members is expected to be within 24 hours. While in actuality many response
+            times may be shorter, group members are expected to have some sort of response within 24 hours, just so
+            that other members do not end up being left in the dark to their whereabouts.
+
+    \section{Meeting Attendance}
+        \subsection{Expected Attendance}
+            There will be meetings called for on discord and potentially tutorials that group members are
+            expected to attend. While it may not be possible for a member to attend every meeting,
+            it is expected that they follow communication response times to inform the other members
+            (ideally through discord) of their absence.
+
+    \section{Running Meetings}
+        \subsection{How Meetings Are Run}
+            The meetings will be primarily online through discord. While there may be some in-person meetings,
+            group members are expected to either provide a reason why they cannot attend, or join that
+            in-person meeting through discord virtually.
+
+    \section{Meeting Preparation}
+        \subsection{What Members Need}
+            Most meetings will not need any further preparation, aside from just attendance.
+            Should meetings have deliverables, it is expected that members have them ready.
+            
+    \pagebreak
+
+    \section{Version Control}
+        \subsection{Expectation of How Members Use Git}
+            Git commit messages should be in the imperative form, following guidelines taught in CSC290.
+            The guidelines can also be found at this website. \href{https://cbea.ms/git-commit/}{Click Here}.
+
+            In addition, members will follow proper `git flow.'  \\
+            The `master branch' will be used as the `production branch' for every version release. \\
+            The `develop branch' will be used as the branch members merge their own feature branches to. \\
+            The `feature branch' is a separate branch that developers will use to implement their features. \\
+            
+            The merge order will be as follows: \\
+            feature $\rightarrow$ develop. \\
+            develop $\rightarrow$ production, which is also the master branch
+        
+
+    \section{Division of Work}
+        \subsection{Allocation of Points for Tasks}
+            Each `task' will be assigned a point value depending on expected time, and reasonability. \\
+            By the end of each sprint, it is expected that each group member have similar `scores' within reason.
+
+            The `within reason' is decided by the entire group, giving members peace of mind should something come
+            up that requires their immediate attention. (examples: Tests, Assignments, etc...)
+
+        \subsection{Pair Programming}
+            Group members can choose to collaborate in real time on code. The allocation of points can be
+            negotiated with all collaborators in a way that is `fair.' 
+
+    \section{Submitting Assignments}
+        \subsection{The Expected Format}
+            The exact format is not stated, but each pull request must give the following information in some way. \\
+
+            \begin{itemize}
+                \item What the pull request does
+                \item Why the pull request should be accepted
+                \item If there were new tests written for this pull request
+                \item Whether of not this pull request increase the product version
+            \end{itemize}
+            
+    \pagebreak
+
+    \section{Contingency Planning}
+        \subsection{Group member leaves group}
+            In the event that a group member leaves the group, they will inform members of their plan
+            to leave the group, and the remaining group members will contact the instructor for further
+            information
+            
+        \subsection{Group Member is Unresponsive}
+            If there is consistent absence with no attempt at contacting the group over a long
+            duration of time, the other group members will inform the instructor/TA and wait for further
+            instructions.
+        
+        \subsection{Plagiarism}
+            It is expected that group members work with each other, and not take code from other
+            students in other groups. That being said, in real life, it is not unheard of for dev teams
+            to interact and share ideas and ideas with each other.
+
+            Should code be taken from outside sources (outside from their group member), it is expected that
+            the code is credited and sourced in the comments. An example is getting a solution
+            from stack overflow, a textbook, or a more knowledgeable friend.
+            
+            In the event that it is expected that a member is plagiarizing, or cheating in some other way,
+            the instructor/TA will be informed for further instructions if attempts to quell the issue
+            are not successful.
+            
+    
+    Signed: \\
+    Michael Kwan \\
+    Juan-Pablo Moreno \\
+    Abtin Ghajarieh Sepanlou \\
+    Tommy Zhang \\
+    Peter Albu \\
+    Xinlei Xu \\
+    Aaron Huang \\
+\end{document}
