@@ -11,5 +11,5 @@ Perform tests by running `npm test`.
 (update this as needed)
 
 # Contribution:
-The master branch is used for major product versions. The develop branch is used for feature additions without cluttering the master. Feature branches are named based on the user story they are implementing. These branches are pull requested and reviewed by a peer before being merged into the develop branch. Jira is used for ticketing issues.
+The master branch is used for product versions, representing working versions of the application. Periodic merges from the develop branch are done, but nothing else. The develop branch is used for feature additions without cluttering the master. The only changes allowed in develop are the merges from feature branches and bug fixes. Feature branches are named based on the user story they are implementing. These branches are pull requested and reviewed by a peer before being merged into the develop branch. Jira is used for ticketing issues.
 
