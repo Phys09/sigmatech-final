@@ -1,0 +1,25 @@
+{
+  "name": "finalproject",
+  "version": "1.0.0",
+  "description": "SigmaTech presents SigmaBank (name pending), an online banking website to manage your finances. SigmaBank provides a very simple and intuitive way to send money and view your financial history.",
+  "main": "server.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UTSCCSCC01/finalprojectw22-sigmatech.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UTSCCSCC01/finalprojectw22-sigmatech/issues"
+  },
+  "homepage": "https://github.com/UTSCCSCC01/finalprojectw22-sigmatech#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
