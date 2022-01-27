@@ -1,20 +1,9 @@
-# Status
-    Not complete
+Our team worked together well for sprint 0.
 
+We made decisions by voting on them as a group. The team was organized into frontend/backend/database roles and each role performmed relevant tasks from the backlog until the end of the sprint, where roles could then be reassigned.
 
-# Information
-    Reflect on how your team worked together.    
+User stories are prioritized based on a point value assigned to each story. TODO - assign point values
 
-    Here are a few questions that can guide you  
+We used our discord group chat to announce and hold our group meetings. We met every couple days, or when needed. One issue we encountered was some of our meetings being too long, we learned in this sprint to do more work individually inorder to avoid unproductive long meetings.
 
-    How did you organize the team? Which tools did you use, if any?  
-
-    How did you make decisions?  
-
-    How did you define priority and/or points of user stories?  
-    How many rounds of voting (on average) did you need to come to a consensus for the point estimate?  
-
-    How frequently did you meet?  
-
-    What lessons should you take forward to the next phase?   
-  
+In general, this sprint went well and if we continue working the way we have we should be able to do well on this project. Pair programming will also be a useful asset in the development process.
