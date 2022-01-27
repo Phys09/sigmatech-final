@@ -20,5 +20,3 @@ for that feature.
 2. The feature can be, and has been tested
 
 3. The feature satisfies the user story 
-
-3. Incomplete, add later if needed
