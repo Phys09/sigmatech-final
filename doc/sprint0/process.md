@@ -1,6 +1,6 @@
 Our team worked together well for sprint 0.
 
-We made decisions by voting on them as a group. The team was not organized into roles, everyone operates as a full-stack developer that can take any item off the backlog.
+We made decisions by voting on them as a group. The team was organized into frontend/backend/database roles and each role performmed relevant tasks from the backlog until the end of the sprint, where roles could then be reassigned.
 
 User stories are prioritized based on a point value assigned to each story. TODO - assign point values
 
