@@ -20,3 +20,4 @@
 | "As an admin, Jairaj wants to be able to see the transfer history between any accounts" | See if there are any security/suspicious acitivity | 4 | 4 |
 | "As an employee Angela should be able to resolve a support ticket" | Customer support must be able to support customers | 5 | 4 |
 | "As an international customer, Jairaj wants to be able to convert currency to his local currency when a transaction is made" | "Send/recieve money from international people (relatives, sellers, rent payments, business, etc...)" | 2 | 2 |
+
