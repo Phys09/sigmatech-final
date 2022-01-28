@@ -12,11 +12,11 @@ This characteristic could be related to performance, portability,
 or functionality  
 
 # Definition of Done
-A feature is considered "Done" or "Complete" if all of the following hold
+A feature or user story is considered "Done" or "Complete" if all of the following hold
 for that feature.
 
-1. The feature does not crash the program when used
+1. The implementation does not crash the program when used
 
-2. The feature can be, and has been tested
+2. The implementation can be, and has been tested
 
-3. The feature satisfies the user story 
+3. The implementation satisfies the user story 
