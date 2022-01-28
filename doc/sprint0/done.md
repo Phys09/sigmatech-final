@@ -13,7 +13,6 @@ or functionality
 
 # Definition of Done
 A feature or user story is considered "Done" or "Complete" if all of the following hold
-for that feature.
 
 1. The implementation does not crash the program when used
 
