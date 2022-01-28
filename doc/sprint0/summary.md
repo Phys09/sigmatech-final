@@ -2,7 +2,6 @@
 
 ## Project objectives
 
-2-3 sentences about what this part of the project is trying to accomplish
 This project creates a bank management application where users can make an account to do things such as
 storing money, making payments, and applying for a loan.
 
@@ -17,7 +16,7 @@ potentially arrange meetings, hold events, etc...
 
 ## Key Users/Personas
 
-1-2 personas this functionality is for
+The personas are likely to be of one of the following types below.
 The customer (can transfer money, make account, etc...)
 The employees (data scientists, customer support...)
 
@@ -38,8 +37,6 @@ information to the customers.
 
 ## Key Usage Scenarios
 
-About 3 short scenarios the design is trying to solve
-
 The first scenario is one that the IT department would have.
 Noah works in IT at the bank. One day, he's called in because the bank application isn't working as intended.
 A customer had an issue with accessing one of the video information sessions. Using the bank application's diagnostics
@@ -57,12 +54,9 @@ higher-than-normal spending, should he end up doing so.
 
 ## Key Principles
 
-Short Guiding Principles.  
-List 1-2 principles that this software must follow  
-Example: Good user experience over System Efficiency
-
 This software must be practical, intuitive, and fast (enough) to serve customer needs.
-In addition, the code must be well kept/maintained/readable, even if it may end up being a little bit slower. (O(n) instead of O(logn))
+In addition, the code must be well kept/maintained/readable, even if it may end up being a little bit slower. (Example: O(n) instead of O(logn) can be fine)
 
 The software should be separated into different parts that make up the entire banking application. Each part is responsible for a small
 portion of the software, allowing the managers to disable certain parts of the application in case it goes down, or certain users need to be restricted.
+In addition, it will be easier to implement/code/debug this parts if they stay as 'modules.'
