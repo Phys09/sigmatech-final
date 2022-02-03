@@ -1,7 +1,11 @@
 const pg = require("pg");
+const cors = require("cors");
 const express = require("express");
 const app = express();
 
+app.use(cors());
+
+// PSQL init
 const client = new pg.Client({
     user: "postgres",
     port: 5432,
@@ -12,21 +16,25 @@ const client = new pg.Client({
 
 client.connect();
 
+// endpoints
 app.get('/', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.send({"data": "hello"});
+    res.send("Welcome to SigmaBank API V0.1.0");
 })
 
-app.get('/express_backend', (req, res) => {
-    res.send({express: "express connected to react"});
-    //client.query("INSERT INTO fruit(name) VALUES ('orange');");
+app.get('/list_fruit', (req, res) => {
+    client.query("SELECT * FROM fruit;", (err, result) => {
+        if (err) throw err;
+        res.send(result.rows);
+    });
 })
 
-app.get('/createFruit', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    client.query("INSERT INTO fruit(name) VALUES ('kiwi');");
+app.post('/create_fruit/:name', (req, res) => {
+    client.query(`INSERT INTO fruit(name) VALUES ('${req.params.name}');`, (err, result) => {
+        if (err) throw err;
+        res.sendStatus(200);
+    });
 })
 
-
+// app init
 app.listen(5000);
 console.log("server started on port 5000");
