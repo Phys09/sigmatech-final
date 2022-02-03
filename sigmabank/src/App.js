@@ -11,8 +11,9 @@ function App() {
   return (
     <div className="App">
       <p>sup</p>
-      <button onClick={API.someFunction}>Click me fool</button>
-      <button onClick={API.otherFunction}>Don't click me fool</button>
+      <input id="fruit-name" placeholder="Enter fruit name"></input>
+      <button onClick={API.someFunction}>Create Fruit</button>
+      <button onClick={API.otherFunction}>List all fruits (to console)</button>
     </div>
   );
 }

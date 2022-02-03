@@ -18,16 +18,21 @@ client.connect();
 
 // endpoints
 app.get('/', (req, res) => {
-    res.send({"data": "hello"});
+    res.send("Welcome to SigmaBank API");
 })
 
-app.get('/express_backend', (req, res) => {
-    res.send({express: "express connected to react"});
-    //client.query("INSERT INTO fruit(name) VALUES ('orange');");
+app.get('/list_fruit', (req, res) => {
+    client.query("SELECT * FROM fruit;", (err, result) => {
+        if (err) throw err;
+        res.send(result.rows);
+    });
 })
 
-app.get('/createFruit', (req, res) => {
-    client.query("INSERT INTO fruit(name) VALUES ('kiwi');");
+app.post('/create_fruit/:name', (req, res) => {
+    client.query(`INSERT INTO fruit(name) VALUES ('${req.params.name}');`, (err, result) => {
+        if (err) throw err;
+        res.sendStatus(200);
+    });
 })
 
 // app init
