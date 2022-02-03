@@ -5,6 +5,7 @@ const app = express();
 
 app.use(cors());
 
+// PSQL init
 const client = new pg.Client({
     user: "postgres",
     port: 5432,
@@ -15,6 +16,7 @@ const client = new pg.Client({
 
 client.connect();
 
+// endpoints
 app.get('/', (req, res) => {
     res.send({"data": "hello"});
 })
@@ -28,6 +30,6 @@ app.get('/createFruit', (req, res) => {
     client.query("INSERT INTO fruit(name) VALUES ('kiwi');");
 })
 
-
+// app init
 app.listen(5000);
 console.log("server started on port 5000");
