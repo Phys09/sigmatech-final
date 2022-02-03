@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "cors": "^2.8.5",
     "pg": "^8.7.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -13,7 +14,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "nodemon server.js",
+    "start-server": "nodemon server.js",
     "start-client": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

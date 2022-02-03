@@ -1,6 +1,9 @@
 const pg = require("pg");
+const cors = require("cors");
 const express = require("express");
 const app = express();
+
+app.use(cors());
 
 const client = new pg.Client({
     user: "postgres",
@@ -13,7 +16,6 @@ const client = new pg.Client({
 client.connect();
 
 app.get('/', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.send({"data": "hello"});
 })
 
@@ -23,7 +25,6 @@ app.get('/express_backend', (req, res) => {
 })
 
 app.get('/createFruit', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     client.query("INSERT INTO fruit(name) VALUES ('kiwi');");
 })
 

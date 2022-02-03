@@ -3,8 +3,9 @@ async function someFunction() {
     console.log(await resp.json());
 }
 
-function otherFunction() {
-    console.log("test");
+async function otherFunction() {
+    var resp = await fetch("http://localhost:5000/express_backend");
+    console.log(await resp.json());
 }
 
 export default {someFunction, otherFunction};
