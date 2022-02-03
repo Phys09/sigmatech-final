@@ -7,6 +7,8 @@ import API from './APIfunctions.js';
   console.log(await resp.json());
 }*/
 
+const VERSION_NUMBER = "0.1.0";
+
 function App() {
   return (
     <div className="App">
@@ -14,6 +16,7 @@ function App() {
       <input id="fruit-name" placeholder="Enter fruit name"></input>
       <button onClick={API.someFunction}>Create Fruit</button>
       <button onClick={API.otherFunction}>List all fruits (to console)</button>
+      <footer>SigmaBank Version {VERSION_NUMBER}</footer>
     </div>
   );
 }

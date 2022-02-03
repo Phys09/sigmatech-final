@@ -18,7 +18,7 @@ client.connect();
 
 // endpoints
 app.get('/', (req, res) => {
-    res.send("Welcome to SigmaBank API");
+    res.send("Welcome to SigmaBank API V0.1.0");
 })
 
 app.get('/list_fruit', (req, res) => {
