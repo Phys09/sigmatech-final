@@ -2,8 +2,11 @@ const pg = require("pg");
 const cors = require("cors");
 const express = require("express");
 const app = express();
+const bodyParser = require('body-parser');
 
 app.use(cors());
+app.use(express.json({"limit": "5MB"}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // PSQL init
 const client = new pg.Client({
@@ -21,17 +24,27 @@ app.get('/', (req, res) => {
     res.send("Welcome to SigmaBank API V0.1.0");
 })
 
-app.get('/list_fruit', (req, res) => {
-    client.query("SELECT * FROM fruit;", (err, result) => {
-        if (err) throw err;
-        res.send(result.rows);
+app.post('/create_account', (req, res) => {
+    console.log(req.body);
+    
+    var email = req.body.email;
+    var passwd = req.body.passwd;
+    var phonenum = req.body.phonenum;
+
+    client.query(`INSERT INTO Accounts(email, password, phone_number) values ('${email}', '${passwd}', '${phonenum}');`, (err, result) => {
+        if (err) {
+            res.sendStatus(400);
+        }
+        else {
+            res.sendStatus(200);
+        }
     });
 })
 
-app.post('/create_fruit/:name', (req, res) => {
-    client.query(`INSERT INTO fruit(name) VALUES ('${req.params.name}');`, (err, result) => {
+app.get('/list_accounts', (req, res) => {
+    client.query(`SELECT * FROM Accounts;`, (err, result) => {
         if (err) throw err;
-        res.sendStatus(200);
+        res.send(result.rows);
     });
 })
 
