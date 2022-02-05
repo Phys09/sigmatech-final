@@ -13,9 +13,7 @@ const VERSION_NUMBER = "0.1.1";
 function App() {
   return (
     <div className="App">
-      <p>Create Account</p>
       <CreateAccountForm />
-      <button onClick={listAccounts}>List Accounts</button>
       <footer>SigmaBank Version {VERSION_NUMBER}</footer>
     </div>
   );

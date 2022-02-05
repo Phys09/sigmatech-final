@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
+import './CreateAccount.css';
+import './App.css';
 import {endpoint, POST_FETCH} from './APIfunctions';
 
 export default class CreateAccountForm extends Component {
     state = {
-        "email": "a",
+        "email": null,
         "passwd": null,
         "phonenum": null
     };
@@ -32,12 +34,19 @@ export default class CreateAccountForm extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <input type="text" name="username" placeholder="email" onChange={this.handleChange("email")}></input>
-                <input type="text" name="password" placeholder="password" onChange={this.handleChange("passwd")}></input>
-                <input type="text" name="phonenum" placeholder="phone number" onChange={this.handleChange("phonenum")}></input>
-                <input type="submit" />
-            </form>
+            <div className='CreateAccountForm'>
+                <header className='logo'>ΣBank <span className='logoSecondHalf'>| Create Account</span></header>
+                <h1>Create Account</h1>
+                <form onSubmit={this.handleSubmit}>
+                    <input className="AccountInput" type="text" name="username" placeholder="email" onChange={this.handleChange("email")}/>
+                    <br/>
+                    <input className="AccountInput" type="text" name="password" placeholder="password" onChange={this.handleChange("passwd")}/>
+                    <br/>
+                    <input className="AccountInput" type="text" name="phonenum" placeholder="phone number" onChange={this.handleChange("phonenum")}/>
+                    <br/>
+                    <button className="AccountButtons" type="submit">Create Account</button>
+                </form>
+            </div>
         );
     }
 }
