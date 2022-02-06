@@ -1,5 +1,7 @@
-.App {
-  text-align: center;
+.logo{
+  font-weight: bold;
+  font-size: 36px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .Logo {
   font-size: xx-large;
@@ -10,7 +12,7 @@
   from {opacity: 0%;}
   to {opacity: 100%}
 }
-.Login, Signup {
+.Login, .Signup {
 
   background: black;
   color: white;
@@ -28,16 +30,18 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.logoSecondHalf{
+  font-weight: normal;
+  font-size: 28px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
-.App-link {
-  color: #61dafb;
+.logolink, .logolink:visited{
+  text-decoration: none;
+  color: black;
 }
-
+header{
+  text-align: left;
+}
 footer {
   position: absolute;
   bottom: 0px;
