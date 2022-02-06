@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
-import {endpoint, GET_FETCH} from './APIfunctions';
-import CreateAccountForm from './CreateAccountForm.js';
-
-async function listAccounts() {
-  var resp = await fetch(endpoint("list_accounts"), GET_FETCH);
-  console.table(await resp.json());
-}
+/**
+ * This file is responsible for the main 'HomePage' components.
+ * Links to other parts of the site, etc...
+ */
+import React from "react";
+import "./css/App.css";
+import { Link } from "react-router-dom";
 
 const VERSION_NUMBER = "0.1.1";
 
-function App() {
-  return (
-    <div className="App">
-      <p>Create Account</p>
-      <CreateAccountForm />
-      <button onClick={listAccounts}>List Accounts</button>
-      <footer>SigmaBank Version {VERSION_NUMBER}</footer>
-    </div>
-  );
+export default class App extends React.Component {
+  render() {
+    return (
+      <div className="App">
+        <header className="Logo">ΣBank | Home</header>
+        <h1>Your Next Bank is Here!</h1>
+        <nav>
+          <Link to="/">Homepage</Link>
+          <Link className="Signup" to="/CreateAccountForm">Signup</Link>
+          <Link className="Login" to="/LoginForm">Login</Link>
+        </nav>
+        <footer>SigmaBank Version {VERSION_NUMBER}</footer>
+      </div>
+    );
+  }
 }
-
-export default App;
