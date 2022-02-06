@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
+import './CreateAccount.css';
+import './App.css';
 import {endpoint, POST_FETCH} from './APIfunctions';
+import { Link } from 'react-router-dom';
 
 export default class CreateAccountForm extends Component {
     state = {
-        "email": "a",
+        "email": null,
         "passwd": null,
         "phonenum": null
     };
@@ -18,7 +21,7 @@ export default class CreateAccountForm extends Component {
 
     handleChange(value) {
         return (event) => {
-            this.state[value] = event.target.value;
+            this.setState({[value]: event.target.value});
             console.log("handle change: ", value);
             console.log(this.state);
         }
@@ -32,12 +35,21 @@ export default class CreateAccountForm extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <input type="text" name="username" placeholder="email" onChange={this.handleChange("email")}></input>
-                <input type="text" name="password" placeholder="password" onChange={this.handleChange("passwd")}></input>
-                <input type="text" name="phonenum" placeholder="phone number" onChange={this.handleChange("phonenum")}></input>
-                <input type="submit" />
-            </form>
+            <div className='CreateAccountForm'>
+                <header>{/*<Link className="logolink" to="/">*/}
+                <span className='logo'>ΣBank </span><span className='logoSecondHalf'>| Create Account</span>
+                {/*</Link>*/}</header>
+                <h1>Create Account</h1>
+                <form onSubmit={this.handleSubmit}>
+                    <input className="AccountInput" type="text" name="username" placeholder="email" onChange={this.handleChange("email")}/>
+                    <br/>
+                    <input className="AccountInput" type="text" name="password" placeholder="password" onChange={this.handleChange("passwd")}/>
+                    <br/>
+                    <input className="AccountInput" type="text" name="phonenum" placeholder="phone number" onChange={this.handleChange("phonenum")}/>
+                    <br/>
+                    <button className="AccountButtons" type="submit">Create Account</button>
+                </form>
+            </div>
         );
     }
 }
