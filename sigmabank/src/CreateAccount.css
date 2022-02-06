@@ -30,11 +30,11 @@
     padding-left: 50px;
     padding-right: 50px;
     font-size: large;
-    transition-duration: 0.5s;
+    transition-duration: 0.25s;
   }
   .AccountButtons:hover{
     background-color: white;
     color: black;
     border-color: white;
-    transition-duration: 0.5s;
+    transition-duration: 0.25s;
   }

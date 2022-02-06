@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './CreateAccount.css';
 import './App.css';
 import {endpoint, POST_FETCH} from './APIfunctions';
+import { Link } from 'react-router-dom';
 
 export default class CreateAccountForm extends Component {
     state = {
@@ -20,7 +21,7 @@ export default class CreateAccountForm extends Component {
 
     handleChange(value) {
         return (event) => {
-            this.state[value] = event.target.value;
+            this.setState({[value]: event.target.value});
             console.log("handle change: ", value);
             console.log(this.state);
         }
@@ -35,7 +36,9 @@ export default class CreateAccountForm extends Component {
     render() {
         return (
             <div className='CreateAccountForm'>
-                <header className='logo'>ΣBank <span className='logoSecondHalf'>| Create Account</span></header>
+                <header>{/*<Link className="logolink" to="/">*/}
+                <span className='logo'>ΣBank </span><span className='logoSecondHalf'>| Create Account</span>
+                {/*</Link>*/}</header>
                 <h1>Create Account</h1>
                 <form onSubmit={this.handleSubmit}>
                     <input className="AccountInput" type="text" name="username" placeholder="email" onChange={this.handleChange("email")}/>
