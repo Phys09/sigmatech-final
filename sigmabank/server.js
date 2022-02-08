@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 app.use(cors());
 app.use(express.json({"limit": "5MB"}));
-app.use(session({ secret: "secret", resave: true, saveUninitialized: true }));
+app.use(session({ secret: "secret", resave: true, saveUninitialized: false }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // PSQL init
@@ -60,8 +60,8 @@ app.post('/login', (req, res) => {
         client.query(`SELECT email, password FROM Accounts WHERE email = '${email}' AND password = '${passwd}';`, (err, result) => {
             if (err) throw err;
             if (result.rowCount == 1) {
+                req.session.loggedIn = true;
                 res.send("Login successful");
-                req.session.loggedin = true;
             } else {
                 res.send("Incorrect password or account does not exist");
             }
@@ -71,14 +71,11 @@ app.post('/login', (req, res) => {
     }
 })
 
-app.delete('/logout', (req, res) => {
-    req.session.destroy(err => {
-      if (err) {
-        throw err;
-      } else {
-        res.send("Logout successful");
-      }
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => { 
+        if (err) throw err; 
     });
+    res.send("Logout successful");
 })
 
 // app init
