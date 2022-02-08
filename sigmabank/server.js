@@ -48,6 +48,50 @@ app.get('/list_accounts', (req, res) => {
     });
 })
 
+app.put('/edit_account', (req, res) => {
+    console.log(req.body);
+    
+    var email = req.body.email;
+    
+    var old_passwd = req.body.old_passwd;
+    var new_passwd = req.body.new_passwd;
+    var new_phonenum = req.body.new_phonenum;
+
+    if (old_passwd) {
+        client.query(`SELECT email, password FROM Accounts WHERE email = '${email}' AND password = '${old_passwd}';`, (selectErr, result) => {
+            if (selectErr) throw selectErr;
+            if (result.rowCount == 1) {
+                if (new_passwd) {
+                    client.query(`UPDATE Accounts SET password = '${new_passwd}' WHERE email = '${email}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                if (new_phonenum) {
+                    client.query(`UPDATE Accounts SET phone_number = '${new_phonenum}' WHERE email = '${email}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                res.send("Account details updated");
+            } else {
+                res.send("Incorrect current password");
+            }
+        });
+    } else {
+        res.send("Enter your current password");
+    }
+})
+
+app.delete('/delete_account', (req, res) => {
+    console.log(req.body);
+    
+    var email = req.body.email;
+
+    client.query(`DELETE FROM Accounts WHERE email = '${email}';`, (req, res) => {
+        if (err) throw err;
+    });
+    res.send("Account deleted");
+})
+
 // app init
 app.listen(5000);
 console.log("server started on port 5000");
