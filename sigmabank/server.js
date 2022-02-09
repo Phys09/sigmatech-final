@@ -47,7 +47,13 @@ app.get('/list_accounts', (req, res) => {
         res.send(result.rows);
     });
 })
-
+app.get('/get_transactions', (req, res) => {
+    var accountName = req.body.accountName;
+    client.query(`SELECT * FROM Transactions WHERE toAccount=${accountName} OR fromAccount=${accountName};`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
 // app init
 app.listen(5000);
 console.log("server started on port 5000");
