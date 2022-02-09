@@ -49,7 +49,21 @@ app.get('/list_accounts', (req, res) => {
 })
 app.get('/get_transactions', (req, res) => {
     var accountName = req.body.accountName;
-    client.query(`SELECT * FROM Transactions WHERE toAccount=${accountName} OR fromAccount=${accountName};`, (err, result) => {
+    client.query(`SELECT * FROM Transactions WHERE toAccount=${accountName} OR fromAccount=${accountName} ORDER BY transactionTime ASC;`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
+app.get('/get_bank_account', (req, res) => {
+    var ownerId = req.body.accountName;
+    client.query(`SELECT * FROM Bank_Accounts WHERE owner=${ownerId};`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
+app.get('/get_user', (req, res) => {
+    var username = req.body.accountName;
+    client.query(`SELECT 1 FROM Accounts WHERE username=${username};`, (err, result) => {
         if(err) throw err;
         res.send(result.rows);
     });
