@@ -1,46 +1,44 @@
-.logo{
-  font-weight: bold;
-  font-size: 36px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/** Prepare to make a new navigation bar to link to all the pages on the page
+.TopNav { 
+  z-index: 10000;
+  background-color: grey;
+  
+}
+.Nav {
+  background-color: grey;
+  color: lightgray;
+
+}
+
+*/
+.App {
+  display: flex;
 }
 .Logo {
-  font-size: xx-large;
-  text-align: left;
+  /* ΣBank */
+  position: absolute;
+  left: 5px;
+  top: 5px;
+
+  /* Logo */
+
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 22px;
+  /* identical to box height, or 61% */
+
+  display: flex;
+  align-items: center;
+  font-feature-settings: 'tnum' on, 'lnum' on;
+
+  color: #000000;
 }
 
-@keyframes fade-in {
-  from {opacity: 0%;}
-  to {opacity: 100%}
-}
-.Login, .Signup {
-
-  background: black;
-  color: white;
-  border-radius: 99em;
-  border: 10px solid black;
-  margin: 10px;
-  padding: 10px;
-  font-size: large;
-  transition-duration: 0.4s;
-}
-
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.logoSecondHalf{
-  font-weight: normal;
-  font-size: 28px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-.logolink, .logolink:visited{
-  text-decoration: none;
-  color: black;
-}
 header{
-  text-align: left;
+  margin: auto;
+  width: 100%;
 }
 footer {
   position: absolute;
