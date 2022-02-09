@@ -3,6 +3,33 @@
   font-size: 36px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+.Logo {
+  font-size: xx-large;
+  text-align: left;
+}
+
+@keyframes fade-in {
+  from {opacity: 0%;}
+  to {opacity: 100%}
+}
+.Login, .Signup {
+
+  background: black;
+  color: white;
+  border-radius: 99em;
+  border: 10px solid black;
+  margin: 10px;
+  padding: 10px;
+  font-size: large;
+  transition-duration: 0.4s;
+}
+
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
 .logoSecondHalf{
   font-weight: normal;
   font-size: 28px;
