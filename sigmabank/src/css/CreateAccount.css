@@ -2,7 +2,7 @@
     from {opacity : 0%;}
     to {opacity : 100%}
   }
-  .CreateAccountForm{
+  .CreateAccountForm {
     height: 100%;
     text-align: center;
     background-image: url("https://media.istockphoto.com/photos/asian-chinese-senior-man-with-facial-hair-using-laptop-typing-working-picture-id1331469701?b=1&k=20&m=1331469701&s=170667a&w=0&h=I2AJQklkgjD599Rhmuj4s6lX4VJIZC3AY_mMMU3tIbQ=");
@@ -12,16 +12,16 @@
     width: 100%;
     animation: fade-in 2s;
   }
-  .AccountInput{
+  .AccountInput {
     margin: 5px;
     padding: 10px;
     opacity: 50%;
     background-color: aliceblue;
   }
-  .AccountInput:hover, .AccountInput:focus{
+  .AccountInput:hover, .AccountInput:focus {
     opacity: 80%;
   }
-  .AccountButtons{
+  .AccountButtons {
     background: black;
     color : white; 
     border-radius: 99em;
@@ -32,14 +32,14 @@
     font-size: large;
     transition-duration: 0.25s;
   }
-  .AccountButtons:hover{
+  .AccountButtons:hover {
     background-color: white;
     color: black;
     border-color: white;
     transition-duration: 0.25s;
   }
   
-.logolink, .logolink:visited{
+.logolink, .logolink:visited {
 
   /* ΣBank */
   position: absolute;
