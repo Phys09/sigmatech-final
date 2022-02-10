@@ -21,6 +21,15 @@ This project runs on a NODE.js w/ express backend and react frontend.
 - OR: use `./run.sh` located in the root folder.
 
 You will need to install postgres for this app to work. Create a database with username "postgres" and password "password" with all default configurations to begin.
+```bash
+sudo apt install postgresql postgresql-contrib
+sudo -u postgres createuser <username>
+sudo -u postgres createdb <dbname>
+sudo -u postgres psql
+psql=# alter user <username> with encrypted password '<password>';
+
+psql=# grant all privileges on database <dbname> to <username> ;
+```
 
 Perform backend tests by importing the Insomnia file into Insomnia and running the test suite.
 Perform frontend tests by [... add stuff here later]

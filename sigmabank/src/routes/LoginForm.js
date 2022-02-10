@@ -2,7 +2,10 @@ import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
 import { AuthContext } from "../context";
+import NavbarLogin from "../components/navbarLogin";
 import FooterMain from "../components/footer";
+import "../css/login.css";
+import "../css/App.css";
 
 export default function LoginForm() {
   const [email, setEmail] = useState(null);
@@ -32,36 +35,42 @@ export default function LoginForm() {
   }
   // use React.Fragment to avoid extra <div>
   return (
-    <React.Fragment>
-      <header>
-        <Link className="logolink" to="/">
-          <span className="logo">ΣBank </span>
-          <span className="logoSecondHalf">| Account Login</span>
-        </Link>
-      </header>
-      <h1>SigmaBank Login</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          className="AccountInput"
-          type="text"
-          name="username"
-          placeholder="Email"
-          onChange={handleChange("email")}
-        />
-        <br />
-        <input
-          className="AccountInput"
-          type="text"
-          name="password"
-          placeholder="Password"
-          onChange={handleChange("passwd")}
-        />
-        <br />
-        <button className="AccountButtons" type="submit">
-          Login
-        </button>
-      </form>
-      <FooterMain />
-    </React.Fragment>
+	<React.Fragment>
+		<NavbarLogin/>
+		<div className="login-wrapper d-flex">
+
+			<h2 className="mx-auto login-title">SigmaBank Login</h2>
+					
+			<form onSubmit={handleSubmit} className=" p-3 mt-3">
+				<input
+					className="AccountInput form-field d-flex align-items-center"
+					type="text"
+					name="username"
+					placeholder="Email"
+					onChange={handleChange("email")}
+				/>
+				<br />
+				<input
+					className="AccountInput"
+					type="text"
+					name="password"
+					placeholder="Password"
+					onChange={handleChange("passwd")}
+				/>
+				<br />
+				<button className="btn btn-primary btn-block" type="submit">
+					Login
+				</button>
+				<a class="forgot mx-auto" href="/signup">Not a user? Register here</a>
+			</form>
+
+			
+
+
+		</div>
+
+
+		<FooterMain />
+	</React.Fragment>
   );
 }
