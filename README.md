@@ -4,9 +4,13 @@ SigmaTech presents SigmaBank (name pending), an online banking website to manage
 # Motivation
 SigmaBank is a banking website with support for cross-country money transfers and detailed analytics. Managing money shouldn't be confusing, this app exists to help people get on top of their spending.
 
-# Installation:
-This project runs on a NODE.js backend and react frontend. Download libraries by running `npm install`. Start the application by running `npm start`. Connect at port 5000 on localhost.
-Perform tests by running `npm test`.
+# Installation and Setup:
+This project runs on a NODE.js w/ express backend and react frontend. Download libraries by running `npm install`. Start the frontend by running `npm run start-client`, and the backend by running `npm run start-server`. A window should open up in your browser that will allow you to use the frontend application.
+
+You will need to install postgres for this app to work. Create a database with username "postgres" and password "password" with all default configurations to begin.
+
+Perform backend tests by importing the Insomnia file into Insomnia and running the test suite.
+Perform frontend tests by [... add stuff here later]
 
 Should the need arise, this README file will be updated with relevant information.
 
