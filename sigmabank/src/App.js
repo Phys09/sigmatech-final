@@ -7,33 +7,26 @@ import "./css/App.css";
 import "./css/HomePage.css";
 import { Link } from "react-router-dom";
 
+import NavbarMain from "./components/navbar";
+import FooterMain from "./components/footer";
 const VERSION_NUMBER = "0.1.1";
 
 export default class App extends React.Component {
   render() {
     return (
-        <div className="App">
-          <div className="TopNav">
-            <Link to="/">
-              <header className="Logo">ΣBank | Home</header>
-            </Link>
-            <div className="BoxCredentials">
-              <Link className="Login" to="/login">
-                Login
-              </Link>
-              <Link className="Signup" to="/signup">
-                Signup
-              </Link>
-            </div>
-            </div>
-            <div className="HomePageMatter">
-              <h1 className="Description">Your Next Bank is Here!</h1>
-              <Link className="Signup" to="/signup">
-                Signup
-              </Link>
-          </div>
-          <footer>SigmaBank Version {VERSION_NUMBER}</footer>
+      <div className="App">
+        <NavbarMain />
+        <div className="HomePageMatter">
+          <h1 className="Description">Your Next Bank is Here!</h1>
+          <Link className="Signup" to="/signup">
+            Signup
+          </Link>
         </div>
+        <FooterMain />
+      </div>
     );
   }
 }
+
+// to be used in footer component; shoule be replaced with context later
+export { VERSION_NUMBER };
