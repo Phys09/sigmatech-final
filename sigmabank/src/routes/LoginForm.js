@@ -8,9 +8,14 @@ import "../css/login.css";
 import "../css/App.css";
 
 export default function LoginForm() {
+
+	// BAD implementation, change it later
+	const currResponse= "";
   const [email, setEmail] = useState(null);
   const [passwd, setPasswd] = useState(null);
-  const auth = useContext(AuthContext);
+  const auth = useContext(AuthContext); 
+
+	const myArticle = document.querySelector('.notify');
   //var navigate = useNavigate();
 
   function handleChange(value) {
@@ -29,7 +34,14 @@ export default function LoginForm() {
       { body: JSON.stringify({ email: email, passwd: passwd }) },
       POST_FETCH
     );
-    fetch(endpoint("login"), payload).then((resp) => console.log(resp));
+    fetch(endpoint("login"), payload).then(
+			(resp) => {
+				console.log(resp);
+				return resp.text().then(function(text) {
+					myArticle.innerHTML = text;
+				});
+			}			
+			);
     auth.setUser(email);
     auth.setLoggedin(true);
   }
@@ -61,7 +73,10 @@ export default function LoginForm() {
 				<button className="btn btn-primary btn-block" type="submit">
 					Login
 				</button>
-				<a class="forgot mx-auto" href="/signup">Not a user? Register here</a>
+				<a id="errors" className="notify mx-auto" href="/signup">
+					{/* {this.state.tags.currResponse === 0 && this.state.currResponse} */}
+				</a>
+				<a className="forgot mx-auto" href="/signup">Not a user? Register here</a>
 			</form>
 
 			
