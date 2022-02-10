@@ -1,5 +1,8 @@
-import "./css/index.css";
+/** 
+ * This file is dedicated to rendering the entire application
+ */
 
+import "./css/index.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
