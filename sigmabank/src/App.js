@@ -18,17 +18,17 @@ export default class App extends React.Component {
               <header className="Logo">ΣBank | Home</header>
             </Link>
             <div className="BoxCredentials">
-              <Link className="Login" to="/LoginForm">
+              <Link className="Login" to="/login">
                 Login
               </Link>
-              <Link className="Signup" to="/CreateAccountForm">
+              <Link className="Signup" to="/signup">
                 Signup
               </Link>
             </div>
             </div>
             <div className="HomePageMatter">
               <h1 className="Description">Your Next Bank is Here!</h1>
-              <Link className="Signup" to="/CreateAccountForm">
+              <Link className="Signup" to="/signup">
                 Signup
               </Link>
           </div>
