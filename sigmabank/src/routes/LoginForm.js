@@ -89,7 +89,7 @@ export default function LoginForm() {
 
 
   // use React.Fragment to avoid extra <div>
-  return (
+  // return (
 	<React.Fragment>
 		<NavbarLogin/>
 		<div className="login-wrapper d-flex">
