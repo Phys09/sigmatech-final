@@ -44,6 +44,9 @@ After the assignment of user story points on Jira, the group decided that of the
 
 - Peter Albu
 
+  - SIG-30 tasked me with creating an account, so I used a POST endpoint with a few input variables. This will probably be updated later to include more sign-up information.
+  - SIG-45 served as a basic demo for the full stack, I decided to use the built-in fetch() command for requests to the backend, and express to handle these requests. This ticket served as a foundation for other tickets so nothing very specific was done.
+
 - Xinlei Xu
 
 - Tommy Zhang
