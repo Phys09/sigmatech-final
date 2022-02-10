@@ -34,10 +34,16 @@ In particular, we chose the following user stories to complete in order to accom
   - Logout page
   - CSS & bootstrap integration
 - SIG-43 [BACK] All 3 personas want to be able to login / logout to their accounts
+  - "login" POST endpoint
+  - App remembers client info from login
+  - Add functionality to logout button
 - SIG-19 [FRONT] As a customer, Destyn wants to be able to view his transaction history
 - SIG-31 [BACK] As a customer, Destyn wants to be able to view his transaction history
 - SIG-16 [FRONT] All 3 personas want to be able to edit their account details (change password, delete account)
 - SIG-44 [BACK] All 3 personas want to be able to edit their account details (change password, delete account)
+  - "edit_account" PUT endpoint
+  - "delete_account" DELETE endpoint
+  - Connect backend to frontend
 - SIG-47 [Database] Create user schema
   - Create user.ddl
   - update drop.ddl to drop user schema
