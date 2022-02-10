@@ -11,7 +11,7 @@ CREATE TABLE Bank_Accounts (
     bid SERIAL PRIMARY KEY, 
     type int NOT NULL, 
     balance NUMERIC(12, 2) NOT NULL, 
-    owner int REFERENCES Account(aid) NOT NULL
+    owner int REFERENCES Accounts(aid) NOT NULL
 );
 
 

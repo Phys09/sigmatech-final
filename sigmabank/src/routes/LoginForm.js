@@ -21,7 +21,7 @@ export default function LoginForm() {
 
     function handleSubmit(event) {
         event.preventDefault();
-        var payload = Object.assign({"body": JSON.stringify({"email": email, "passwd": passwd})}, POST_FETCH);
+        var payload = Object.assign({"body": JSON.stringify({email: email, passwd: passwd})}, POST_FETCH);
         fetch(endpoint("login"), payload).then(resp => console.log(resp));
         auth.setUser(email);
         auth.setLoggedin(true);

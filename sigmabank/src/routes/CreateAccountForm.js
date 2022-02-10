@@ -1,44 +1,37 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "../css/CreateAccount.css";
 import "../css/App.css";
 import { endpoint, POST_FETCH } from "../APIfunctions";
 import { Link } from "react-router-dom";
 
-export default class CreateAccountForm extends Component {
-  state = {
-    email: null,
-    passwd: null,
-    phonenum: null,
-  };
+export default function CreateAccountForm (){
+    const [email, setEmail] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [phonenum, setPhoneNum] = useState(null);
 
-  constructor(props) {
-    super(props);
-
-    console.log("state start", this.state);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(value) {
+  function handleChange(updateFunc) {
     return (event) => {
-      this.setState({ [value]: event.target.value });
-      console.log("handle change: ", value);
-      console.log(this.state);
+      updateFunc(event.target.value);
     };
   }
 
-  handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
-    var payload = Object.assign(
-      { body: JSON.stringify(this.state) },
-      POST_FETCH
-    );
-    fetch(endpoint("create_account"), payload).then((resp) =>
-      console.log(resp)
-    );
+    if(email && password && phonenum && username){
+      var payload = Object.assign(
+        { body: JSON.stringify({email: email, username: username, password: password, phonenum: phonenum}) },
+        POST_FETCH
+      );
+      fetch(endpoint("create_account"), payload).then((resp) =>
+        console.log(resp)
+      );
+    }
+    else{
+      alert("Please ensure that all fields are filled out")
+    }
   }
 
-  render() {
     return (
       <div className="CreateAccountForm">
         <header>
@@ -48,29 +41,37 @@ export default class CreateAccountForm extends Component {
           </Link>
         </header>
         <h1>Create Account</h1>
-        <form onSubmit={this.handleSubmit}>
-          <input
+        <form onSubmit={handleSubmit}>
+        <input
             className="AccountInput"
             type="text"
             name="username"
-            placeholder="email"
-            onChange={this.handleChange("email")}
+            placeholder="Username"
+            onChange={handleChange(setUsername)}
+          />
+          <br/>
+          <input
+            className="AccountInput"
+            type="text"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange(setEmail)}
           />
           <br />
           <input
             className="AccountInput"
-            type="text"
+            type="password"
             name="password"
-            placeholder="password"
-            onChange={this.handleChange("passwd")}
+            placeholder="Password"
+            onChange={handleChange(setPassword)}
           />
           <br />
           <input
             className="AccountInput"
             type="text"
             name="phonenum"
-            placeholder="phone number"
-            onChange={this.handleChange("phonenum")}
+            placeholder="Phone Number"
+            onChange={handleChange(setPhoneNum)}
           />
           <br />
           <button className="AccountButtons" type="submit">
@@ -79,5 +80,4 @@ export default class CreateAccountForm extends Component {
         </form>
       </div>
     );
-  }
 }
