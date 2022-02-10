@@ -22,9 +22,15 @@ export default function LoginForm() {
     function handleSubmit(event) {
         event.preventDefault();
         var payload = Object.assign({"body": JSON.stringify({"email": email, "passwd": passwd})}, POST_FETCH);
-        fetch(endpoint("login"), payload).then(resp => console.log(resp));
-        auth.setUser(email);
-        auth.setLoggedin(true);
+        fetch(endpoint("login"), payload).then(response => {
+            if (response.status == 400) {
+                return Promise.reject("Enter email and password");
+            } else if (response.status == 404) {
+                return Promise.reject("Incorrect password or account does not exist");
+            } else {
+                auth.setLoggedin(true);
+                return response.json();
+            }}).then(data => {auth.setUser(data[0].aid);}).catch(err => console.log(err));
     }
 
     return (
