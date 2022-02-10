@@ -17,12 +17,18 @@ we can work, adding new features more easily.
 
 ## Which User Stories Should be Used? ##
 
-In particular, we chose the following user stories to complete in order to accomplish the above release goal for sprint 1.
+In particular, we chose the following user stories to complete in order to accomplish the above release goal for sprint 1. Each task is broken down into subtasks
 
 - SIG 4G [FRONT] All 3 personas want to be able to see and interact the main home screen
 - SIG 45 [BACK] All 3 personas want to be able to see and interact the main home screen
+  - Setup postgres to be used as DB
+  - Setup convenient functions to call endpoints from frontend to backend
+  - Setup demo endpoints to test connection
 - SIG-18 [FRONT] As a customer, Destyn wants to create an account
 - SIG-30 [BACK] As a customer, Destyn wants to create an account
+  - "create_account" POST endpoint
+  - "list_accounts" GET endpoint
+  - Write tests for creating and listing accounts
 - SIG-15 [FRONT] All 3 personas want to be able to login / logout to their accounts
 - SIG-43 [BACK] All 3 personas want to be able to login / logout to their accounts
 - SIG-19 [FRONT] As a customer, Destyn wants to be able to view his transaction history
