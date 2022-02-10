@@ -30,6 +30,9 @@ In particular, we chose the following user stories to complete in order to accom
   - "list_accounts" GET endpoint
   - Write tests for creating and listing accounts
 - SIG-15 [FRONT] All 3 personas want to be able to login / logout to their accounts
+  - Login page 
+  - Logout page
+  - CSS & bootstrap integration
 - SIG-43 [BACK] All 3 personas want to be able to login / logout to their accounts
 - SIG-19 [FRONT] As a customer, Destyn wants to be able to view his transaction history
 - SIG-31 [BACK] As a customer, Destyn wants to be able to view his transaction history
