@@ -1,5 +1,8 @@
-import "./css/index.css";
+/** 
+ * This file is dedicated to rendering the entire application
+ */
 
+import "./css/index.css";
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -15,7 +18,6 @@ ReactDOM.render(
         <Route path="/" element={<App />} />
         <Route path="/signup" element={<CreateAccountForm />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/summary" element={<SummaryForm />} />
       </Routes>
     </BrowserRouter>,
   </AuthContextProvider>,

@@ -11,9 +11,9 @@ Complete an early working version of the app that includes several features, inc
 - User and transaction schemas
 - Signing up
 - Logging in
-- Checking transaction history
+- Checking transaction history for user bank accounts
 
-## User Stories for this Sprint:
+## User Stories to be completed for this Sprint:
 
 - All 3 personas want to be able to see and interact the main home screen
 - As a customer, Destyn wants to create an account
@@ -26,8 +26,28 @@ Complete an early working version of the app that includes several features, inc
 
 - Michael Kwan
 - Abtin Ghajarieh Sepanlou
-- Peter 
+- Peter Albu
 - Xinlei Xu
 - Tommy Zhang
 - Juan-Pablo Moreno
+- Aaron Brendan Huang
+
+## Team Capacity
+
+After the assignment of user story points on Jira, the group decided that of the 39 points present, 33 of them could confidently be done this sprint.
+
+## User story decisions
+
+- Michael Kwan
+
+- Abtin Ghajarieh Sepanlou
+
+- Peter Albu
+
+- Xinlei Xu
+
+- Tommy Zhang
+
+- Juan-Pablo Moreno
+
 - Aaron Brendan Huang

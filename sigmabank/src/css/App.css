@@ -1,3 +1,47 @@
+
+/** Prepare to make a new navigation bar to link to all the pages on the page
+.TopNav { 
+  z-index: 10000;
+  background-color: grey;
+  
+}
+.Nav {
+  background-color: grey;
+  color: lightgray;
+
+}
+
+*/
+.App {
+  display: flex;
+}
+.Logo {
+  /* ΣBank */
+  position: absolute;
+  left: 5px;
+  top: 5px;
+
+  /* Logo */
+
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 22px;
+  /* identical to box height, or 61% */
+
+  display: flex;
+  align-items: center;
+  font-feature-settings: 'tnum' on, 'lnum' on;
+
+  color: #000000;
+}
+
+header{
+  margin: auto;
+  width: 100%;
+}
+
 .logo{
   font-weight: bold;
   font-size: 36px;
@@ -41,6 +85,7 @@
 }
 header{
   text-align: left;
+
 }
 footer {
   position: absolute;
