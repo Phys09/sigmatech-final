@@ -55,16 +55,16 @@ app.post('/login', (req, res) => {
     var passwd = req.body.passwd;
 
     if (email && passwd) {
-        client.query(`SELECT email, password FROM Accounts WHERE email = '${email}' AND password = '${passwd}';`, (err, result) => {
+        client.query(`SELECT * FROM Accounts WHERE email='${email}' AND password='${passwd}';`, (err, result) => {
             if (err) throw err;
             if (result.rowCount == 1) {
-                res.send("Login successful");
+                res.send(result.rows);
             } else {
-                res.send("Incorrect password or account does not exist");
+                res.sendStatus(404);
             }
         });
     } else {
-        res.send("Enter email and password");
+        res.sendStatus(400);
     }
 });
 

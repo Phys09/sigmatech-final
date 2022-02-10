@@ -53,7 +53,7 @@ export default class CreateAccountForm extends Component {
             className="AccountInput"
             type="text"
             name="username"
-            placeholder="email"
+            placeholder="Email"
             onChange={this.handleChange("email")}
           />
           <br />
@@ -61,7 +61,7 @@ export default class CreateAccountForm extends Component {
             className="AccountInput"
             type="text"
             name="password"
-            placeholder="password"
+            placeholder="Password"
             onChange={this.handleChange("passwd")}
           />
           <br />
@@ -69,7 +69,7 @@ export default class CreateAccountForm extends Component {
             className="AccountInput"
             type="text"
             name="phonenum"
-            placeholder="phone number"
+            placeholder="Phone Number"
             onChange={this.handleChange("phonenum")}
           />
           <br />
