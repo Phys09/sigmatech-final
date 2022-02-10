@@ -1,4 +1,0 @@
-/** 
- * LOGIN PLACEHOLDER
- * TODO
- */
