@@ -1,7 +1,14 @@
 const pg = require("pg");
+const cors = require("cors");
 const express = require("express");
 const app = express();
+const bodyParser = require('body-parser');
 
+app.use(cors());
+app.use(express.json({"limit": "5MB"}));
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// PSQL init
 const client = new pg.Client({
     user: "postgres",
     port: 5432,
@@ -12,21 +19,55 @@ const client = new pg.Client({
 
 client.connect();
 
+// endpoints
 app.get('/', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.send({"data": "hello"});
+    res.send("Welcome to SigmaBank API V0.1.0");
 })
 
-app.get('/express_backend', (req, res) => {
-    res.send({express: "express connected to react"});
-    //client.query("INSERT INTO fruit(name) VALUES ('orange');");
+app.post('/create_account', (req, res) => {
+    console.log(req.body);
+    
+    var email = req.body.email;
+    var passwd = req.body.passwd;
+    var phonenum = req.body.phonenum;
+
+    client.query(`INSERT INTO Accounts(email, password, phone_number) values ('${email}', '${passwd}', '${phonenum}');`, (err, result) => {
+        if (err) {
+            res.sendStatus(400);
+        }
+        else {
+            res.sendStatus(200);
+        }
+    });
 })
 
-app.get('/createFruit', (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    client.query("INSERT INTO fruit(name) VALUES ('kiwi');");
+app.get('/list_accounts', (req, res) => {
+    client.query(`SELECT * FROM Accounts;`, (err, result) => {
+        if (err) throw err;
+        res.send(result.rows);
+    });
 })
-
-
+app.get('/get_transactions', (req, res) => {
+    var accountName = req.body.accountName;
+    client.query(`SELECT * FROM Transactions WHERE toAccount=${accountName} OR fromAccount=${accountName} ORDER BY transactionTime ASC;`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
+app.get('/get_bank_account', (req, res) => {
+    var ownerId = req.body.accountName;
+    client.query(`SELECT * FROM Bank_Accounts WHERE owner=${ownerId};`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
+app.get('/get_user', (req, res) => {
+    var username = req.body.accountName;
+    client.query(`SELECT 1 FROM Accounts WHERE username=${username};`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
+// app init
 app.listen(5000);
 console.log("server started on port 5000");
