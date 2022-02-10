@@ -1,7 +1,7 @@
 # API Overview
 | METHOD | ENDPOINT | DESCRIPTION | NOTES
 | --- | --- | --: |--- |
-| **GET** |  /get_accounts | Get a list of all accounts from the backend | Will be deprecated |
+| **GET** |  /list_accounts | Get a list of all accounts from the backend | Will be deprecated |
 | **POST** |  /create_account | Create an account with form data | |
 
 <br>
