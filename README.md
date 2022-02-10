@@ -29,9 +29,9 @@ Should the need arise, this README file will be updated with relevant informatio
 
 # Folder Structure
 
-`routes`: for storing page files (eg. one file per figma sketch)
+`routes`: for storing page files (eg. one file per figma sketch).
 
-`components`: smaller react components, such as navbar, footer and stuff
+`components`: smaller react components, such as navbar, footer and stuff, that are **aimed to be reusable**.
 
 # Contribution:
 

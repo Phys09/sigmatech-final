@@ -28,5 +28,5 @@ export default class App extends React.Component {
   }
 }
 
-// to be used in footer component
+// to be used in footer component; shoule be replaced with context later
 export { VERSION_NUMBER };
