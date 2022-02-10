@@ -16,8 +16,8 @@ export default class App extends React.Component {
         <h1>Your Next Bank is Here!</h1>
         <nav>
           <Link to="/">Homepage</Link>
-          <Link className="Signup" to="/CreateAccountForm">Signup</Link>
-          <Link className="Login" to="/LoginForm">Login</Link>
+          <Link className="Signup" to="/signup">Signup</Link>
+          <Link className="Login" to="/login">Login</Link>
         </nav>
         <footer>SigmaBank Version {VERSION_NUMBER}</footer>
       </div>

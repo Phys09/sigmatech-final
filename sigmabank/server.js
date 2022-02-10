@@ -1,13 +1,11 @@
 const pg = require("pg");
 const cors = require("cors");
 const express = require("express");
-const session = require('express-session');
 const app = express();
 const bodyParser = require('body-parser');
 
 app.use(cors());
 app.use(express.json({"limit": "5MB"}));
-app.use(session({ secret: "secret", resave: true, saveUninitialized: false }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // PSQL init
@@ -60,7 +58,6 @@ app.post('/login', (req, res) => {
         client.query(`SELECT email, password FROM Accounts WHERE email = '${email}' AND password = '${passwd}';`, (err, result) => {
             if (err) throw err;
             if (result.rowCount == 1) {
-                req.session.loggedIn = true;
                 res.send("Login successful");
             } else {
                 res.send("Incorrect password or account does not exist");
@@ -69,13 +66,6 @@ app.post('/login', (req, res) => {
     } else {
         res.send("Enter email and password");
     }
-});
-
-app.get('/logout', (req, res) => {
-    req.session.destroy(err => { 
-        if (err) throw err; 
-    });
-    res.send("Logout successful");
 });
 
 app.get('/get_transactions', (req, res) => {
