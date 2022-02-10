@@ -48,6 +48,26 @@ app.get('/list_accounts', (req, res) => {
     });
 })
 
+app.post('/login', (req, res) => {
+    console.log(req.body);
+
+    var email = req.body.email;
+    var passwd = req.body.passwd;
+
+    if (email && passwd) {
+        client.query(`SELECT * FROM Accounts WHERE email='${email}' AND password='${passwd}';`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                res.send(result.rows);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+});
+
 app.put('/edit_account', (req, res) => {
     console.log(req.body);
     
@@ -91,6 +111,30 @@ app.delete('/delete_account', (req, res) => {
     });
     res.send("Account deleted");
 })
+
+app.get('/get_transactions', (req, res) => {
+    var accountName = req.body.accountName;
+    client.query(`SELECT * FROM Transactions WHERE toAccount=${accountName} OR fromAccount=${accountName} ORDER BY transactionTime ASC;`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
+
+app.get('/get_bank_account', (req, res) => {
+    var ownerId = req.body.accountName;
+    client.query(`SELECT * FROM Bank_Accounts WHERE owner=${ownerId};`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
+
+app.get('/get_user', (req, res) => {
+    var username = req.body.accountName;
+    client.query(`SELECT 1 FROM Accounts WHERE username=${username};`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
 
 // app init
 app.listen(5000);
