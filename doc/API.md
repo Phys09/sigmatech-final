@@ -1,6 +1,3 @@
-
-test.md
-
 # API Overview
 | METHOD | ENDPOINT | DESCRIPTION | NOTES
 | --- | --- | --: |--- |
