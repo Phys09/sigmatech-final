@@ -36,7 +36,7 @@ export default function CreateAccountForm (){
       <div className="CreateAccountForm">
         <header>
           <Link className="logolink" to="/">
-            <span className="logo">ΣBank </span>
+            <span className="logo">ΣBank</span>
             <span className="logoSecondHalf">| Create Account</span>
           </Link>
         </header>

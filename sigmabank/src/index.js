@@ -19,7 +19,7 @@ ReactDOM.render(
         <Route path="/signup" element={<CreateAccountForm />} />
         <Route path="/login" element={<LoginForm />} />
       </Routes>
-    </BrowserRouter>,
+    </BrowserRouter>
   </AuthContextProvider>,
   document.getElementById("root")
 );

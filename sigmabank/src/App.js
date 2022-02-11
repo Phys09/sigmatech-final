@@ -14,8 +14,8 @@ export default class App extends React.Component {
     return (
         <div className="App">
           <div className="TopNav">
-            <Link to="/">
-              <header className="Logo">ΣBank | Home</header>
+            <Link className="logolink" to="/">
+              <header className="logo">ΣBank<span className="logoSecondHalf">| Home</span></header>
             </Link>
             <div className="BoxCredentials">
               <Link className="Login" to="/login">
