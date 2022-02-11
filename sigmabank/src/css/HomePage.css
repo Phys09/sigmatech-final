@@ -10,6 +10,8 @@
   right: 0;
   width: 10vw;
   height: 7vh;
+  margin-right: 50px;
+  margin-top: 10px;
 }
 
 .Login, .Signup {
@@ -45,6 +47,7 @@
   top: 400px;
   width: 60%;
   height: 60%;
+  
 }
 
 .Description {
