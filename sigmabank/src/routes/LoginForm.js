@@ -16,7 +16,7 @@ export default function LoginForm() {
   const [passwd, setPasswd] = useState(null);
   const auth = useContext(AuthContext); 
 	const myArticle = document.querySelector('.notify');
-  var navigate = useNavigate();
+  //var navigate = useNavigate();
 
 
     function handleChange(value) {
@@ -50,8 +50,6 @@ export default function LoginForm() {
       })
       .then((data) => {
         auth.setUser(data[0].aid);
-        auth.setUsername(data[0].username);
-        navigate("/transactions");
       })
       .catch((err) => console.log(err));
   }
