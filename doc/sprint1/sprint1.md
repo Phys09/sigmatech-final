@@ -39,6 +39,7 @@ After the assignment of user story points on Jira, the group decided that of the
 ## User story decisions
 
 - Michael Kwan
+  - SIG-46 tasked me with creating the website's main homepage. It was created using react routing to setup the navigation, while being stylized using CSS. The choice of making this form first was because it is a foundational basis for the entire website. That is, it sets up the code format and later on, access to all other parts of the page.
 
 - Abtin Ghajarieh Sepanlou
 
