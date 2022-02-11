@@ -77,7 +77,7 @@ app.post('/get_transactions', (req, res) => {
 });
 
 app.post('/get_bank_account', (req, res) => {
-    var ownerId = req.body.accountName;
+    var ownerId = req.body.ownerId;
     client.query(`SELECT * FROM Bank_Accounts WHERE owner='${ownerId}';`, (err, result) => {
         if(err) throw err;
         res.send(result.rows);
