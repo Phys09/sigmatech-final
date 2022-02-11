@@ -1,0 +1,59 @@
+.TransactionHistory {
+  text-align: center;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+table {
+  table-layout: fixed;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  border-spacing: 0 8px;
+}
+
+tr {
+  align-items: center;
+  margin: auto;
+  background: #FFFFFF;
+  border: 1px solid #EBEEF5;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  min-width: 500px;
+}
+
+td {
+  align-items: center;
+  margin: auto;
+  overflow: hidden;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 5px;
+}
+
+th {
+  border-collapse: collapse;
+  align-items: center;
+  margin: auto;
+}
+
+.gain {
+  color: green;
+}
+
+.loss {
+  color: red;
+}
