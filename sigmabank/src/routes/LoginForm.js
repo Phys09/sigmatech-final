@@ -44,6 +44,7 @@ export default function LoginForm() {
 					myArticle.innerHTML = "Incorrect password or account does not exist";
           return Promise.reject("Incorrect password or account does not exist");
         } else {
+          auth.setEmail(email);
           auth.setLoggedin(true);
           return response.json();
         }

@@ -68,48 +68,59 @@ app.post('/login', (req, res) => {
     }
 });
 
-app.put('/edit_account', (req, res) => {
+app.post('/edit_account', (req, res) => {
     console.log(req.body);
     
-    var email = req.body.email;
-    
-    var old_passwd = req.body.old_passwd;
-    var new_passwd = req.body.new_passwd;
-    var new_phonenum = req.body.new_phonenum;
+    var currentEmail = req.body.currentEmail;
+    var newUsername = req.body.newUsername;
+    var newEmail = req.body.newEmail;
+    var oldPasswd = req.body.oldPasswd;
+    var newPasswd = req.body.newPasswd;
+    var newPhonenum = req.body.newPhonenum;
 
-    if (old_passwd) {
-        client.query(`SELECT email, password FROM Accounts WHERE email = '${email}' AND password = '${old_passwd}';`, (selectErr, result) => {
-            if (selectErr) throw selectErr;
+    if (oldPasswd) {
+        client.query(`SELECT * FROM Accounts WHERE email='${currentEmail}' AND password_hash=MD5('${oldPasswd}');`, (err, result) => {
+            if (err) throw err;
             if (result.rowCount == 1) {
-                if (new_passwd) {
-                    client.query(`UPDATE Accounts SET password = '${new_passwd}' WHERE email = '${email}';`, (err) => {
+                if (newUsername) {
+                    client.query(`UPDATE Accounts SET username='${newUsername}' WHERE email='${currentEmail}';`, (err) => {
                         if (err) throw err;
                     });
                 }
-                if (new_phonenum) {
-                    client.query(`UPDATE Accounts SET phone_number = '${new_phonenum}' WHERE email = '${email}';`, (err) => {
+                if (newEmail) {
+                    client.query(`UPDATE Accounts SET email='${newEmail}' WHERE email='${currentEmail}'';`, (err) => {
                         if (err) throw err;
                     });
                 }
-                res.send("Account details updated");
+                if (newPasswd) {
+                    client.query(`UPDATE Accounts SET password_hash=MD5('${newPasswd}') WHERE email='${currentEmail}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                if (newPhonenum) {
+                    client.query(`UPDATE Accounts SET phone_number='${newPhonenum}' WHERE email='${currentEmail}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                res.sendStatus(200);
             } else {
-                res.send("Incorrect current password");
+                res.sendStatus(404);
             }
         });
     } else {
-        res.send("Enter your current password");
+        res.sendStatus(400);
     }
 })
 
-app.delete('/delete_account', (req, res) => {
+app.post('/delete_account', (req, res) => {
     console.log(req.body);
     
     var email = req.body.email;
 
-    client.query(`DELETE FROM Accounts WHERE email = '${email}';`, (req, res) => {
+    client.query(`DELETE FROM Accounts WHERE email='${email}';`, (err) => {
         if (err) throw err;
     });
-    res.send("Account deleted");
+    res.sendStatus(200);
 })
 
 app.post('/get_transactions', (req, res) => {
