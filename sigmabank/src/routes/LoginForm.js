@@ -16,6 +16,7 @@ export default function LoginForm() {
   const [passwd, setPasswd] = useState(null);
   const auth = useContext(AuthContext); 
 	const myArticle = document.querySelector('.notify');
+  const loginTo = "/my";
   //var navigate = useNavigate();
 
 
@@ -45,6 +46,7 @@ export default function LoginForm() {
           return Promise.reject("Incorrect password or account does not exist");
         } else {
           auth.setLoggedin(true);
+          myArticle.innerHTML = "Incorrect password or account does not exist";
           return response.json();
         }
       })
@@ -84,7 +86,7 @@ export default function LoginForm() {
 				<button className="btn btn-primary btn-block" type="submit">
 					Login
 				</button>
-				<a id="errors" className="notify mx-auto" href="/signup">
+				<a id="errors" className="notify mx-auto" href="/signup" to={loginTo}>
 					{/* {this.state.tags.currResponse === 0 && this.state.currResponse} */}
 				</a>
 				<a className="forgot mx-auto" href="/signup">Not a user? Register here</a>

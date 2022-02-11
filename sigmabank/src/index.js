@@ -11,6 +11,7 @@ import {AuthContextProvider} from "./context";
 import CreateAccountForm from "./routes/CreateAccountForm";
 import LoginForm from "./routes/LoginForm";
 import EditAccountForm from "./routes/EditAccountDetail";
+import AccountDetail from "./routes/AccountDetail";
 
 ReactDOM.render(
   <AuthContextProvider>
@@ -20,8 +21,9 @@ ReactDOM.render(
         <Route path="/signup" element={<CreateAccountForm />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/edit" element={<EditAccountForm />} />
+        <Route path="/my" element={<AccountDetail />} />
       </Routes>
-    </BrowserRouter>,
+    </BrowserRouter>
   </AuthContextProvider>,
   document.getElementById("root")
 );

@@ -14,6 +14,7 @@
 */
 .App {
   display: flex;
+  animation: fade-in 2s;
 }
 .Logo {
   /* ΣBank */
@@ -46,10 +47,6 @@ header{
   font-weight: bold;
   font-size: 36px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-.Logo {
-  font-size: xx-large;
-  text-align: left;
 }
 
 @keyframes fade-in {
