@@ -1,20 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
-import API from './APIfunctions.js';
+/**
+ * This file is responsible for the main 'HomePage' components.
+ * Links to other parts of the site, etc...
+ */
+import React from "react";
+import "./css/App.css";
+import "./css/HomePage.css";
+import { Link } from "react-router-dom";
 
-/*async function someFunction() {
-  var resp = await fetch("http://localhost:5000/createFruit");
-  console.log(await resp.json());
-}*/
+import NavbarMain from "./components/navbar";
+import FooterMain from "./components/footer";
+const VERSION_NUMBER = "0.1.1";
 
-function App() {
-  return (
-    <div className="App">
-      <p>sup</p>
-      <button onClick={API.someFunction}>Click me fool</button>
-      <button onClick={API.otherFunction}>Don't click me fool</button>
-    </div>
-  );
+export default class App extends React.Component {
+  render() {
+    return (
+      <div className="App">
+        <NavbarMain />
+        <div className="HomePageMatter">
+          <h1 className="Description">Your Next Bank is Here!</h1>
+          <Link className="Signup" to="/signup">
+            Signup
+          </Link>
+        </div>
+        <FooterMain />
+      </div>
+    );
+  }
 }
 
-export default App;
+// to be used in footer component; shoule be replaced with context later
+export { VERSION_NUMBER };

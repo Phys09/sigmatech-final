@@ -1,17 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+/** 
+ * This file is dedicated to rendering the entire application
+ */
+
+import "./css/index.css";
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import App from "./App";
+import {AuthContextProvider} from "./context";
+import CreateAccountForm from "./routes/CreateAccountForm";
+import LoginForm from "./routes/LoginForm";
+
+import TransactionHistory from "./routes/TransactionHistory";
+
+import EditAccountForm from "./routes/EditAccountDetail";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+  <AuthContextProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/signup" element={<CreateAccountForm />} />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/transactions" element={<TransactionHistory />} />
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+        <Route path="/edit" element={<EditAccountForm />} />
+      </Routes>
+    </BrowserRouter>
+  </AuthContextProvider>,
+  document.getElementById("root")
+);

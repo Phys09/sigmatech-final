@@ -1,0 +1,68 @@
+@keyframes fade-in {
+  from {opacity: 0%;}
+  to {opacity: 100%}
+}
+
+.BoxCredentials {
+  position: absolute;
+  text-align: center;
+  top: 15px;
+  right: 0;
+  width: 10vw;
+  height: 7vh;
+  margin-right: 50px;
+  margin-top: 10px;
+}
+
+.Login, .Signup {
+  text-decoration: none;
+  font-size: large;
+  position: relative;
+  border-radius: 100px;
+  background-color: rgba(0, 0, 0, 1);
+  color: white;
+  padding: 9px;
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: normal;
+}
+.Login:hover, .Signup:hover {
+  text-decoration: none;
+  font-size: large;
+  position: relative;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 100px;
+  color: white;
+  padding: 10px;
+  font-family: Segoe UI;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.HomePageMatter {
+  text-align: center;
+  position: relative;
+  margin: auto;
+  padding: 15px;
+  top: 400px;
+  width: 60%;
+  height: 60%;
+  
+}
+
+.Description {
+    position: relative;
+    bottom: 50px;
+    text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.logoSecondHalf{
+  font-weight: normal;
+  font-size: 28px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
