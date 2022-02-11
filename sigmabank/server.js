@@ -58,13 +58,13 @@ app.post('/login', (req, res) => {
         client.query(`SELECT * FROM Accounts WHERE email = '${email}' AND password_hash = MD5('${passwd}');`, (err, result) => {
             if (err) throw err;
             if (result.rowCount == 1) {
-                res.send("Login successful");
+                res.send(result.rows);
             } else {
-                res.send("Incorrect password or account does not exist");
+                res.sendStatus(404);
             }
         });
     } else {
-        res.send("Enter email and password");
+        res.sendStatus(400);
     }
 });
 
