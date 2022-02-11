@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import "../css/CreateAccount.css";
 import "../css/App.css";
 import { endpoint, POST_FETCH } from "../APIfunctions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function CreateAccountForm (){
     const [email, setEmail] = useState(null);
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
     const [phonenum, setPhoneNum] = useState(null);
+    var navigate = useNavigate();
 
   function handleChange(updateFunc) {
     return (event) => {
@@ -26,6 +27,7 @@ export default function CreateAccountForm (){
       fetch(endpoint("create_account"), payload).then((resp) =>
         console.log(resp)
       );
+      navigate("/");
     }
     else{
       alert("Please ensure that all fields are filled out")
