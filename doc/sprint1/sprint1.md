@@ -41,6 +41,9 @@ After the assignment of user story points on Jira, the group decided that of the
 - Michael Kwan
 
 - Abtin Ghajarieh Sepanlou
+  - SIG-18 required me to create an interactive page for the user to create their account, so I created a form element that takes all the necessary inputs and passes it to the backend through the back-end function designed by Peter.
+  
+  - SIG-31 tasked me with obtaining transactions from the database, so I created endpoints for obtaining the user by username to obtain their user_id, which will be used to obtain their bank account information from a similar endpoint, which will be used to obtain their transactions from a final endpoint, all designed by me. This process will be stream-lined in future sprints.
 
 - Peter Albu
 
