@@ -19,12 +19,15 @@ we can work, adding new features more easily.
 
 In particular, we chose the following user stories to complete in order to accomplish the above release goal for sprint 1. Each task is broken down into subtasks
 
-- SIG 4G [FRONT] All 3 personas want to be able to see and interact the main home screen
+- SIG 46 [FRONT] All 3 personas want to be able to see and interact the main home screen
 - SIG 45 [BACK] All 3 personas want to be able to see and interact the main home screen
   - Setup postgres to be used as DB
   - Setup convenient functions to call endpoints from frontend to backend
   - Setup demo endpoints to test connection
 - SIG-18 [FRONT] As a customer, Destyn wants to create an account
+  - Create a link back to the homepage, once routing and homepage are setup
+  - Add css files for CreateAccountForm and modify existing CreateAccountForm.js file to remove warnings and display information better
+  - Modify App.css to include logo formatting for entire website
 - SIG-30 [BACK] As a customer, Destyn wants to create an account
   - "create_account" POST endpoint
   - "list_accounts" GET endpoint
@@ -42,6 +45,9 @@ In particular, we chose the following user stories to complete in order to accom
   - Add CSS to make transaction history look nice
   - Connect frontend [SIG-19] to backend [SIG-31]
 - SIG-31 [BACK] As a customer, Destyn wants to be able to view his transaction history
+  - Add endpoint to server.js for obtaining user information
+  - Add endpoint to server.js for obtaining bank account information
+  - Add endpoint to server.js for obtaining transaction information 
 - SIG-16 [FRONT] All 3 personas want to be able to edit their account details (change password, delete account)
 - SIG-44 [BACK] All 3 personas want to be able to edit their account details (change password, delete account)
   - "edit_account" PUT endpoint

@@ -21,6 +21,8 @@ Complete an early working version of the app that includes several features, inc
 - As a customer, Destyn wants to be able to view his transaction history
 - All 3 personas want to be able to edit their account details (change password, delete account)
 - As a customer, Kendall wants to be able to apply for a loan/mortgage
+- Create user Schema
+- Create transaction Schema
 
 ## Participants for this Sprint:
 
@@ -62,4 +64,5 @@ After the assignment of user story points on Jira, the group decided that of the
 - Juan-Pablo Moreno
   - For SIG-47 I had to create the user schema. This story was pretty straight forward I had to chose what attributes we were saving for each user 
   - For SIG-48 I created the transaction schema. I noticed that transactions have to be between two bank accounts therefore in doing this story I also decided to make a bank account relation.
+
 - Aaron Brendan Huang
