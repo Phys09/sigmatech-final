@@ -1,0 +1,71 @@
+.navbar{
+    margin: 10px 10px 20px 20px;
+}
+
+form {
+    max-width: 300px;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 4px;
+  }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+}
+
+body {
+    background: #ecf0f3
+}
+
+.btn-primary{
+    width: 100%;
+}
+
+.login-wrapper form{
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+
+.login-title{
+    margin-top: 30px;
+}
+
+.login-wrapper form .form-control {
+    background: #f7f9fc;
+    border: none;
+    border-bottom: 1px solid #dfe7f1;
+    text-indent: 8px;
+    height: 42px;
+  }
+
+.login-wrapper form .btn-primary {
+    color: #dfe7f1;
+    background: #000000;
+    border: none;
+    border-radius: 4px;    
+    padding: 11px; 
+    margin-top: 26px;
+    outline: none !important;
+}
+
+.forgot{
+    font-size: 12px;
+    color: #6f7a85;
+    opacity: 0.9;
+    text-decoration: none;
+}
+
+/* from createAcount.css */
+.login-wrapper form .btn-primary:hover, .login-clean form .btn-primary:active {
+    background-color: white;
+    color: black;
+    border-color: white;
+    transition-duration: 0.25s;
+  }
+

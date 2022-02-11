@@ -25,13 +25,13 @@ app.get('/', (req, res) => {
 })
 
 app.post('/create_account', (req, res) => {
-    console.log(req.body);
     
     var email = req.body.email;
-    var passwd = req.body.passwd;
+    var passwd = req.body.password;
+    var username = req.body.username;
     var phonenum = req.body.phonenum;
 
-    client.query(`INSERT INTO Accounts(email, password, phone_number) values ('${email}', '${passwd}', '${phonenum}');`, (err, result) => {
+    client.query(`INSERT INTO Accounts(username, type, email, password_hash, phone_number) values ('${username}', '0', '${email}', MD5('${passwd}'), '${phonenum}');`, (err, result) => {
         if (err) {
             res.sendStatus(400);
         }
@@ -55,7 +55,7 @@ app.post('/login', (req, res) => {
     var passwd = req.body.passwd;
 
     if (email && passwd) {
-        client.query(`SELECT * FROM Accounts WHERE email='${email}' AND password='${passwd}';`, (err, result) => {
+        client.query(`SELECT * FROM Accounts WHERE email = '${email}' AND password_hash = MD5('${passwd}');`, (err, result) => {
             if (err) throw err;
             if (result.rowCount == 1) {
                 res.send(result.rows);
@@ -112,25 +112,25 @@ app.delete('/delete_account', (req, res) => {
     res.send("Account deleted");
 })
 
-app.get('/get_transactions', (req, res) => {
+app.post('/get_transactions', (req, res) => {
     var accountName = req.body.accountName;
-    client.query(`SELECT * FROM Transactions WHERE toAccount=${accountName} OR fromAccount=${accountName} ORDER BY transactionTime ASC;`, (err, result) => {
+    client.query(`SELECT * FROM Transactions WHERE toAccount='${accountName}' OR fromAccount='${accountName}' ORDER BY transactionTime DESC;`, (err, result) => {
         if(err) throw err;
         res.send(result.rows);
     });
 });
 
-app.get('/get_bank_account', (req, res) => {
+app.post('/get_bank_account', (req, res) => {
     var ownerId = req.body.accountName;
-    client.query(`SELECT * FROM Bank_Accounts WHERE owner=${ownerId};`, (err, result) => {
+    client.query(`SELECT * FROM Bank_Accounts WHERE owner='${ownerId}';`, (err, result) => {
         if(err) throw err;
         res.send(result.rows);
     });
 });
 
-app.get('/get_user', (req, res) => {
+app.post('/get_user', (req, res) => {
     var username = req.body.accountName;
-    client.query(`SELECT 1 FROM Accounts WHERE username=${username};`, (err, result) => {
+    client.query(`SELECT 1 FROM Accounts WHERE username='${username}';`, (err, result) => {
         if(err) throw err;
         res.send(result.rows);
     });
