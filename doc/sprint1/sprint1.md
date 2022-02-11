@@ -57,6 +57,7 @@ After the assignment of user story points on Jira, the group decided that of the
   - SIG-16 task was to create a edit acount details page. I added bootstrap form and buttons, and added css flexbox infrastructure. The ticket also acts as the starting point to the AccountDetails page for SIG-23.
 
 - Tommy Zhang
+  - SIG-19 required me to create the transaction history page for the user. I decided that a table would be the best way to display the transactions. I used React to create the components, and stylized it with CSS. I connected the frontend to the backend (SIG-31) using the endpoints created by Abtin, which request the user's transaction information.
 
 - Juan-Pablo Moreno
   - For SIG-47 I had to create the user schema. This story was pretty straight forward I had to chose what attributes we were saving for each user 
