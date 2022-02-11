@@ -38,6 +38,9 @@ In particular, we chose the following user stories to complete in order to accom
   - App remembers client info from login
   - Add functionality to logout button
 - SIG-19 [FRONT] As a customer, Destyn wants to be able to view his transaction history
+  - Basic frontend logic for transaction history
+  - Add CSS to make transaction history look nice
+  - Connect frontend [SIG-19] to backend [SIG-31]
 - SIG-31 [BACK] As a customer, Destyn wants to be able to view his transaction history
 - SIG-16 [FRONT] All 3 personas want to be able to edit their account details (change password, delete account)
 - SIG-44 [BACK] All 3 personas want to be able to edit their account details (change password, delete account)
