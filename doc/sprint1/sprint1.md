@@ -66,3 +66,4 @@ After the assignment of user story points on Jira, the group decided that of the
   - For SIG-48 I created the transaction schema. I noticed that transactions have to be between two bank accounts therefore in doing this story I also decided to make a bank account relation.
 
 - Aaron Brendan Huang
+  - For SIG-43, I had to implement the login system. This involved using a POST endpoint with a few input variables to verify if the user's account exists, and if it does exist, then the user's information (i.e., user id, username, and email) is saved in the app for use across different components/pages/forms.
