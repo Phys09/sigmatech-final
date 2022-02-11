@@ -9,7 +9,8 @@ import { Link } from "react-router-dom";
 
 import NavbarMain from "./components/navbar";
 import FooterMain from "./components/footer";
-const VERSION_NUMBER = "0.1.1";
+const VERSION_NUMBER = "1.0.0";
+
 
 export default class App extends React.Component {
   render() {
