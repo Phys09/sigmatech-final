@@ -1,10 +1,13 @@
-import React from 'react';
-
-// Takes in a JSON object representing a transaction and 
+import React, { useContext } from "react";
+import { AuthContext } from "../context";
+ 
+// Takes in a JSON object representing a transaction and
 // returns a table row representing the transaction.
 export const Transaction = ({ transaction }) => {
   const amount = parseFloat(transaction.amount).toFixed(2);
-  const bid = 1; // TODO useContext()
+  // Get the account id
+  const auth = useContext(AuthContext);
+  const bid = auth.user;
   var counterparty = transaction.toaccount;
   var amountClass = 'loss';
   var sign = '-';
