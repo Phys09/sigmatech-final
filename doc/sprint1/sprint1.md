@@ -50,6 +50,9 @@ After the assignment of user story points on Jira, the group decided that of the
 
 - Xinlei Xu
 
+  - SIG-15 tasked me with creating the login page. I updated the react form pages into react components, and edited the navbar subroutine so that it's more reusable.
+  - SIG-16 task was to create a edit acount details page. I added bootstrap form and buttons, and added css flexbox infrastructure. The ticket also acts as the starting point to the AccountDetails page for SIG-23.
+
 - Tommy Zhang
 
 - Juan-Pablo Moreno
