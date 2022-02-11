@@ -59,5 +59,6 @@ After the assignment of user story points on Jira, the group decided that of the
 - Tommy Zhang
 
 - Juan-Pablo Moreno
-
+  - For SIG-47 I had to create the user schema. This story was pretty straight forward I had to chose what attributes we were saving for each user 
+  - For SIG-48 I created the transaction schema. I noticed that transactions have to be between two bank accounts therefore in doing this story I also decided to make a bank account relation.
 - Aaron Brendan Huang
