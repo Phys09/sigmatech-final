@@ -55,38 +55,6 @@ export default function LoginForm() {
   }
 
     return (
-// === COMMENTEING OUT INCASE IT BREAKS ===
-//         <div className='LoginForm'>
-//             <header>
-//                 <Link className="logolink" to="/">
-//                     <span className="logo">ΣBank </span>
-//                     <span className="logoSecondHalf">| Account Login</span>
-//                 </Link>
-//             </header>
-//             <h1>SigmaBank Login</h1>
-//             <form onSubmit={handleSubmit}>
-//                 <input 
-//                     className="AccountInput" 
-//                     type="text" 
-//                     name="username" 
-//                     placeholder="Email" 
-//                     onChange={handleChange("email")}
-//                 />
-//                 <br/>
-//                 <input 
-//                     className="AccountInput" 
-//                     type="text" 
-//                     name="password" 
-//                     placeholder="Password" 
-//                     onChange={handleChange("passwd")}
-//                 />
-//                 <br/>
-//                 <button className="AccountButtons" type="submit">
-//                     Login
-//                 </button>
-//             </form>
-//         </div>
-
 
   // use React.Fragment to avoid extra <div>
   // return (

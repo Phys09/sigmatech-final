@@ -10,6 +10,7 @@ import App from "./App";
 import {AuthContextProvider} from "./context";
 import CreateAccountForm from "./routes/CreateAccountForm";
 import LoginForm from "./routes/LoginForm";
+import EditAccountForm from "./routes/EditAccountDetail";
 
 ReactDOM.render(
   <AuthContextProvider>
@@ -18,6 +19,7 @@ ReactDOM.render(
         <Route path="/" element={<App />} />
         <Route path="/signup" element={<CreateAccountForm />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/edit" element={<EditAccountForm />} />
       </Routes>
     </BrowserRouter>,
   </AuthContextProvider>,
