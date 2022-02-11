@@ -21,7 +21,7 @@ ReactDOM.render(
         <Route path="/login" element={<LoginForm />} />
         <Route path="/edit" element={<EditAccountForm />} />
       </Routes>
-    </BrowserRouter>,
+    </BrowserRouter>
   </AuthContextProvider>,
   document.getElementById("root")
 );
