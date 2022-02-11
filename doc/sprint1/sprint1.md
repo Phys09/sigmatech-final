@@ -54,6 +54,7 @@ After the assignment of user story points on Jira, the group decided that of the
 - Xinlei Xu
 
 - Tommy Zhang
+  - SIG-19 required me to create the transaction history page for the user. I decided that a table would be the best way to display the transactions. I used React to create the components, and stylized it with CSS. I connected the frontend to the backend (SIG-31) using the endpoints created by Abtin, which request the user's transaction information.
 
 - Juan-Pablo Moreno
 
