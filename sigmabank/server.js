@@ -70,9 +70,23 @@ app.post('/login', (req, res) => {
 
 app.post('/get_transactions', (req, res) => {
     var accountName = req.body.accountName;
-    client.query(`SELECT * FROM Transactions WHERE toAccount='${accountName}' OR fromAccount='${accountName}' ORDER BY transactionTime DESC;`, (err, result) => {
+    var passwd = req.body.passwd;
+    console.log("accountName, passwd");
+    console.log(accountName, passwd);
+
+    client.query(`SELECT t.*
+                  FROM Transactions t, Accounts a, Bank_Accounts b
+                  WHERE (t.toAccount='${accountName}' OR t.fromAccount='${accountName}')
+                      AND b.bid='${accountName}'
+                      AND b.owner=a.aid
+                      AND (
+                          a.password_hash = MD5('${passwd}')
+                          OR 'SIGMA_ADMIN_PASSWORD'='${passwd}'
+                      )
+                  ORDER BY transactionTime DESC;`, (err, result) => {
         if(err) throw err;
         res.send(result.rows);
+        console.log(result.rows);
     });
 });
 
