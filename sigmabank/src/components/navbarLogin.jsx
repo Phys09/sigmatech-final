@@ -11,13 +11,10 @@ class NavbarLogin extends Component {
 
   render() {
     return (
-      <div className="navbar navbar-light bg-light">
-        <li className="nav-item">
-            <a className="nav-link Logo" href="/">ΣBank | Home</a>
-        </li>
-        {/* <Link to="/">
+      <div className="TopNav padding-top">
+        <Link to="/">
           <header className="Logo">ΣBank | Home</header>
-        </Link> */}
+        </Link>
       </div>
     );
   }
