@@ -49,6 +49,7 @@ export default function LoginForm() {
       .then((data) => {
         auth.setUser(data[0].aid);
         auth.setUsername(data[0].username);
+        auth.setPassword(passwd);
         navigate("/transactions");
       })
       .catch((err) => console.log(err));
