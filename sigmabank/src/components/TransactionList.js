@@ -12,10 +12,11 @@ export const TransactionList = () => {
   const auth = useContext(AuthContext);
   const aid = auth.user;
   const username = auth.username;
+  const password = auth.password;
 
   // Payload for the 'get_transactions' endpoint
   var payload = Object.assign(
-    { body: JSON.stringify({ accountName: aid }) },
+    { body: JSON.stringify({ accountName: aid, passwd: password }) },
     POST_FETCH
   );
   

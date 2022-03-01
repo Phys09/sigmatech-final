@@ -12,8 +12,8 @@ import CreateAccountForm from "./routes/CreateAccountForm";
 import LoginForm from "./routes/LoginForm";
 
 import TransactionHistory from "./routes/TransactionHistory";
-
 import EditAccountForm from "./routes/EditAccountDetail";
+import AdminPanel from "./routes/AdminPanel";
 
 ReactDOM.render(
   <AuthContextProvider>
@@ -23,6 +23,7 @@ ReactDOM.render(
         <Route path="/signup" element={<CreateAccountForm />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/transactions" element={<TransactionHistory />} />
+        <Route path="/admin" element={<AdminPanel />} />
 
         <Route path="/edit" element={<EditAccountForm />} />
       </Routes>
