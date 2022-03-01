@@ -1,68 +1,71 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "../css/CreateAccount.css";
 import "../css/App.css";
 import { endpoint, POST_FETCH } from "../APIfunctions";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-export default class CreateAccountForm extends Component {
-  state = {
-    email: null,
-    passwd: null,
-    phonenum: null,
-  };
+export default function CreateAccountForm (){
+    const [email, setEmail] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [phonenum, setPhoneNum] = useState(null);
+    var navigate = useNavigate();
 
-  constructor(props) {
-    super(props);
-
-    console.log("state start", this.state);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(value) {
+  function handleChange(updateFunc) {
     return (event) => {
-      this.setState({ [value]: event.target.value });
-      console.log("handle change: ", value);
-      console.log(this.state);
+      updateFunc(event.target.value);
     };
   }
 
-  handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
-    var payload = Object.assign(
-      { body: JSON.stringify(this.state) },
-      POST_FETCH
-    );
-    fetch(endpoint("create_account"), payload).then((resp) =>
-      console.log(resp)
-    );
+    if(email && password && phonenum && username){
+      var payload = Object.assign(
+        { body: JSON.stringify({email: email, username: username, password: password, phonenum: phonenum}) },
+        POST_FETCH
+      );
+      fetch(endpoint("create_account"), payload).then((resp) =>
+        console.log(resp)
+      );
+      navigate("/");
+    }
+    else{
+      alert("Please ensure that all fields are filled out")
+    }
   }
 
-  render() {
     return (
       <div className="CreateAccountForm">
         <header>
           <Link className="logolink" to="/">
-            <span className="logo">ΣBank </span>
+            <span className="logo">ΣBank</span>
             <span className="logoSecondHalf">| Create Account</span>
           </Link>
         </header>
         <h1>Create Account</h1>
-        <form onSubmit={this.handleSubmit}>
-          <input
+        <form onSubmit={handleSubmit}>
+        <input
             className="AccountInput"
             type="text"
             name="username"
+            placeholder="Username"
+            onChange={handleChange(setUsername)}
+          />
+          <br/>
+          <input
+            className="AccountInput"
+            type="text"
+            name="email"
             placeholder="Email"
-            onChange={this.handleChange("email")}
+            onChange={handleChange(setEmail)}
           />
           <br />
           <input
             className="AccountInput"
-            type="text"
+            type="password"
             name="password"
             placeholder="Password"
-            onChange={this.handleChange("passwd")}
+            onChange={handleChange(setPassword)}
           />
           <br />
           <input
@@ -70,7 +73,7 @@ export default class CreateAccountForm extends Component {
             type="text"
             name="phonenum"
             placeholder="Phone Number"
-            onChange={this.handleChange("phonenum")}
+            onChange={handleChange(setPhoneNum)}
           />
           <br />
           <button className="AccountButtons" type="submit">
@@ -79,5 +82,4 @@ export default class CreateAccountForm extends Component {
         </form>
       </div>
     );
-  }
 }
