@@ -92,6 +92,52 @@ app.post('/get_user', (req, res) => {
     });
 });
 
+// Gets the current timestamp.
+app.get('/get_timestamp', (req, res) => {
+    client.query(`SELECT now()::timestamp;`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
+
+// Makes a transaction between two bank accounts. Assumes senderId and receiverId exist in Bank_Accounts.
+app.post('/make_transaction', (req, res) => {
+    var senderId = req.body.senderId;
+    var receiverId = req.body.receiverId;
+    var amount = req.body.amount;
+    var timestamp = req.body.timestamp;
+
+    if (!(senderId && receiverId && amount)) {
+        res.sendStatus(400);
+    }
+
+    // Take (amount) from sender
+    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${amount}' WHERE bid='${senderId}';`, (err, result) => {
+        if(err) throw err;
+        if (result.rowCount != 1) {
+            res.sendStatus(404);
+        }
+    });
+
+    // Add (amount) to receiver
+    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${amount}' WHERE bid='${receiverId}';`, (err, result) => {
+        if(err) throw err;
+        if (result.rowCount != 1) {
+            res.sendStatus(404);
+        }
+    });
+
+    // Record transaction
+    client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${amount}', '${timestamp}','${receiverId}','${senderId}', 'true');`, (err, result) => {
+        if(err) throw err;
+        if (result.rowCount != 1) {
+            res.sendStatus(400);
+        }
+    });
+
+    res.sendStatus(200);
+});
+
 // app init
 app.listen(5000);
 console.log("server started on port 5000");
