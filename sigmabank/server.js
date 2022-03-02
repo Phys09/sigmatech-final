@@ -68,6 +68,73 @@ app.post('/login', (req, res) => {
     }
 });
 
+app.post('/edit_account', (req, res) => {
+    console.log(req.body);
+    
+    var aid = req.body.aid;
+    var newUsername = req.body.newUsername;
+    var newEmail = req.body.newEmail;
+    var newPasswd = req.body.newPasswd;
+    var newPhonenum = req.body.newPhonenum;
+    var oldPasswd = req.body.oldPasswd;
+
+    if (oldPasswd) {
+        client.query(`SELECT * FROM Accounts WHERE aid='${aid}' AND password_hash=MD5('${oldPasswd}');`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                if (newUsername) {
+                    client.query(`UPDATE Accounts SET username='${newUsername}' WHERE aid='${aid}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                if (newEmail) {
+                    client.query(`UPDATE Accounts SET email='${newEmail}' WHERE aid='${aid}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                if (newPasswd) {
+                    client.query(`UPDATE Accounts SET password_hash=MD5('${newPasswd}') WHERE aid='${aid}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                if (newPhonenum) {
+                    client.query(`UPDATE Accounts SET phone_number='${newPhonenum}' WHERE aid='${aid}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+})
+
+app.post('/delete_account', (req, res) => {
+    console.log(req.body);
+    
+    var aid = req.body.aid;
+    var oldPasswd = req.body.oldPasswd;
+
+    if (oldPasswd) {
+        client.query(`SELECT * FROM Accounts WHERE aid='${aid}' AND password_hash=MD5('${oldPasswd}');`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                client.query(`DELETE FROM Accounts WHERE aid='${aid}';`, (err) => {
+                    if (err) throw err;
+                });
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+})
+
 app.post('/get_transactions', (req, res) => {
     var accountName = req.body.accountName;
     var passwd = req.body.passwd;

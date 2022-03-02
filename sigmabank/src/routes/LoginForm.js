@@ -42,6 +42,7 @@ export default function LoginForm() {
 					myArticle.innerHTML = "Incorrect password or account does not exist!";
           return Promise.reject("Incorrect password or account does not exist");
         } else {
+          auth.setEmail(email);
           auth.setLoggedin(true);
           return response.json();
         }
@@ -78,7 +79,7 @@ export default function LoginForm() {
 			    <button className="btn btn-primary btn-block" type="submit">
 				    Login
 			    </button>
-			    <a id="errors" className="notify mx-auto" href="/signup">
+			    <a id="errors" className="notify mx-auto">
 				    {/* {this.state.tags.currResponse === 0 && this.state.currResponse} */}
 			    </a>
 			    <a className="forgot mx-auto" href="/signup">
