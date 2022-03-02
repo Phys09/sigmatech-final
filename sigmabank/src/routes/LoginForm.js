@@ -79,7 +79,7 @@ export default function LoginForm() {
 			    <button className="btn btn-primary btn-block" type="submit">
 				    Login
 			    </button>
-			    <a id="errors" className="notify mx-auto" href="/signup">
+			    <a id="errors" className="notify mx-auto">
 				    {/* {this.state.tags.currResponse === 0 && this.state.currResponse} */}
 			    </a>
 			    <a className="forgot mx-auto" href="/signup">

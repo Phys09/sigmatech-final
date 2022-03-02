@@ -7,10 +7,17 @@ export default function NavbarHome() {
     const auth = useContext(AuthContext);
     var navigate = useNavigate();
 
-    function handleClick(event) {
+    function handleEditClick(event) {
+        event.preventDefault();
+        navigate("/edit");
+    }
+
+    function handleLogoutClick(event) {
         event.preventDefault();
         auth.setUser(null);
         auth.setUsername(null);
+        auth.setEmail(null);
+        auth.setPassword(null);
         auth.setLoggedin(false);
         navigate("/");
     }
@@ -21,7 +28,10 @@ export default function NavbarHome() {
                 <header className="Logo flex-start">ΣBank | Home</header>
             </Link>
             <div className="Options">
-                <button className="Logout" onClick={handleClick}>
+                <button className="Edit" onClick={handleEditClick}>
+                    Edit Account
+                </button>
+                <button className="Logout" onClick={handleLogoutClick}>
                     Logout
 			    </button>
             </div>
