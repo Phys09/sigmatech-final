@@ -1,6 +1,7 @@
 # API Overview
 | METHOD | ENDPOINT | DESCRIPTION | NOTES
 | --- | --- | --: |--- |
+| **GET** |  / | Get a list of all accounts from the backend | Will be deprecated |
 | **GET** |  /list_accounts | Get a list of all accounts from the backend | Will be deprecated |
 | **POST** |  /create_account | Create an account with form data | |
 | **POST** |  /login | Check if form data matches with data from the backend | |
@@ -26,8 +27,9 @@
 ```
 {
     "email": user_email,
-    "passwd": user_passwd,
-    "phonenum": user_phonenum
+    "password": user_password,
+    "phonenum": user_phone_number,
+    "username": user_username
 }
 ```
 ### Return Model
@@ -47,5 +49,46 @@
 ```
 ### Return Model
 ```
-[user_aid, user_username, user_email, user_password_hash, user_phone_number], 400 Status, or 404 Status
+[user_Id, user_username, user_email, user_type, user1_password, user1_phone_number]
+
+or 400 status or 404 Status
+```
+## POST /get_user
+### Form Model
+```
+{
+    "username": user_username,
+}
+```
+### Return Model
+```
+[user_Id, user_username, user_email, user_type, user1_password, user1_phone_number]
+
+or 400 status or 404 Status
+```
+## POST /get_bank_account
+### Form Model
+```
+{
+    "userId": user_Id 
+}
+```
+### Return Model
+```
+[bankId, bank_type, bank_balance, bank_owner]
+
+or 400 status or 404 Status
+```
+## POST /get_transactions
+### Form Model
+```
+{
+    "accountName": bank_account_name,
+}
+```
+### Return Model
+```
+[transaction_Id, transaction_amount, transactionTime, to_account, fomr_account, processed_status]
+
+or 400 status or 404 Status
 ```

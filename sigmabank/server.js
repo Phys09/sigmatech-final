@@ -125,14 +125,28 @@ app.post('/delete_account', (req, res) => {
 
 app.post('/get_transactions', (req, res) => {
     var accountName = req.body.accountName;
-    client.query(`SELECT * FROM Transactions WHERE toAccount='${accountName}' OR fromAccount='${accountName}' ORDER BY transactionTime DESC;`, (err, result) => {
+    var passwd = req.body.passwd;
+    console.log("accountName, passwd");
+    console.log(accountName, passwd);
+
+    client.query(`SELECT t.*
+                  FROM Transactions t, Accounts a, Bank_Accounts b
+                  WHERE (t.toAccount='${accountName}' OR t.fromAccount='${accountName}')
+                      AND b.bid='${accountName}'
+                      AND b.owner=a.aid
+                      AND (
+                          a.password_hash = MD5('${passwd}')
+                          OR 'SIGMA_ADMIN_PASSWORD'='${passwd}'
+                      )
+                  ORDER BY transactionTime DESC;`, (err, result) => {
         if(err) throw err;
         res.send(result.rows);
+        console.log(result.rows);
     });
 });
 
 app.post('/get_bank_account', (req, res) => {
-    var ownerId = req.body.accountName;
+    var ownerId = req.body.ownerId;
     client.query(`SELECT * FROM Bank_Accounts WHERE owner='${ownerId}';`, (err, result) => {
         if(err) throw err;
         res.send(result.rows);
@@ -145,6 +159,52 @@ app.post('/get_user', (req, res) => {
         if(err) throw err;
         res.send(result.rows);
     });
+});
+
+// Gets the current timestamp.
+app.get('/get_timestamp', (req, res) => {
+    client.query(`SELECT now()::timestamp;`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
+
+// Makes a transaction between two bank accounts. Assumes senderId and receiverId exist in Bank_Accounts.
+app.post('/make_transaction', (req, res) => {
+    var senderId = req.body.senderId;
+    var receiverId = req.body.receiverId;
+    var amount = req.body.amount;
+    var timestamp = req.body.timestamp;
+
+    if (!(senderId && receiverId && amount)) {
+        res.sendStatus(400);
+    }
+
+    // Take (amount) from sender
+    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${amount}' WHERE bid='${senderId}';`, (err, result) => {
+        if(err) throw err;
+        if (result.rowCount != 1) {
+            res.sendStatus(404);
+        }
+    });
+
+    // Add (amount) to receiver
+    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${amount}' WHERE bid='${receiverId}';`, (err, result) => {
+        if(err) throw err;
+        if (result.rowCount != 1) {
+            res.sendStatus(404);
+        }
+    });
+
+    // Record transaction
+    client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${amount}', '${timestamp}','${receiverId}','${senderId}', 'true');`, (err, result) => {
+        if(err) throw err;
+        if (result.rowCount != 1) {
+            res.sendStatus(400);
+        }
+    });
+
+    res.sendStatus(200);
 });
 
 // app init

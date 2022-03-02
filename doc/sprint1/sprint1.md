@@ -21,6 +21,8 @@ Complete an early working version of the app that includes several features, inc
 - As a customer, Destyn wants to be able to view his transaction history
 - All 3 personas want to be able to edit their account details (change password, delete account)
 - As a customer, Kendall wants to be able to apply for a loan/mortgage
+- Create user Schema
+- Create transaction Schema
 
 ## Participants for this Sprint:
 
@@ -42,6 +44,9 @@ After the assignment of user story points on Jira, the group decided that of the
   - SIG-46 tasked me with creating the website's main homepage. It was created using react routing to setup the navigation, while being stylized using CSS. The choice of making this form first was because it is a foundational basis for the entire website. That is, it sets up the code format and later on, access to all other parts of the page.
 
 - Abtin Ghajarieh Sepanlou
+  - SIG-18 required me to create an interactive page for the user to create their account, so I created a form element that takes all the necessary inputs and passes it to the backend through the back-end function designed by Peter.
+  
+  - SIG-31 tasked me with obtaining transactions from the database, so I created endpoints for obtaining the user by username to obtain their user_id, which will be used to obtain their bank account information from a similar endpoint, which will be used to obtain their transactions from a final endpoint, all designed by me. This process will be stream-lined in future sprints.
 
 - Peter Albu
 
@@ -50,8 +55,15 @@ After the assignment of user story points on Jira, the group decided that of the
 
 - Xinlei Xu
 
+  - SIG-15 tasked me with creating the login page. I updated the react form pages into react components, and edited the navbar subroutine so that it's more reusable.
+  - SIG-16 task was to create a edit acount details page. I added bootstrap form and buttons, and added css flexbox infrastructure. The ticket also acts as the starting point to the AccountDetails page for SIG-23.
+
 - Tommy Zhang
+  - SIG-19 required me to create the transaction history page for the user. I decided that a table would be the best way to display the transactions. I used React to create the components, and stylized it with CSS. I connected the frontend to the backend (SIG-31) using the endpoints created by Abtin, which request the user's transaction information.
 
 - Juan-Pablo Moreno
+  - For SIG-47 I had to create the user schema. This story was pretty straight forward I had to chose what attributes we were saving for each user 
+  - For SIG-48 I created the transaction schema. I noticed that transactions have to be between two bank accounts therefore in doing this story I also decided to make a bank account relation.
 
 - Aaron Brendan Huang
+  - For SIG-43, I had to implement the login system. This involved using a POST endpoint with a few input variables to verify if the user's account exists, and if it does exist, then the user's information (i.e., user id, username, and email) is saved in the app for use across different components/pages/forms.

@@ -11,6 +11,8 @@
     position: absolute;
     width: 100%;
     animation: fade-in 2s;
+    margin-left: 0px;
+    left: 0px;
   }
   .AccountInput {
     margin: 5px;
@@ -63,4 +65,7 @@
 
   text-decoration: none;
   color: black;
+}
+form{
+  margin: 0 auto;
 }
