@@ -136,25 +136,32 @@ app.post('/delete_account', (req, res) => {
 })
 
 app.post('/get_transactions', (req, res) => {
-    var accountName = req.body.accountName;
-    var passwd = req.body.passwd;
-    console.log("accountName, passwd");
-    console.log(accountName, passwd);
+    console.log(req.body);
 
-    client.query(`SELECT t.*
+    var accountID = req.body.accountID;
+    var passwd = req.body.passwd;
+
+    if (accountID && passwd) {
+        client.query(`SELECT t.*
                   FROM Transactions t, Accounts a, Bank_Accounts b
-                  WHERE (t.toAccount='${accountName}' OR t.fromAccount='${accountName}')
-                      AND b.bid='${accountName}'
+                  WHERE (t.toAccount='${accountID}' OR t.fromAccount='${accountID}')
+                      AND b.bid='${accountID}'
                       AND b.owner=a.aid
                       AND (
                           a.password_hash = MD5('${passwd}')
                           OR 'SIGMA_ADMIN_PASSWORD'='${passwd}'
                       )
                   ORDER BY transactionTime DESC;`, (err, result) => {
-        if(err) throw err;
-        res.send(result.rows);
-        console.log(result.rows);
-    });
+            if(err) throw err;
+            if (result.rowCount > 0) {
+                res.send(result.rows);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
 });
 
 app.post('/get_bank_account', (req, res) => {
