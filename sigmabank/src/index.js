@@ -10,6 +10,7 @@ import App from "./App";
 import {AuthContextProvider} from "./context";
 import CreateAccountForm from "./routes/CreateAccountForm";
 import LoginForm from "./routes/LoginForm";
+import {MakeTransaction, SendMoney} from  "./routes/MakeTransaction";
 
 import TransactionHistory from "./routes/TransactionHistory";
 import EditAccountForm from "./routes/EditAccountDetail";
@@ -26,6 +27,9 @@ ReactDOM.render(
         <Route path="/admin" element={<AdminPanel />} />
 
         <Route path="/edit" element={<EditAccountForm />} />
+        <Route path="/makeTransactions" element={<MakeTransaction />}>
+          <Route path="sendMoney" element={<SendMoney/>}/>
+        </Route>
       </Routes>
     </BrowserRouter>
   </AuthContextProvider>,
