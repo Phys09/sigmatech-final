@@ -8,6 +8,8 @@
 | **POST** |  /get_user | Get the details of the user profile | |
 | **POST** |  /get_bank_account | Get the bank account belonging to the given user id | |
 | **POST** |  /get_transactions | Get a list of transactions belonging to the given account | |
+| **GET** |  /get_timestamp | Get the current timestamp | |
+| **POST** |  /make_transaction | Creates a transaction with form data | |
 
 <br>
 <br>
@@ -97,4 +99,24 @@ note: passwd must match the password of the user who owns the bank account, or b
 [transaction_Id, transaction_amount, transactionTime, to_account, fomr_account, processed_status]
 
 or 400 status or 404 Status
+```
+## GET /get_timestamp
+### Return Model
+```
+[current_timestamp]
+```
+## POST /get_bank_account
+### Form Model
+```
+{
+    senderId: bank_account_id,
+    receiverId: bank_account_id,
+    amount: amount,
+    timestamp: current_timestamp,
+    ownerId: user_id
+}
+```
+### Return Model
+```
+200 status or 404 Status
 ```
