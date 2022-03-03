@@ -41,17 +41,21 @@ export function SendMoney(){
     
     function handleSubmit(event){
         event.preventDefault();
-        var timestamp;
         if(toAccount && fromAccount && amount){
-            fetch(endpoint("get_timestamp")).then((resp) => {
+            fetch(endpoint("get_timestamp"))
+            .then((resp) => {
                 if(resp.status == 404){
                     return Promise.reject("Couldn't get the time");
                 }
                 else{
                     return resp.json()
-            }}).then((data) => timestamp = data[0].now)
-            var payload = Object.assign({ body: JSON.stringify({senderId: fromAccount, receiverId: fromAccount, ownerId: aid , amount :amount, timestamp: timestamp}) }, POST_FETCH);
-            fetch(endpoint("make_transaction"), payload).then((resp) => setSuccess(resp.status))
+            }})
+            .then((data) => {
+                var payload = Object.assign({
+                    body: JSON.stringify({senderId: fromAccount, receiverId: toAccount, ownerId: aid , amount: amount, timestamp: data[0].now})
+                }, POST_FETCH);
+                fetch(endpoint("make_transaction"), payload).then((resp) => setSuccess(resp.status))
+            })
         }
     }
     

@@ -200,16 +200,16 @@ app.post('/make_transaction', (req, res) => {
         }
     });
 
-    // Take (amount) from sender
-    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${amount}' WHERE bid='${senderId}';`, (err, result) => {
+    // Add (amount) to receiver
+    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${amount}' WHERE bid='${receiverId}';`, (err, result) => {
         if(err) throw err;
         if (result.rowCount != 1) {
             res.sendStatus(404);
         }
     });
 
-    // Add (amount) to receiver
-    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${amount}' WHERE bid='${receiverId}';`, (err, result) => {
+    // Take (amount) from sender
+    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${amount}' WHERE bid='${senderId}';`, (err, result) => {
         if(err) throw err;
         if (result.rowCount != 1) {
             res.sendStatus(404);
