@@ -96,7 +96,7 @@ note: passwd must match the password of the user who owns the bank account, or b
 
 ### Return Model
 ```
-[transaction_Id, transaction_amount, transactionTime, to_account, fomr_account, processed_status]
+[transaction_Id, transaction_amount, transactionTime, to_account, form_account, processed_status]
 
 or 400 status or 404 Status
 ```
@@ -105,7 +105,7 @@ or 400 status or 404 Status
 ```
 [current_timestamp]
 ```
-## POST /get_bank_account
+## POST /make_transaction
 ### Form Model
 ```
 {
