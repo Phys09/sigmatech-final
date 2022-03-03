@@ -14,6 +14,7 @@ import LoginForm from "./routes/LoginForm";
 import TransactionHistory from "./routes/TransactionHistory";
 import EditAccountForm from "./routes/EditAccountDetail";
 import AdminPanel from "./routes/AdminPanel";
+import ChatPage from "./routes/ChatPage";
 
 ReactDOM.render(
   <AuthContextProvider>
@@ -24,6 +25,7 @@ ReactDOM.render(
         <Route path="/login" element={<LoginForm />} />
         <Route path="/transactions" element={<TransactionHistory />} />
         <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/chat" element={<ChatPage />} />
 
         <Route path="/edit" element={<EditAccountForm />} />
       </Routes>

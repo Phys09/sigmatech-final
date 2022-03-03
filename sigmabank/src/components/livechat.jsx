@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 // import "../css/nav.css";
 
-class DefaultComponent extends Component {
+class ChatComponent extends Component {
   state = {
     version: 1,
   };
@@ -18,4 +18,4 @@ class DefaultComponent extends Component {
   }
 }
 
-export default DefaultComponent;
+export default ChatComponent;
