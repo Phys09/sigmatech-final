@@ -1,21 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-// import "../css/nav.css";
 
-class ChatComponent extends Component {
-  state = {
-    version: 1,
-  };
+// import '../css/chat.scss';
 
-  render() {
-    return (
-      <div>
-        <button className="btn btn-secondary btn-sm">
-          SAMPLE component version {this.state.version}
-        </button>
-      </div>
-    );
-  }
-}
-
-export default ChatComponent;
+export default class MessageCard extends Component {
+    render () {
+        return (
+            <div>nope</div>
+        );
+    }
+};

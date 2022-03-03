@@ -1,6 +1,7 @@
-import React from "react";
+import React, { Component } from 'react';
 import NavbarHome from "../components/navbarHome";
-import ChatComponent from "../components/livechat.jsx";
+import ChatMsg from "../components/chatmsg";
+import MessageCard from "../components/livechat.jsx";
 import '../css/App.css';
 
 function ChatPage() {
@@ -8,10 +9,15 @@ function ChatPage() {
     <React.Fragment>
       <NavbarHome/>
         <div className="Chat">
-          <ChatComponent />
+          <ChatMsg />
+        </div>
+        <div>
+          <MessageCard />
         </div>
     </React.Fragment>
   );
 }
 
 export default ChatPage;
+
+

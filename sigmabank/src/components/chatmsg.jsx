@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-// import "../css/navbar.css";
+import "../css/navbar.css";
 
-class DefaultComponent extends Component {
+class ChatMsg extends Component {
   state = {
     version: 1,
   };
@@ -18,4 +18,4 @@ class DefaultComponent extends Component {
   }
 }
 
-export default DefaultComponent;
+export default ChatMsg;

@@ -1,0 +1,63 @@
+@keyframes pop-in {
+    0% {
+        -webkit-transform: scale(0.85);
+    }
+    100% {
+        -webkit-transform: scale(1);
+    }
+}
+
+.message-card-container-right {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: 100px;
+}
+
+.message-card-container-left {
+    max-width: 400px;
+    margin-left: 75px;
+}
+
+.message-card-left {
+    background-color: white;
+}
+
+.message-card-right {
+    background-color: #dcf8c6; 
+}
+
+.message-card {
+    // Makes the texts inside the div break automatically depending on the width of the container div
+    word-break:break-all;
+    min-width: 70px;
+    box-shadow: 0 1px 0.5px rgba(0,0,0,.13);
+    border: 1px solid #e6e6e6;
+    margin: 10px;
+    margin-top: 20px !important;
+    padding: 10px;
+    border-radius: 5%;
+    animation: pop-in 0.2s;
+    // pop-in is the name of the animation and 0.5 is the duration of the animation
+    -webkit-animation: pop-in 0.2s;
+    -moz-animation: pop-in 0.2s;
+    -ms-animation: pop-in 0.2s;
+}
+
+.message-card h6 {
+    font-size: 14px;
+}
+
+.message-card p {
+    font-size: 13px;
+}
+
+.message-card small {
+    margin-top: 8px;
+    float: right;
+    font-size: 8px;
+    color: rgba(0, 0, 0, .45);
+}
+
+.message-user {
+    margin-bottom: 10px;
+}
