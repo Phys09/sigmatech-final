@@ -6,7 +6,7 @@
 | **POST** |  /create_account | Create an account with form data | |
 | **POST** |  /login | Check if form data matches with data from the backend | |
 | **POST** |  /edit_account | Edit an account with form data | |
-| **POST** |  /delete_account | Delete an account if form data matches | |
+| **POST** |  /delete_account | Delete an account if form data matches with data from the backend | |
 | **POST** |  /get_user | Get the details of the user profile | |
 | **POST** |  /get_bank_account | Get the bank account belonging to the given user id | |
 | **POST** |  /get_transactions | Get a list of transactions belonging to the given account | |
@@ -43,6 +43,7 @@
 ```
 200 Status or 400 Status
 ```
+
 <br>
 <br>
 
@@ -60,6 +61,10 @@
 
 or 400 Status or 404 Status
 ```
+
+<br>
+<br>
+
 ## POST /edit_account
 ### Form Model
 ```
@@ -76,6 +81,10 @@ or 400 Status or 404 Status
 ```
 200 Status or 400 Status or 404 Status
 ```
+
+<br>
+<br>
+
 ## POST /delete_account
 ### Form Model
 ```
@@ -88,6 +97,10 @@ or 400 Status or 404 Status
 ```
 200 Status or 400 Status or 404 Status
 ```
+
+<br>
+<br>
+
 ## POST /get_user
 ### Form Model
 ```
@@ -101,6 +114,10 @@ or 400 Status or 404 Status
 
 or 400 status or 404 Status
 ```
+
+<br>
+<br>
+
 ## POST /get_bank_account
 ### Form Model
 ```
@@ -114,6 +131,10 @@ or 400 status or 404 Status
 
 or 400 status or 404 Status
 ```
+
+<br>
+<br>
+
 ## POST /get_transactions
 ### Form Model
 ```
@@ -130,6 +151,10 @@ note: passwd must match the password of the user who owns the bank account, or b
 
 or 400 status or 404 Status
 ```
+
+<br>
+<br>
+
 ## GET /get_timestamp
 ### Return Model
 ```
