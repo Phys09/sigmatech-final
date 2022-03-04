@@ -1,0 +1,132 @@
+body {
+    background-color: whitesmoke;
+    margin-top: 20px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .card {
+    background: white;
+    transition: 0.5s;
+    margin-bottom: 30px;
+    border-radius: 0.55rem;
+    position: relative;
+    width: 100%;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 10%);
+  }
+  .chat-app .people-list {
+    width: 280px;
+    position: absolute;
+    padding: 20px;
+    z-index: 7;
+  }
+  
+  .chat-app .chat {
+    margin-left: 280px;
+    border-left: 1px solid #eaeaea;
+  }
+  
+  /* LEFT SIDE  */
+  
+  .chat-list li {
+    padding: 10px 15px;
+    list-style: none;
+    border-radius: 3px;
+  }
+  
+  .chat-list li:hover {
+    background: #efefef;
+    cursor: pointer;
+  }
+  
+  .chat-list li.active {
+    background: #efefef;
+  }
+  
+  .chat-list img {
+    float: left;
+    width: 45px;
+    border-radius: 50%;
+  }
+  
+  .chat-name {
+    float: left;
+    padding-left: 8px;
+  }
+  
+  .status {
+    color: #999;
+    font-size: 13px;
+  }
+  
+  /* HEADER */
+  .chat .chat-header {
+    padding: 15px;
+    border-bottom: 2px solid white;
+  }
+  
+  .chat .chat-header img {
+    float: left;
+    border-radius: 40px;
+    width: 40px;
+  }
+  
+  .chat .chat-header .chat-about {
+    float: left;
+    padding-left: 10px;
+    margin-top: 10px;
+  }
+  
+  /* SESSION */
+  .chat-session {
+    padding: 20px;
+    border-bottom: 2px solid #fff;
+  }
+  
+  .chat-session ul li {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .chat-session .message-data {
+    margin-bottom: 10px;
+  }
+  
+  .chat-session .message-data img {
+    border-radius: 40px;
+    width: 40px;
+  }
+  
+  .chat-session .message {
+    padding: 18px 20px;
+    line-height: 26px;
+    font-size: 16px;
+    border-radius: 7px;
+    display: inline-block;
+    position: relative;
+  }
+  
+  .chat-session .remote-message {
+    background: lightgray;
+  }
+
+  .chat .chat-message {
+    padding: 20px;
+  }
+  
+  
+  .online {
+    color: greenyellow;
+  }
+  
+  .offline {
+    color: coral;
+  }
+  
+  .from-me {
+    float: right;
+    background: black;
+    color: white;
+    text-align: right;
+  }
+  
+
+  
