@@ -15,7 +15,7 @@ import TransactionHistory from "./routes/TransactionHistory";
 import EditAccountForm from "./routes/EditAccountDetail";
 import AdminPanel from "./routes/AdminPanel";
 
-ReactDOM.render(
+ReactDOM.render (
   <AuthContextProvider>
     <BrowserRouter>
       <Routes>
@@ -24,7 +24,7 @@ ReactDOM.render(
         <Route path="/login" element={<LoginForm />} />
         <Route path="/transactions" element={<TransactionHistory />} />
         <Route path="/admin" element={<AdminPanel />} />
-
+        <Route path="/loginform" element={<LoginForm />} />
         <Route path="/edit" element={<EditAccountForm />} />
       </Routes>
     </BrowserRouter>
