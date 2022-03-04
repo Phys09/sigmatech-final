@@ -58,21 +58,11 @@ export default class MessageUI extends Component {
                     <div className="chat-session">
                       <ul>
                         {/* one msg from ME */}
-                        
-                        <li className="clearfix">
-                          <div className="message-data text-right">
-                            <span className="status">10:10 Today</span>
-                            <img src="chat3.png" alt="avatar" />
-                          </div>
-      
-                          {/* "my" messages have from-me tag, which tags to the right */}
-                          <div className="message from-me">Chat, Chat I'm a chat</div>
-                        </li>
+                        <OneChat msg="Chat, Chat I'm a chat" timestamp="1646361687" sndr="me"/>
       
                         {/* msg from support */}
-                        <OneChat msg="Hi Chat I'm mortgage" timestamp="1646361692" from="remote"/>
-
-                        <OneChat msg="Selling morgages because this sentence seems to be long enough." timestamp="1646361692" from="remote"/>
+                        <OneChat msg="Hi Chat I'm mortgage" timestamp="1646361692" sndr="remote"/>
+                        <OneChat msg="Selling morgages because this sentence seems to be long enough." timestamp="1646361692" sndr="remote"/>
       
                       </ul>
                     </div>
