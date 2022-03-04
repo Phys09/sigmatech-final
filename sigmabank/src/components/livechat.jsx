@@ -1,11 +1,40 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import '../css/chat.css';
+import Square from "./chatmsg";
 
 // import '../css/chat.scss';
 
-export default class MessageCard extends Component {
-    render () {
+export default class MessageUI extends Component {
+
+    constructor(props){
+        super(props);
+        this.state={
+          squares: Array(9).fill(null),
+          xIsNext: true,
+        };
+        //board底下包括9个格子; 把9个格子的数据全存储在上级组件里
+      }
+      
+    // Create a single ChatMsg
+
+      renderSquare(i) {
+        return <Square value={this.state.squares[i]}/>; //传入value变量和对应的值
+      }
+
+    render(){
+        return (
+            
+            <div>asdasd
+                {this.renderSquare(3)}
+
+            </div>
+            
+            
+        )
+    }
+
+    render2 () {
         return (
             <div class="container">
             <div class="row clearfix">
@@ -64,7 +93,7 @@ export default class MessageCard extends Component {
       
                         {/* One single msg from support */}
                         <li>
-                          <div class="message-data">
+                          <div class="message-data text-left">
                             <span class="status">18:33 Today</span>
                           </div>
                           <div class="message remote-message">

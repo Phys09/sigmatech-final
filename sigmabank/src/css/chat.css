@@ -84,6 +84,7 @@ body {
   .chat-session ul li {
     list-style: none;
     padding: 0;
+    text-align: left;
   }
   
   .chat-session .message-data {
@@ -106,6 +107,8 @@ body {
   
   .chat-session .remote-message {
     background: lightgray;
+    /* float:left; */
+    margin-bottom: 10px;
   }
 
   .chat .chat-message {
