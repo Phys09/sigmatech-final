@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Transaction } from './Transaction';
 import { endpoint, POST_FETCH } from '../APIfunctions';
-import { AuthContext } from "../context";
+import { useCookies } from "react-cookie";
 
 // Returns a <div> containing an account's transaction history.
 export const TransactionList = () => {
@@ -9,10 +9,10 @@ export const TransactionList = () => {
   const [transactions, setTransactions] = useState([]);
 
   // Get the account id
-  const auth = useContext(AuthContext);
-  const aid = auth.user;
-  const username = auth.username;
-  const password = auth.password;
+  const [cookies] = useCookies("user");
+  const aid = cookies.userId;
+  const username = cookies.username;
+  const password = cookies.password;
 
   // Payload for the 'get_transactions' endpoint
   var payload = Object.assign(

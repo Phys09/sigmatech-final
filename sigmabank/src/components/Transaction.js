@@ -1,13 +1,13 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../context";
+import React from "react";
+import { useCookies } from "react-cookie";
  
 // Takes in a JSON object representing a transaction and
 // returns a table row representing the transaction.
 export const Transaction = ({ transaction }) => {
   const amount = parseFloat(transaction.amount).toFixed(2);
   // Get the account id
-  const auth = useContext(AuthContext);
-  const bid = auth.user;
+  const [cookies] = useCookies("user");
+  const bid = cookies.userId;
   var counterparty = transaction.toaccount;
   var amountClass = 'loss';
   var sign = '-';
