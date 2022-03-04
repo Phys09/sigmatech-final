@@ -1,18 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
-import { AuthContext } from "../context";
 import NavbarLogin from "../components/navbarLogin";
 import FooterMain from "../components/footer";
 import "../css/login.css";
 import "../css/App.css";
+import { useCookies } from "react-cookie";
 
 export default function LoginForm() {
 	// BAD implementation, change it later
 	const currResponse= "";
   const [email, setEmail] = useState(null);
   const [passwd, setPasswd] = useState(null);
-  const auth = useContext(AuthContext); 
+  const [cookies, setCookie] = useCookies(["user"]);
 	const myArticle = document.querySelector('.notify');
   var navigate = useNavigate();
 
@@ -42,15 +42,13 @@ export default function LoginForm() {
 					myArticle.innerHTML = "Incorrect password or account does not exist!";
           return Promise.reject("Incorrect password or account does not exist");
         } else {
-          auth.setEmail(email);
-          auth.setLoggedin(true);
           return response.json();
         }
       })
       .then((data) => {
-        auth.setUser(data[0].aid);
-        auth.setUsername(data[0].username);
-        auth.setPassword(passwd);
+        setCookie("userId", data[0].aid, {path: "/"});
+        setCookie("username", data[0].username, {path: "/"});
+        setCookie("password", passwd, {path: "/"});
         navigate("/transactions");
       })
       .catch((err) => console.log(err));
