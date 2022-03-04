@@ -1,10 +1,10 @@
-import React, {useState, useContext} from 'react';
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context";
+import React, {useState, useEffect} from 'react';
+import { Outlet, useNavigate } from "react-router-dom";
 import '../css/App.css';
 import '../css/MakeTransaction.css'
+import NavbarHome from "../components/navbarHome"
 import {endpoint, POST_FETCH} from "../APIfunctions"
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 
 
@@ -15,29 +15,32 @@ export function MakeTransaction (){
         navigate("sendMoney")
     }
     return(
-        <div>
-            <header>
-            <Link className="logolink" to="/">
-                <span className="logo">ΣBank</span>
-                <span className="logoSecondHalf">| Make Transactions</span>
-            </Link>
-            </header>
+        <React.Fragment>
+            <NavbarHome/>
 
             <form>
                 <button className='TransactionButtons' onClick={sendMoneyClick}>Send Money</button>
             </form>
             <Outlet/>
-        </div>
+        </React.Fragment>
     )
 }
 
 export function SendMoney(){
-    const auth = useContext(AuthContext);
-    const aid = auth.user;
+    var navigate = useNavigate();
+    const [cookies] = useCookies(["user"]);
+    const aid = cookies.userId;
     const [success, setSuccess] = useState(-1);
     const [toAccount, setToAccount] = useState(null);
     const [fromAccount, setFromAccount] = useState(null);
     const [amount, setAmount] = useState(0);
+    
+    useEffect(() => {
+        if(!aid){
+            alert("Please login to be able to use this page");
+            navigate("/login");
+        }
+    }, [])
     
     function handleSubmit(event){
         event.preventDefault();

@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context";
+import { useCookies } from "react-cookie";
 import "../css/navbar.css";
 
 export default function NavbarHome() {
-    const auth = useContext(AuthContext);
+    const [cookies, setCookie, removeCookie] = useCookies("user");
     var navigate = useNavigate();
 
     function handleEditClick(event) {
@@ -14,11 +14,9 @@ export default function NavbarHome() {
 
     function handleLogoutClick(event) {
         event.preventDefault();
-        auth.setUser(null);
-        auth.setUsername(null);
-        auth.setEmail(null);
-        auth.setPassword(null);
-        auth.setLoggedin(false);
+        removeCookie("userId", {path:"/"})
+        removeCookie("username", {path:"/"})
+        removeCookie("password", {path:"/"})
         navigate("/");
     }
 

@@ -15,9 +15,10 @@ import {MakeTransaction, SendMoney} from  "./routes/MakeTransaction";
 import TransactionHistory from "./routes/TransactionHistory";
 import EditAccountForm from "./routes/EditAccountDetail";
 import AdminPanel from "./routes/AdminPanel";
+import { CookiesProvider } from "react-cookie";
 
 ReactDOM.render(
-  <AuthContextProvider>
+  <CookiesProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
@@ -28,10 +29,10 @@ ReactDOM.render(
 
         <Route path="/edit" element={<EditAccountForm />} />
         <Route path="/makeTransactions" element={<MakeTransaction />}>
-          <Route path="sendMoney" element={<SendMoney/>}/>
+          <Route path="sendMoney" element={<SendMoney />}/>
         </Route>
       </Routes>
     </BrowserRouter>
-  </AuthContextProvider>,
+  </CookiesProvider>,
   document.getElementById("root")
 );
