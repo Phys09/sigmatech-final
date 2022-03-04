@@ -1,15 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../context";
 import "../css/navbar.css";
 
 export default function NavbarMain() {
-  const auth = useContext(AuthContext);
   var navigate = useNavigate();
-
+  const [cookies] = useCookies("user");
   function handleClick(event) {
     event.preventDefault();
-    if (auth.loggedin == false) {
+    if (!cookies.userId) {
       navigate("/login");
     } else {
       navigate("/transactions");

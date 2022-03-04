@@ -187,36 +187,44 @@ app.post('/make_transaction', (req, res) => {
     var receiverId = req.body.receiverId;
     var amount = req.body.amount;
     var timestamp = req.body.timestamp;
+    var ownerId = req.body.ownerId;
 
     if (!(senderId && receiverId && amount)) {
         res.sendStatus(400);
     }
 
-    // Take (amount) from sender
-    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${amount}' WHERE bid='${senderId}';`, (err, result) => {
+    client.query(`SELECT * FROM Bank_Accounts WHERE owner='${ownerId}' AND bid='${senderId}';`, (err, result) => {
         if(err) throw err;
         if (result.rowCount != 1) {
             res.sendStatus(404);
+        } else {
+            // Add (amount) to receiver
+            client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${amount}' WHERE bid='${receiverId}';`, (err, result) => {
+                if(err) throw err;
+                if (result.rowCount != 1) {
+                    res.sendStatus(404);
+                } else {
+                    // Take (amount) from sender
+                    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${amount}' WHERE bid='${senderId}';`, (err, result) => {
+                        if(err) throw err;
+                        if (result.rowCount != 1) {
+                            res.sendStatus(404);
+                        } else {
+                            // Record transaction
+                            client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${amount}', '${timestamp}','${receiverId}','${senderId}', 'true');`, (err, result) => {
+                                if(err) throw err;
+                                if (result.rowCount != 1) {
+                                    return Promise.reject('error');
+                                } else {
+                                    res.sendStatus(200);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         }
     });
-
-    // Add (amount) to receiver
-    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${amount}' WHERE bid='${receiverId}';`, (err, result) => {
-        if(err) throw err;
-        if (result.rowCount != 1) {
-            res.sendStatus(404);
-        }
-    });
-
-    // Record transaction
-    client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${amount}', '${timestamp}','${receiverId}','${senderId}', 'true');`, (err, result) => {
-        if(err) throw err;
-        if (result.rowCount != 1) {
-            res.sendStatus(400);
-        }
-    });
-
-    res.sendStatus(200);
 });
 
 // app init
