@@ -16,7 +16,9 @@ The frontend is implemented with react and javascript, partially incorporated wi
 - `EditAccountDetails.js`: SIG16 edit/delete user details
 - `LoginForm.js`: SIG15 user log in 
 - `Transactionhistory.js`: SIG19 transaction history
-
+- `AdminPanel.js`: SIG3 Adminpanel
+- `MakeTransaction.js`: SIG17 make transactions
+- `EditAccountDetail`: SIG44 edit account details
 
 `src/components`: This holds small parts, 'proper subsets' of code of sorts, that are called and used by the routes. They can be hotswapped out by the page as necessary. The smaller react components, such as navbar, footer and stuff, that are **aimed to be reusable**.
 

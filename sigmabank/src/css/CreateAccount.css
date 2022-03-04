@@ -66,6 +66,11 @@
   text-decoration: none;
   color: black;
 }
-form{
+
+form {
   margin: 0 auto;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

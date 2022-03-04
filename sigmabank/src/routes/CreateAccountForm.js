@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "../css/CreateAccount.css";
-import "../css/App.css";
-import { endpoint, POST_FETCH } from "../APIfunctions";
 import { Link, useNavigate } from "react-router-dom";
+import { endpoint, POST_FETCH } from "../APIfunctions";
+import "../css/App.css";
+import "../css/CreateAccount.css";
 
 export default function CreateAccountForm (){
     const [email, setEmail] = useState(null);
@@ -44,38 +44,36 @@ export default function CreateAccountForm (){
         </header>
         <h1>Create Account</h1>
         <form onSubmit={handleSubmit}>
-        <input
-            className="AccountInput"
-            type="text"
-            name="username"
-            placeholder="Username"
-            onChange={handleChange(setUsername)}
-          />
-          <br/>
-          <input
-            className="AccountInput"
-            type="text"
-            name="email"
-            placeholder="Email"
-            onChange={handleChange(setEmail)}
-          />
-          <br />
-          <input
-            className="AccountInput"
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={handleChange(setPassword)}
-          />
-          <br />
-          <input
-            className="AccountInput"
-            type="text"
-            name="phonenum"
-            placeholder="Phone Number"
-            onChange={handleChange(setPhoneNum)}
-          />
-          <br />
+          <div>
+            <input
+              className="AccountInput"
+              type="text"
+              name="username"
+              placeholder="Username"
+              onChange={handleChange(setUsername)}
+            />
+            <input
+              className="AccountInput"
+              type="text"
+              name="email"
+              placeholder="Email"
+              onChange={handleChange(setEmail)}
+            />
+            <input
+              className="AccountInput"
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={handleChange(setPassword)}
+            />
+            <input
+              className="AccountInput"
+              type="text"
+              name="phonenum"
+              placeholder="Phone Number"
+              onChange={handleChange(setPhoneNum)}
+            />
+          </div>
           <button className="AccountButtons" type="submit">
             Create Account
           </button>

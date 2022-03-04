@@ -1,75 +1,128 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
-import { AuthContext } from "../context";
-import NavbarLogin from "../components/navbarLogin";
-import FooterMain from "../components/footer";
-import "../css/login.css";
+import NavbarHome from "../components/navbarHome";
 import "../css/App.css";
+import "../css/login.css";
+import { useCookies } from "react-cookie";
 
 export default function EditAccountForm() {
-
-
-	// BAD implementation, change it later
-  const currResponse= "";
-  const [email, setEmail] = useState(null);
-  const [passwd, setPasswd] = useState(null);
-  const auth = useContext(AuthContext); 
+  const [newUsername, setNewUsername] = useState(null);
+  const [newEmail, setNewEmail] = useState(null);
+  const [newPasswd, setNewPasswd] = useState(null);
+  const [newPhonenum, setNewPhonenum] = useState(null);
+  const [oldPasswd, setOldPasswd] = useState(null);
+  const [cookies, setCookie, removeCookie] = useCookies("user");
+  const aid = cookies.userId;
 	const myArticle = document.querySelector('.notify');
-  //var navigate = useNavigate();
+  var navigate = useNavigate();
 
 
-    function handleChange(value) {
-        return (event) => {
-            if (value == "email") {
-                setEmail(event.target.value);
-            } else if (value == "passwd") {
-                setPasswd(event.target.value);
-            }
-        }
+  function handleChange(value) {
+    return (event) => {
+      if (value == "newUsername") {
+        setNewUsername(event.target.value);
+      } else if (value == "newEmail") {
+        setNewEmail(event.target.value);
+      } else if (value == "newPasswd") {
+        setNewPasswd(event.target.value);
+      } else if (value == "newPhonenum") {
+        setNewPhonenum(event.target.value);
+      } else if (value == "oldPasswd") {
+        setOldPasswd(event.target.value);
+      } 
     }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
   }
 
-    return (
-	<React.Fragment>
-		<NavbarLogin/>
-		<div className="login-wrapper d-flex">
+  function handleEditSubmit(event) {
+    event.preventDefault();
+    var payload = Object.assign({ body: JSON.stringify(
+      { aid: aid, 
+        newUsername: newUsername, 
+        newEmail: newEmail,
+        newPasswd: newPasswd,
+        newPhonenum: newPhonenum,
+        oldPasswd: oldPasswd 
+      }
+    ) }, POST_FETCH);
+    fetch(endpoint("edit_account"), payload) 
+      .then((response) => {
+        if (response.status == 400) {
+					myArticle.innerHTML = "Enter your current password!";
+          return Promise.reject("Enter your current password");
+        } else if (response.status == 404) {
+            myArticle.innerHTML = "Incorrect current password!";
+            return Promise.reject("Incorrect current password");
+        } else {
+          if (newUsername) {
+            setCookie("username", newUsername, {path: "/"});
+          }
+          if (newPasswd) {
+            setCookie("password", newPasswd, {path: "/"});
+          }
+          navigate("/transactions");
+          return response.json();
+        }
+      }).catch((err) => console.log(err));
+  }
 
-			<h2 className="mx-auto login-title">Change Account Details</h2>
+  function handleDeleteSubmit(event) {
+    event.preventDefault();
+    var payload = Object.assign({ body: JSON.stringify({ aid: aid, oldPasswd: oldPasswd }) }, POST_FETCH);
+    fetch(endpoint("delete_account"), payload)
+      .then((response) => {
+        if (response.status == 400) {
+          myArticle.innerHTML = "Enter your current password!";
+          return Promise.reject("Enter your current password");
+        } else if (response.status == 404) {
+          myArticle.innerHTML = "Incorrect current password!";
+          return Promise.reject("Incorrect current password");
+        } else {
+          removeCookie("userId", {path:"/"})
+          removeCookie("username", {path:"/"})
+          removeCookie("password", {path:"/"})
+          navigate("/");
+          return response.json();
+        }
+      }).catch((err) => console.log(err));
+  }
 
-            <form>
-            <div >Current User: {email}</div>
-            <div className="form-group ">
-                <label for="changeEmail">Current Email address: {email}</label>
-                <input type="email" classclassName="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter new email"/>
-                <button className ="btn btn-secondary" id="updateEmail">Update Email</button>
+  return (
+    <React.Fragment>
+		  <NavbarHome/>
+		  <div className="login-wrapper">
+			  <h2>Edit Account</h2>
+          <form>
+            <div className="form-group">
+              <label for="changeUsername">Change Username:</label>
+              <input type="text" className="form-control" placeholder="New Username" onChange={handleChange("newUsername")}/>
             </div>
             <div className="form-group">
-                <label for="changePassword">Change Password</label>
-                <input type="password" className="form-control" id="currPassword" placeholder="Current Password"/>
-                <input type="password" className="form-control" id="newPassword" placeholder="New Password"/>
-                <input type="password" className="form-control" id="newPassword2" placeholder="Retype Password"/>
-                <button className ="btn btn-secondary" id="updatePassword">Update password</button>
+              <label for="changeEmail">Change Email Address:</label>
+              <input type="text" className="form-control" placeholder="New Email" onChange={handleChange("newEmail")}/>
+            </div>
+            <div className="form-group">
+              <label for="changePassword">Change Password:</label>
+              <input type="password" className="form-control" placeholder="New Password" onChange={handleChange("newPasswd")}/>
+            </div>
+            <div className="form-group">
+              <label for="changePhone">Change Phone Number:</label>
+              <input type="text" className="form-control" placeholder="New Phone Number" onChange={handleChange("newPhonenum")}/>
             </div>
             <br></br>
             <div className="form-group">
-                <label for="deleteUser">delete user</label>
-                <input type="password" className="form-control" id="currPassword" placeholder="Confirm Password"/>
-                <button className ="btn btn-secondary" id="deleteAccount">delete Account</button>
+              <label for="changePassword">Confirm Password:</label>
+              <input type="password" className="form-control" placeholder="Current Password" onChange={handleChange("oldPasswd")}/>
             </div>
-            <button type="submit" className="btn btn-primary" href="/">Done</button>
-            </form>
-            {/* submit should go to homepage; not working */}
-
-
-		</div>
-
-
-		<FooterMain />
-	</React.Fragment>
+            <a id="errors" className="notify mx-auto"></a>
+				    <button className="btn btn-primary btn-block" type="submit" onClick={handleEditSubmit}>
+					    Update Account
+				    </button>
+            <button className ="btn btn-primary btn-block" type="submit" onClick={handleDeleteSubmit}>
+              Delete Account
+            </button>
+          </form>
+      </div>
+	  </React.Fragment>
   );
 }

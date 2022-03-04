@@ -3,7 +3,8 @@
 }
 
 form {
-    max-width: 300px;
+    min-width: 250px;
+    max-width: 250px;
     width: 100%;
     background-color: #ffffff;
     padding: 40px;
@@ -69,3 +70,9 @@ body {
     transition-duration: 0.25s;
   }
 
+.centered {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

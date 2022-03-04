@@ -1,0 +1,44 @@
+.Options {
+    position: absolute;
+    text-align: center;
+    top: -7px;
+    right: 0;
+    width: 13vw;
+    height: 12vh;
+    margin-right: 50px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.Edit, .Logout {
+    text-decoration: none;
+    font-size: medium;
+    position: relative;
+    border-radius: 100px;
+    background-color: rgba(0, 0, 0, 1);
+    color: white;
+    padding: 10px;
+    font-family: Segoe UI;
+    font-style: normal;
+    font-weight: normal;
+}
+
+.Edit:hover, .Logout:hover {
+    text-decoration: none;
+    font-size: medium;
+    position: relative;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 100px;
+    color: white;
+    padding: 10px;
+    font-family: Segoe UI;
+    font-style: normal;
+    font-weight: normal;
+    transition-duration: 0.25s;
+}
+
+.padding-top { 
+    padding-top: 50px; 
+}

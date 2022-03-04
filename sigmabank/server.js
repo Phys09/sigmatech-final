@@ -68,11 +68,92 @@ app.post('/login', (req, res) => {
     }
 });
 
+app.post('/edit_account', (req, res) => {
+    console.log(req.body);
+    
+    var aid = req.body.aid;
+    var newUsername = req.body.newUsername;
+    var newEmail = req.body.newEmail;
+    var newPasswd = req.body.newPasswd;
+    var newPhonenum = req.body.newPhonenum;
+    var oldPasswd = req.body.oldPasswd;
+
+    if (oldPasswd) {
+        client.query(`SELECT * FROM Accounts WHERE aid='${aid}' AND password_hash=MD5('${oldPasswd}');`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                if (newUsername) {
+                    client.query(`UPDATE Accounts SET username='${newUsername}' WHERE aid='${aid}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                if (newEmail) {
+                    client.query(`UPDATE Accounts SET email='${newEmail}' WHERE aid='${aid}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                if (newPasswd) {
+                    client.query(`UPDATE Accounts SET password_hash=MD5('${newPasswd}') WHERE aid='${aid}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                if (newPhonenum) {
+                    client.query(`UPDATE Accounts SET phone_number='${newPhonenum}' WHERE aid='${aid}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+})
+
+app.post('/delete_account', (req, res) => {
+    console.log(req.body);
+    
+    var aid = req.body.aid;
+    var oldPasswd = req.body.oldPasswd;
+
+    if (oldPasswd) {
+        client.query(`SELECT * FROM Accounts WHERE aid='${aid}' AND password_hash=MD5('${oldPasswd}');`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                client.query(`DELETE FROM Accounts WHERE aid='${aid}';`, (err) => {
+                    if (err) throw err;
+                });
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+})
+
 app.post('/get_transactions', (req, res) => {
     var accountName = req.body.accountName;
-    client.query(`SELECT * FROM Transactions WHERE toAccount='${accountName}' OR fromAccount='${accountName}' ORDER BY transactionTime DESC;`, (err, result) => {
+    var passwd = req.body.passwd;
+    console.log("accountName, passwd");
+    console.log(accountName, passwd);
+
+    client.query(`SELECT t.*
+                  FROM Transactions t, Accounts a, Bank_Accounts b
+                  WHERE (t.toAccount='${accountName}' OR t.fromAccount='${accountName}')
+                      AND b.bid='${accountName}'
+                      AND b.owner=a.aid
+                      AND (
+                          a.password_hash = MD5('${passwd}')
+                          OR 'SIGMA_ADMIN_PASSWORD'='${passwd}'
+                      )
+                  ORDER BY transactionTime DESC;`, (err, result) => {
         if(err) throw err;
         res.send(result.rows);
+        console.log(result.rows);
     });
 });
 
@@ -89,6 +170,60 @@ app.post('/get_user', (req, res) => {
     client.query(`SELECT 1 FROM Accounts WHERE username='${username}';`, (err, result) => {
         if(err) throw err;
         res.send(result.rows);
+    });
+});
+
+// Gets the current timestamp.
+app.get('/get_timestamp', (req, res) => {
+    client.query(`SELECT now()::timestamp;`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
+
+// Makes a transaction between two bank accounts. Assumes senderId and receiverId exist in Bank_Accounts.
+app.post('/make_transaction', (req, res) => {
+    var senderId = req.body.senderId;
+    var receiverId = req.body.receiverId;
+    var amount = req.body.amount;
+    var timestamp = req.body.timestamp;
+    var ownerId = req.body.ownerId;
+
+    if (!(senderId && receiverId && amount)) {
+        res.sendStatus(400);
+    }
+
+    client.query(`SELECT * FROM Bank_Accounts WHERE owner='${ownerId}' AND bid='${senderId}';`, (err, result) => {
+        if(err) throw err;
+        if (result.rowCount != 1) {
+            res.sendStatus(404);
+        } else {
+            // Add (amount) to receiver
+            client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${amount}' WHERE bid='${receiverId}';`, (err, result) => {
+                if(err) throw err;
+                if (result.rowCount != 1) {
+                    res.sendStatus(404);
+                } else {
+                    // Take (amount) from sender
+                    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${amount}' WHERE bid='${senderId}';`, (err, result) => {
+                        if(err) throw err;
+                        if (result.rowCount != 1) {
+                            res.sendStatus(404);
+                        } else {
+                            // Record transaction
+                            client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${amount}', '${timestamp}','${receiverId}','${senderId}', 'true');`, (err, result) => {
+                                if(err) throw err;
+                                if (result.rowCount != 1) {
+                                    return Promise.reject('error');
+                                } else {
+                                    res.sendStatus(200);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
     });
 });
 
