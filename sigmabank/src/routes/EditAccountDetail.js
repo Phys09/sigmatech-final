@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
-import { AuthContext } from "../context";
 import NavbarHome from "../components/navbarHome";
 import "../css/App.css";
 import "../css/login.css";
+import { useCookies } from "react-cookie";
 
 export default function EditAccountForm() {
   const [newUsername, setNewUsername] = useState(null);
@@ -12,8 +12,8 @@ export default function EditAccountForm() {
   const [newPasswd, setNewPasswd] = useState(null);
   const [newPhonenum, setNewPhonenum] = useState(null);
   const [oldPasswd, setOldPasswd] = useState(null);
-  const auth = useContext(AuthContext);
-  const aid = auth.user;
+  const [cookies, setCookie, removeCookie] = useCookies("user");
+  const aid = cookies.userId;
 	const myArticle = document.querySelector('.notify');
   var navigate = useNavigate();
 
@@ -55,13 +55,10 @@ export default function EditAccountForm() {
             return Promise.reject("Incorrect current password");
         } else {
           if (newUsername) {
-            auth.setUsername(newUsername);
-          }
-          if (newEmail) {
-            auth.setEmail(newEmail);
+            setCookie("username", newUsername, {path: "/"});
           }
           if (newPasswd) {
-            auth.setPassword(newPasswd);
+            setCookie("password", newPasswd, {path: "/"});
           }
           navigate("/transactions");
           return response.json();
@@ -81,11 +78,9 @@ export default function EditAccountForm() {
           myArticle.innerHTML = "Incorrect current password!";
           return Promise.reject("Incorrect current password");
         } else {
-          auth.setUser(null);
-          auth.setUsername(null);
-          auth.setEmail(null);
-          auth.setPassword(null);
-          auth.setLoggedin(false);
+          removeCookie("userId", {path:"/"})
+          removeCookie("username", {path:"/"})
+          removeCookie("password", {path:"/"})
           navigate("/");
           return response.json();
         }
