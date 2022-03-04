@@ -5,6 +5,8 @@
 | **GET** |  /list_accounts | Get a list of all accounts from the backend | Will be deprecated |
 | **POST** |  /create_account | Create an account with form data | |
 | **POST** |  /login | Check if form data matches with data from the backend | |
+| **POST** |  /edit_account | Edit an account with form data | |
+| **POST** |  /delete_account | Delete an account if form data matches | |
 | **POST** |  /get_user | Get the details of the user profile | |
 | **POST** |  /get_bank_account | Get the bank account belonging to the given user id | |
 | **POST** |  /get_transactions | Get a list of transactions belonging to the given account | |
@@ -49,25 +51,53 @@
 ```
 {
     "email": user_email,
-    "passwd": user_passwd,
+    "passwd": user_passwd
 }
 ```
 ### Return Model
 ```
-[user_Id, user_username, user_email, user_type, user1_password, user1_phone_number]
+[user_Id, user_username, user_email, user_type, user_password, user_phone_number]
 
-or 400 status or 404 Status
+or 400 Status or 404 Status
+```
+## POST /edit_account
+### Form Model
+```
+{
+    "aid": user_aid,
+    "newUsername": user_username,
+    "newEmail": user_email,
+    "newPasswd": user_password,
+    "newPhonenum": user_phone_number,
+    "oldPasswd": user_old_password
+}
+```
+### Return Model
+```
+200 Status or 400 Status or 404 Status
+```
+## POST /delete_account
+### Form Model
+```
+{
+    "aid": user_aid,
+    "oldPasswd": user_password
+}
+```
+### Return Model
+```
+200 Status or 400 Status or 404 Status
 ```
 ## POST /get_user
 ### Form Model
 ```
 {
-    "username": user_username,
+    "username": user_username
 }
 ```
 ### Return Model
 ```
-[user_Id, user_username, user_email, user_type, user1_password, user1_phone_number]
+[user_Id, user_username, user_email, user_type, user_password, user_phone_number]
 
 or 400 status or 404 Status
 ```
