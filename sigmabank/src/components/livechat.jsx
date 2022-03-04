@@ -1,65 +1,42 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import '../css/chat.css';
-import Square from "./chatmsg";
+import OneChat from "./chatmsg";
 
 // import '../css/chat.scss';
 
 export default class MessageUI extends Component {
 
-    constructor(props){
-        super(props);
-        this.state={
-          squares: Array(9).fill(null),
-          xIsNext: true,
-        };
-        //board底下包括9个格子; 把9个格子的数据全存储在上级组件里
-      }
-      
-    // Create a single ChatMsg
 
-      renderSquare(i) {
-        return <Square value={this.state.squares[i]}/>; //传入value变量和对应的值
-      }
-
-    render(){
-        return (
-            
-            <div>asdasd
-                {this.renderSquare(3)}
-
-            </div>
-            
-            
-        )
+    render2(){
+       return  <OneChat msg="Hi Chat I'm mortgage" timestamp="1646361692"/>
     }
-
-    render2 () {
+    render () {
         return (
-            <div class="container">
-            <div class="row clearfix">
-              <div class="col-lg-12">
-                <div class="card chat-app">
+            <div className="container">
+            <div className="row clearfix">
+              <div className="col-lg-12">
+                <div className="card chat-app">
                   {/* LEFT SIDE */}
-                  <div id="plist" class="people-list">
+                  <div id="plist" className="people-list">
                     <div>List of Chats</div>
       
-                    <ul class="list-unstyled chat-list mt-2 mb-0">
-                      <li class="clearfix">
+                    <ul className="list-unstyled chat-list mt-2 mb-0">
+                      <li className="clearfix">
                         <img src="chat1.png" />
-                        <div class="chat-name">
+                        <div className="chat-name">
                           <div>General Inquery</div>
-                          <div class="status">
-                            <i class="fa fa-circle offline"></i> busy
+                          <div className="status">
+                            <i className="fa fa-circle offline"></i> busy
                           </div>
                         </div>
                       </li>
-                      <li class="clearfix active">
+                      <li className="clearfix active">
                         <img src="chat2.png" />
-                        <div class="chat-name">
+                        <div className="chat-name">
                           <div>Morgage Specialist</div>
-                          <div class="status">
-                            <i class="fa fa-circle online"></i> online
+                          <div className="status">
+                            <i className="fa fa-circle online"></i> online
                           </div>
                         </div>
                       </li>
@@ -67,60 +44,46 @@ export default class MessageUI extends Component {
                   </div>
       
                   {/* RIGHT SIDE incl.header  */}
-                  <div class="chat">
-                    <div class="chat-header">
-                      <div class="row">
-                        <div class="col-lg-6">
+                  <div className="chat">
+                    <div className="chat-header">
+                      <div className="row">
+                        <div className="col-lg-6">
                           <img src="chat2.png" alt="avatar" />
-                          <div class="chat-about"><b>Mortgage Specialist</b></div>
+                          <div className="chat-about"><b>Mortgage Specialist</b></div>
                         </div>
                       </div>
                     </div>
       
                     {/* RIGHT SIDE */}
-                    <div class="chat-session">
+                    <div className="chat-session">
                       <ul>
                         {/* one msg from ME */}
-                        <li class="clearfix">
-                          <div class="message-data text-right">
-                            <span class="status">10:10 Today</span>
+                        
+                        <li className="clearfix">
+                          <div className="message-data text-right">
+                            <span className="status">10:10 Today</span>
                             <img src="chat3.png" alt="avatar" />
                           </div>
       
                           {/* "my" messages have from-me tag, which tags to the right */}
-                          <div class="message from-me">Chat, Chat I'm a chat</div>
+                          <div className="message from-me">Chat, Chat I'm a chat</div>
                         </li>
       
-                        {/* One single msg from support */}
-                        <li>
-                          <div class="message-data text-left">
-                            <span class="status">18:33 Today</span>
-                          </div>
-                          <div class="message remote-message">
-                            Hi Chat I'm mortgage
-                          </div>
-                        </li>
+                        {/* msg from support */}
+                        <OneChat msg="Hi Chat I'm mortgage" timestamp="1646361692" from="remote"/>
+
+                        <OneChat msg="Selling morgages because this sentence seems to be long enough." timestamp="1646361692" from="remote"/>
       
-                        {/* One single msg from support */}
-                        <li>
-                          <div class="message-data">
-                            <span class="status">18:35 Today</span>
-                          </div>
-                          <div class="message remote-message">
-                            Selling morgages because this sentence seems to be long
-                            enough.
-                          </div>
-                        </li>
                       </ul>
                     </div>
-                    <div class="chat-message">
-                      <div class="input-group mb-0">
+                    <div className="chat-message">
+                      <div className="input-group mb-0">
                         <input
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           placeholder="Your text here..."
                         />
-                        <button id="send-chat" class="input-group-text">Send</button>
+                        <button id="send-chat" className="input-group-text">Send</button>
                       </div>
                     </div>
                   </div>
