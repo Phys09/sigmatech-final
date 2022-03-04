@@ -15,6 +15,7 @@ import TransactionHistory from "./routes/TransactionHistory";
 import EditAccountForm from "./routes/EditAccountDetail";
 import AdminPanel from "./routes/AdminPanel";
 import ChatPage from "./routes/ChatPage";
+import '../node_modules/bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.render(
   <AuthContextProvider>
