@@ -21,10 +21,10 @@ export default function NavbarHome() {
 
     function handleLogoutClick(event) {
         event.preventDefault();
-        removeCookie("userId", {path:"/"})
-        removeCookie("type", {path:"/"})
-        removeCookie("username", {path:"/"})
-        removeCookie("password", {path:"/"})
+        removeCookie("userId", {path:"/"});
+        removeCookie("type", {path:"/"});
+        removeCookie("username", {path:"/"});
+        removeCookie("password", {path:"/"});
         navigate("/");
     }
 

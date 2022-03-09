@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
@@ -11,8 +11,16 @@ export default function LoginForm() {
   const [email, setEmail] = useState(null);
   const [passwd, setPasswd] = useState(null);
   const [cookies, setCookie] = useCookies(["user"]);
+  const aid = cookies.userId;
 	const myArticle = document.querySelector('.notify');
   var navigate = useNavigate();
+
+  useEffect(() => {
+    if (aid) {
+      alert("Already logged in.");
+      navigate("/transactions");
+    }
+  }, [])
 
   function handleChange(value) {
     return (event) => {
