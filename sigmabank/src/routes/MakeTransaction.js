@@ -44,21 +44,41 @@ export function SendMoney() {
     function handleSubmit(event) {
         event.preventDefault();
         if (toAccount && fromAccount && amount) {
-            fetch(endpoint("get_timestamp"))
+            var payload = Object.assign({
+                body: JSON.stringify({bid: toAccount})
+            }, POST_FETCH);
+            fetch(endpoint("get_owner"), payload)
                 .then((resp) => {
                     if (resp.status == 404) {
-                        return Promise.reject("Couldn't get the time");
-                    }
-                    else {
+                        setSuccess(resp.status);
+                        return Promise.reject("Unable to get the owner");
+                    } else {
                         return resp.json();
                     }   
                 })
                 .then((data) => {
-                    var payload = Object.assign({
-                        body: JSON.stringify({senderId: fromAccount, receiverId: toAccount, ownerId: aid , amount: amount, timestamp: data[0].now})
-                    }, POST_FETCH);
-                    fetch(endpoint("make_transaction"), payload).then((resp) => setSuccess(resp.status));
-                }
+                    if (data[0].type == -1) {
+                        setSuccess(404);
+                    } else {
+                        fetch(endpoint("get_timestamp"))
+                            .then((resp) => {
+                                if (resp.status == 404) {
+                                    return Promise.reject("Unable to get the time");
+                                } else {
+                                    return resp.json();
+                                }   
+                            })
+                            .then((data) => {
+                                var payload = Object.assign({
+                                    body: JSON.stringify({senderId: fromAccount, receiverId: toAccount, ownerId: aid , amount: amount, timestamp: data[0].now})
+                                }, POST_FETCH);
+                                fetch(endpoint("make_transaction"), payload).then((resp) => setSuccess(resp.status));
+                            })
+                            .catch((err) => console.log(err)
+                        );
+                    }
+                })
+                .catch((err) => console.log(err)
             );
         }
     }
@@ -66,7 +86,7 @@ export function SendMoney() {
     function successText() {
         switch (success) {
             case 404:
-                return <p style={{color: "red"}}>Unsuccessful transaction! Please check inputted account numbers!</p>
+                return <p style={{color: "red"}}>Unsuccessful transaction! Please check the inputted account numbers!</p>
             case 200:
                 return <p style={{color: "green"}}>Success!</p>
             default:

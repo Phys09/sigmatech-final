@@ -155,12 +155,33 @@ app.post('/get_transactions', (req, res) => {
                 if (err) throw err;
                 if (result.rowCount > 0) {
                     res.send(result.rows);
-                    console.log(result.rows);
                 } else {
                     res.sendStatus(404);
                 }
             }
         );
+    } else {
+        res.sendStatus(400);
+    }
+});
+
+app.post('/get_owner', (req, res) => {
+    console.log(req.body);
+
+    var bid = req.body.bid;
+
+    if (bid) {
+        client.query(`SELECT * FROM Bank_Accounts WHERE bid='${bid}';`, (err, bid_result) => {
+            if (err) throw err;
+            if (bid_result.rowCount == 1) {
+                client.query(`SELECT * FROM Accounts WHERE aid='${bid_result.rows[0].owner}';`, (err, result) => {
+                    if (err) throw err;
+                    res.send(result.rows);
+                });
+            } else {
+                res.sendStatus(404);
+            }
+        });
     } else {
         res.sendStatus(400);
     }
