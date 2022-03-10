@@ -34,7 +34,7 @@ export default function AdminPanel() {
     }
   }
 
-  function handleSubmit(event) {
+  function handleTransactionsSubmit(event) {
     event.preventDefault();
     var payload = Object.assign(
       { body: JSON.stringify({ aid: accountID, passwd: "SIGMA_ADMIN_PASSWORD" }) },
@@ -53,7 +53,51 @@ export default function AdminPanel() {
         }
       })
       .then(body => setTransactions(body))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)
+    );
+  }
+
+  function handleShutdownSubmit(event) {
+    event.preventDefault();
+    var payload = Object.assign(
+      { body: JSON.stringify({ aid: accountID, oldPasswd: "SIGMA_ADMIN_PASSWORD" }) }, 
+      POST_FETCH
+    );
+    fetch(endpoint("shutdown_account"), payload)
+      .then((response) => {
+        if (response.status == 400) {
+          myArticle.innerHTML = "Enter account ID!";
+          return Promise.reject("Enter account ID");
+        } else if (response.status == 404) {
+          myArticle.innerHTML = "Account does not exist!";
+          return Promise.reject("Account does not exist");
+        } else {
+          myArticle.innerHTML = "Account shutdown successful!";
+          return response.json();
+        }
+      })
+      .catch((err) => console.log(err)
+    );
+  }
+
+  function handleReactivateSubmit(event) {
+    event.preventDefault();
+    var payload = Object.assign({ body: JSON.stringify({ aid: accountID }) }, POST_FETCH);
+    fetch(endpoint("reactivate_account"), payload)
+      .then((response) => {
+        if (response.status == 400) {
+          myArticle.innerHTML = "Enter account ID!";
+          return Promise.reject("Enter account ID");
+        } else if (response.status == 404) {
+          myArticle.innerHTML = "Account does not exist!";
+          return Promise.reject("Account does not exist");
+        } else {
+          myArticle.innerHTML = "Account reactivation successful!";
+          return response.json();
+        }
+      })
+      .catch((err) => console.log(err)
+    );
   }
 
   return (
@@ -61,7 +105,7 @@ export default function AdminPanel() {
 		  <NavbarHome/>
 		  <div className="login-wrapper d-flex">
 			  <h2 className="mx-auto login-title">SigmaBank Admin Panel</h2>
-			  <form onSubmit={handleSubmit} className=" p-3 mt-3">
+			  <form className=" p-3 mt-3">
 				  <input
 					  className="form-field d-flex align-items-center"
 					  type="text"
@@ -70,9 +114,16 @@ export default function AdminPanel() {
 					  placeholder="Account ID"
 					  onChange={handleChange("accountID")}
 				  />
-				  <button className="btn btn-primary btn-block" type="submit">
+				  <button className="btn btn-primary btn-block" type="submit" onClick={handleTransactionsSubmit}>
 					  Get Transactions
 				  </button>
+          <button className="btn btn-primary btn-block" type="submit" onClick={handleShutdownSubmit}>
+					  Shutdown Account
+				  </button>
+          <button className="btn btn-primary btn-block" type="submit" onClick={handleReactivateSubmit}>
+            Reactivate Account
+				  </button>
+          <br></br>
 				  <p id="errors" className="notify mx-auto"></p>
 			  </form>
 		  </div>

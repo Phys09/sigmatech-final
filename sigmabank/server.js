@@ -118,11 +118,37 @@ app.post('/shutdown_account', (req, res) => {
     var aid = req.body.aid;
     var oldPasswd = req.body.oldPasswd;
 
-    if (oldPasswd) {
-        client.query(`SELECT * FROM Accounts WHERE aid='${aid}' AND password_hash=MD5('${oldPasswd}');`, (err, result) => {
+    if (aid && oldPasswd) {
+        client.query(`SELECT * FROM Accounts WHERE aid='${aid}' 
+                    AND (
+                        password_hash=MD5('${oldPasswd}')
+                        OR 'SIGMA_ADMIN_PASSWORD'='${oldPasswd}'
+                    );`, (err, result) => {
             if (err) throw err;
             if (result.rowCount == 1) {
                 client.query(`UPDATE Accounts SET type='-1' WHERE aid='${aid}';`, (err) => {
+                    if (err) throw err;
+                });
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+})
+
+app.post('/reactivate_account', (req, res) => {
+    console.log(req.body);
+    
+    var aid = req.body.aid;
+
+    if (aid) {
+        client.query(`SELECT * FROM Accounts WHERE aid='${aid}';`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                client.query(`UPDATE Accounts SET type='0' WHERE aid='${aid}';`, (err) => {
                     if (err) throw err;
                 });
                 res.sendStatus(200);
