@@ -3,7 +3,7 @@
     text-align: center;
     top: -7px;
     right: 0;
-    width: 13vw;
+    width: 15vw;
     height: 12vh;
     margin-right: 50px;
     margin-top: 10px;
@@ -12,7 +12,7 @@
     justify-content: space-between;
 }
 
-.Edit, .Logout {
+.Admin, .Edit, .Logout {
     text-decoration: none;
     font-size: medium;
     position: relative;
@@ -25,7 +25,7 @@
     font-weight: normal;
 }
 
-.Edit:hover, .Logout:hover {
+.Admin:hover, .Edit:hover, .Logout:hover {
     text-decoration: none;
     font-size: medium;
     position: relative;

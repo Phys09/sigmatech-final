@@ -55,7 +55,7 @@ app.post('/login', (req, res) => {
     var passwd = req.body.passwd;
 
     if (email && passwd) {
-        client.query(`SELECT * FROM Accounts WHERE email = '${email}' AND password_hash = MD5('${passwd}');`, (err, result) => {
+        client.query(`SELECT * FROM Accounts WHERE type != '-1' AND email = '${email}' AND password_hash = MD5('${passwd}');`, (err, result) => {
             if (err) throw err;
             if (result.rowCount == 1) {
                 res.send(result.rows);
@@ -112,17 +112,43 @@ app.post('/edit_account', (req, res) => {
     }
 })
 
-app.post('/delete_account', (req, res) => {
+app.post('/shutdown_account', (req, res) => {
     console.log(req.body);
     
     var aid = req.body.aid;
     var oldPasswd = req.body.oldPasswd;
 
-    if (oldPasswd) {
-        client.query(`SELECT * FROM Accounts WHERE aid='${aid}' AND password_hash=MD5('${oldPasswd}');`, (err, result) => {
+    if (aid && oldPasswd) {
+        client.query(`SELECT * FROM Accounts WHERE aid='${aid}' 
+                    AND (
+                        password_hash=MD5('${oldPasswd}')
+                        OR 'SIGMA_ADMIN_PASSWORD'='${oldPasswd}'
+                    );`, (err, result) => {
             if (err) throw err;
             if (result.rowCount == 1) {
-                client.query(`DELETE FROM Accounts WHERE aid='${aid}';`, (err) => {
+                client.query(`UPDATE Accounts SET type='-1' WHERE aid='${aid}';`, (err) => {
+                    if (err) throw err;
+                });
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+})
+
+app.post('/reactivate_account', (req, res) => {
+    console.log(req.body);
+    
+    var aid = req.body.aid;
+
+    if (aid) {
+        client.query(`SELECT * FROM Accounts WHERE aid='${aid}';`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                client.query(`UPDATE Accounts SET type='0' WHERE aid='${aid}';`, (err) => {
                     if (err) throw err;
                 });
                 res.sendStatus(200);
@@ -136,25 +162,55 @@ app.post('/delete_account', (req, res) => {
 })
 
 app.post('/get_transactions', (req, res) => {
-    var accountName = req.body.accountName;
+    console.log(req.body);
+    
+    var aid = req.body.aid;
     var passwd = req.body.passwd;
-    console.log("accountName, passwd");
-    console.log(accountName, passwd);
 
-    client.query(`SELECT t.*
-                  FROM Transactions t, Accounts a, Bank_Accounts b
-                  WHERE (t.toAccount='${accountName}' OR t.fromAccount='${accountName}')
-                      AND b.bid='${accountName}'
-                      AND b.owner=a.aid
-                      AND (
-                          a.password_hash = MD5('${passwd}')
-                          OR 'SIGMA_ADMIN_PASSWORD'='${passwd}'
-                      )
-                  ORDER BY transactionTime DESC;`, (err, result) => {
-        if(err) throw err;
-        res.send(result.rows);
-        console.log(result.rows);
-    });
+    if (aid && passwd) {
+        client.query(`SELECT t.*
+                    FROM Transactions t, Accounts a, Bank_Accounts b
+                    WHERE (t.toAccount='${aid}' OR t.fromAccount='${aid}')
+                    AND b.bid='${aid}'
+                    AND b.owner=a.aid
+                    AND (
+                        a.password_hash = MD5('${passwd}')
+                        OR 'SIGMA_ADMIN_PASSWORD'='${passwd}'
+                    )
+                    ORDER BY transactionTime DESC;`, (err, result) => {
+                if (err) throw err;
+                if (result.rowCount > 0) {
+                    res.send(result.rows);
+                } else {
+                    res.sendStatus(404);
+                }
+            }
+        );
+    } else {
+        res.sendStatus(400);
+    }
+});
+
+app.post('/get_owner', (req, res) => {
+    console.log(req.body);
+
+    var bid = req.body.bid;
+
+    if (bid) {
+        client.query(`SELECT * FROM Bank_Accounts WHERE bid='${bid}';`, (err, bid_result) => {
+            if (err) throw err;
+            if (bid_result.rowCount == 1) {
+                client.query(`SELECT * FROM Accounts WHERE aid='${bid_result.rows[0].owner}';`, (err, result) => {
+                    if (err) throw err;
+                    res.send(result.rows);
+                });
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
 });
 
 app.post('/get_bank_account', (req, res) => {
