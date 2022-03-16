@@ -3,6 +3,7 @@ const cors = require("cors");
 const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
+const cron = require('node-cron');
 
 app.use(cors());
 app.use(express.json({"limit": "5MB"}));
@@ -19,7 +20,77 @@ const client = new pg.Client({
 
 client.connect();
 
-// endpoints
+const POST_FETCH = {
+    method: "POST",
+    headers: {"Content-Type": "application/json"}
+}
+
+function endpoint(details) {
+    return 'http://localhost:5000/' + details;
+}
+
+function makeAutomaticPayments() {
+    fetch(endpoint("retrieve_current_automatic_payments"))
+        .then((response) => {
+            console.log("Automatic payments for today");
+            if (response.status == 200) {
+                return response.json();
+            } else {
+                console.log("No automatic payments for today");
+                return Promise.reject("No automatic payments for today");
+            }
+        })
+        .then((data) => {
+            for (let i = 0; i < data.length; i++) {
+                fetch(endpoint("get_timestamp"))
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((timestamp) => {
+                        fetch(endpoint("get_owner"), Object.assign({ body: JSON.stringify({ bid: data[i].fromAccount }) }, POST_FETCH))
+                            .then((response) => {
+                                return response.json();
+                            })
+                            .then((owner) => {
+                                fetch(endpoint("make_transaction"), Object.assign({ body: JSON.stringify(
+                                        { 
+                                            senderId: data[i].fromAccount, 
+                                            receiverId: data[i].toAccount, 
+                                            amount: data[i].amount, 
+                                            timestamp: timestamp[0].now, 
+                                            ownerId: owner[0].aid
+                                        }
+                                    ) }, POST_FETCH))
+                                    .then((response) => {
+                                        return response.json();
+                                    })
+                                    .catch((err) => console.log(err)
+                                );
+                            })
+                            .catch((err) => console.log(err)
+                        );
+                    })
+                    .catch((err) => console.log(err)
+                );
+                fetch(endpoint("update_payment_dates"), Object.assign({ body: JSON.stringify(
+                        { 
+                            aid: data[i].aid, 
+                            recurring: data[i].recurring, 
+                            latestPaymentDate: data[i].nextPaymentDate
+                        }
+                    ) }, POST_FETCH))
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .catch((err) => console.log(err)
+                );
+            }
+        })
+        .catch((err) => console.log(err)
+    );
+}
+
+// Endpoints
 app.get('/', (req, res) => {
     res.send("Welcome to SigmaBank API V0.1.0");
 })
@@ -283,6 +354,95 @@ app.post('/make_transaction', (req, res) => {
     });
 });
 
+app.post('/setup_automatic_payment', (req, res) => {
+    var senderId = req.body.senderId;
+    var receiverId = req.body.receiverId;
+    var amount = req.body.amount;
+    var recurring = req.body.recurring;
+    var paymentDate = req.body.paymentDate;
+
+    if (senderId && receiverId && amount && recurring && paymentDate) {
+        client.query(`INSERT INTO Automatic_Payments (fromAccount, toAccount, amount, recurring, nextPaymentDate) 
+                    VALUES ('${senderId}', '${receiverId}', '${amount}', '${recurring}', '${paymentDate}');`, (err) => {
+            if (err) throw err;
+            res.sendStatus(200);
+        });
+    } else {
+        res.sendStatus(400);
+    }
+});
+
+// Retrieves all automatic payments where the next payment date is today
+app.post('/retrieve_current_automatic_payments', (req, res) => {
+    client.query(`SELECT * FROM Automatic_Payments WHERE nextPaymentDate = CURRENT_DATE;`, (err, result) => {
+        if (err) throw err;
+        if (result.rowCount == 0) {
+            res.sendStatus(404);
+        } else {
+            res.send(result.rows);
+        }
+    });
+});
+
+app.post('/update_payment_dates', (req, res) => {
+    var aid = req.body.aid;
+    var recurring = req.body.recurring;
+    var latestPaymentDate = req.body.latestPaymentDate;
+
+    if (aid && recurring && latestPaymentDate) {
+        client.query(`SELECT * FROM Automatic_Payments WHERE aid='${aid}';`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                if (recurring) {
+                    client.query(`UPDATE Automatic_Payments 
+                                SET lastPaymentDate='${latestPaymentDate}', 
+                                    nextPaymentDate='${latestPaymentDate}':: DATE + 30 
+                                WHERE aid='${aid}';`, (err) => {
+                        if (err) throw err;
+                    });
+                } else {
+                    client.query(`UPDATE Automatic_Payments 
+                                SET lastPaymentDate='${latestPaymentDate}', 
+                                    nextPaymentDate=NULL 
+                                WHERE aid='${aid}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+});
+
+app.post('/stop_automatic_payment', (req, res) => {
+    var aid = req.body.aid;
+
+    if (aid) {
+        client.query(`SELECT * FROM Automatic_Payments WHERE aid='${aid}';`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                client.query(`DELETE FROM Automatic_Payments WHERE aid='${aid}';`, (err) => {
+                    if (err) throw err;
+                });
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+});
+
 // app init
 app.listen(5000);
 console.log("server started on port 5000");
+
+cron.schedule('* * * * *', () => {
+    console.log('Running daily automatic payments');
+    makeAutomaticPayments();
+});
