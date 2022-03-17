@@ -1,7 +1,9 @@
+
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { endpoint, POST_FETCH } from '../APIfunctions';
 import "../css/CreateAccount.css"
+
 // Takes in a JSON object representing a transaction and
 // returns a table row representing the transaction.
 export function Transaction(props){
@@ -13,6 +15,7 @@ export function Transaction(props){
   const [cookies] = useCookies("user");
   const bid = cookies.userId;
   var counterparty = props.transaction.toaccount;
+
   var amountClass = 'loss';
   var sign = '-';
   

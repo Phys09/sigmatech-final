@@ -15,6 +15,7 @@ import EditAccountForm from "./routes/EditAccountDetail";
 import LoginForm from "./routes/LoginForm";
 import {MakeTransaction, SendMoney} from  "./routes/MakeTransaction";
 import TransactionHistory from "./routes/TransactionHistory";
+
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
 
 ReactDOM.render(
@@ -28,6 +29,7 @@ ReactDOM.render(
         <Route path="/edit" element={<EditAccountForm />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/transactions" element={<TransactionHistory />} />
+
         <Route path="/makeTransactions" element={<MakeTransaction />}>
           <Route path="sendMoney" element={<SendMoney />}/>
         </Route>
