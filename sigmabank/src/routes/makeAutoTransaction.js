@@ -4,7 +4,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import {endpoint, POST_FETCH} from "../APIfunctions"
 import NavbarHome from "../components/navbarHome"
 import '../css/App.css';
-import '../css/MakeTransaction.css'
+import '../css/makeAutopay.css'
 
 /*
 [FRONT] As a customer, Kendall wants to add automatic payments for her credit card / bills
@@ -107,6 +107,7 @@ export function SetupAutoPay() {
 
     return (
         <div>
+            <h1>Setup Automatic Transaction</h1>
             <form onSubmit={handleSubmit}>
                 <input className="TransactionInput" placeholder='From Account' onFocus={() => setSuccess(-1)} onChange={(event) => setFromAccount(event.target.value)}/>
                 <input className="TransactionInput" placeholder='To Account' onFocus={() => setSuccess(-1)} onChange={(event) => setToAccount(event.target.value)}/>
