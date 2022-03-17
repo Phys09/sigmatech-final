@@ -221,7 +221,27 @@ app.post('/get_owner', (req, res) => {
 
 app.post('/get_bank_account', (req, res) => {
     var ownerId = req.body.ownerId;
-    client.query(`SELECT * FROM Bank_Accounts WHERE owner='${ownerId}';`, (err, result) => {
+    var data = {
+        income : 0,
+        spent : 0,
+        count : 0
+    }
+    client.query(`SELECT COALESCE(sum(amount),0) as Income FROM Transactions WHERE toaccount='${ownerId}';`, (err, result) => {
+        if(err) throw err;
+        data.income = result.rows[0];
+        client.query(`SELECT COALESCE(sum(amount),0) as Spent FROM Transactions WHERE fromaccount='${ownerId}';`, (err, result) => {
+            data.spent = result.rows[0];
+            client.query(`SELECT COALESCE(sum(amount),0) as Spent FROM Transactions WHERE fromaccount='${ownerId}';`, (err, result) => {
+            data.count = result.rows[0];
+        res.send(data);
+            });
+        });
+    });
+});
+
+app.post('/get_transaction_report', (req, res) => {
+    var ownerId = req.body.ownerId;
+    client.query(`SELECT sum(amount) FROM Transactions WHERE toAccount='${ownerId}';`, (err, result) => {
         if(err) throw err;
         res.send(result.rows);
     });
