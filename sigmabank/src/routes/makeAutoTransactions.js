@@ -6,6 +6,14 @@ import NavbarHome from "../components/navbarHome"
 import '../css/App.css';
 import '../css/MakeTransaction.css'
 
+/*
+[FRONT] As a customer, Kendall wants to add automatic payments for her credit card / bills
+
+toAccount: credit card / bill account
+frequency: pay every n months
+*/
+
+
 export function MakeTransaction() {
     var navigate = useNavigate();
     const [cookies] = useCookies(["user"]);
@@ -40,6 +48,7 @@ export function SetupAutoPay() {
     const [toAccount, setToAccount] = useState(null);
     const [fromAccount, setFromAccount] = useState(null);
     const [amount, setAmount] = useState(0);
+    const [frequency, setFrequency] = useState(1);
     const [pass, setPass] = useState(null);
 
     function handleSubmit(event) {
@@ -71,7 +80,8 @@ export function SetupAutoPay() {
                             })
                             .then((data) => {
                                 var payload = Object.assign({
-                                    body: JSON.stringify({passwd: pass, senderId: fromAccount, receiverId: toAccount, ownerId: aid , amount: amount, timestamp: data[0].now})
+                                    body: JSON.stringify(
+                                        {passwd: pass, senderId: fromAccount, receiverId: toAccount, ownerId: aid , amount: amount, frequency: frequency, timestamp: data[0].now})
                                 }, POST_FETCH);
                                 fetch(endpoint("make_transaction"), payload).then((resp) => setSuccess(resp.status));
                             })
@@ -101,6 +111,7 @@ export function SetupAutoPay() {
                 <input className="TransactionInput" placeholder='From Account' onFocus={() => setSuccess(-1)} onChange={(event) => setFromAccount(event.target.value)}/>
                 <input className="TransactionInput" placeholder='To Account' onFocus={() => setSuccess(-1)} onChange={(event) => setToAccount(event.target.value)}/>
                 <input className="TransactionInput" placeholder='Amount' onFocus={() => setSuccess(-1)} onChange={(event) => setAmount(event.target.value)}/>
+                <input className="TransactionInput" placeholder='Frequency (once per n months)' onFocus={() => setSuccess(-1)} onChange={(event) => setFrequency(event.target.value)}/>
                 <input className="TransactionInput" placeholder='Password (optional)' onFocus={() => setSuccess(-1)} onChange={(event) => setPass(event.target.value)}/>
                 <button className="TransactionButtons" type="submit">Submit</button>
             </form>
