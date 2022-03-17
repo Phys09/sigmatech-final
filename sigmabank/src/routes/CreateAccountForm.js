@@ -5,11 +5,11 @@ import "../css/App.css";
 import "../css/CreateAccount.css";
 
 export default function CreateAccountForm (){
-    const [email, setEmail] = useState(null);
-    const [username, setUsername] = useState(null);
-    const [password, setPassword] = useState(null);
-    const [phonenum, setPhoneNum] = useState(null);
-    var navigate = useNavigate();
+  const [email, setEmail] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [phonenum, setPhoneNum] = useState(null);
+  var navigate = useNavigate();
 
   function handleChange(updateFunc) {
     return (event) => {
@@ -30,54 +30,54 @@ export default function CreateAccountForm (){
       navigate("/");
     }
     else{
-      alert("Please ensure that all fields are filled out")
+      alert("Please ensure that all fields are filled out!")
     }
   }
 
-    return (
-      <div className="CreateAccountForm">
-        <header>
-          <Link className="logolink" to="/">
-            <span className="logo">ΣBank</span>
-            <span className="logoSecondHalf">| Create Account</span>
-          </Link>
-        </header>
-        <h1>Create Account</h1>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <input
-              className="AccountInput"
-              type="text"
-              name="username"
-              placeholder="Username"
-              onChange={handleChange(setUsername)}
-            />
-            <input
-              className="AccountInput"
-              type="text"
-              name="email"
-              placeholder="Email"
-              onChange={handleChange(setEmail)}
-            />
-            <input
-              className="AccountInput"
-              type="password"
-              name="password"
-              placeholder="Password"
-              onChange={handleChange(setPassword)}
-            />
-            <input
-              className="AccountInput"
-              type="text"
-              name="phonenum"
-              placeholder="Phone Number"
-              onChange={handleChange(setPhoneNum)}
-            />
-          </div>
-          <button className="AccountButtons" type="submit">
-            Create Account
-          </button>
-        </form>
-      </div>
-    );
+  return (
+    <div className="CreateAccountForm">
+      <header>
+        <Link className="logolink" to="/">
+          <span className="logo">ΣBank</span>
+          <span className="logoSecondHalf">| Create Account</span>
+        </Link>
+      </header>
+      <h1>Create Account</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <input
+            className="AccountInput"
+            type="text"
+            name="username"
+            placeholder="Username"
+            onChange={handleChange(setUsername)}
+          />
+          <input
+            className="AccountInput"
+            type="text"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange(setEmail)}
+          />
+          <input
+            className="AccountInput"
+            type="password"
+            name="password"
+            placeholder="Password"
+            onChange={handleChange(setPassword)}
+          />
+          <input
+            className="AccountInput"
+            type="text"
+            name="phonenum"
+            placeholder="Phone Number"
+            onChange={handleChange(setPhoneNum)}
+          />
+        </div>
+        <button className="AccountButtons" type="submit">
+          Create Account
+        </button>
+      </form>
+    </div>
+  );
 }
