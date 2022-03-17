@@ -16,7 +16,7 @@ export const TransactionList = () => {
 
   // Payload for the 'get_transactions' endpoint
   var payload = Object.assign(
-    { body: JSON.stringify({ accountName: aid, passwd: password }) },
+    { body: JSON.stringify({ aid: aid, passwd: password }) },
     POST_FETCH
   );
   
