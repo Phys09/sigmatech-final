@@ -19,6 +19,10 @@ const client = new pg.Client({
 
 client.connect();
 
+function log_stat(description) {
+    client.query(`INSERT INTO Stats(description, stamp) values ('${description}', now()::timestamp);`);
+}
+
 // endpoints
 app.get('/', (req, res) => {
     res.send("Welcome to SigmaBank API V0.1.0");
@@ -37,6 +41,7 @@ app.post('/create_account', (req, res) => {
         }
         else {
             res.sendStatus(200);
+            log_stat(`[SIGNUP] ${email}`);
         }
     });
 })
@@ -59,6 +64,7 @@ app.post('/login', (req, res) => {
             if (err) throw err;
             if (result.rowCount == 1) {
                 res.send(result.rows);
+                log_stat(`[LOGIN] ${email}`);
             } else {
                 res.sendStatus(404);
             }
@@ -237,6 +243,18 @@ app.get('/get_timestamp', (req, res) => {
     });
 });
 
+app.post('/get_stats', (req, res) => {
+    if (req.body.passwd != "SIGMA_ADMIN_PASSWORD") {
+        res.sendStatus(400);
+        return;
+    }
+
+    client.query(`SELECT * FROM Stats;`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
+
 // Makes a transaction between two bank accounts. Assumes senderId and receiverId exist in Bank_Accounts.
 app.post('/make_transaction', (req, res) => {
     var senderId = req.body.senderId;
@@ -273,6 +291,7 @@ app.post('/make_transaction', (req, res) => {
                                     return Promise.reject('error');
                                 } else {
                                     res.sendStatus(200);
+                                    log_stat(`[TRANSFER] ${receiverId} -> ${senderId} ($${amount})`);
                                 }
                             });
                         }
