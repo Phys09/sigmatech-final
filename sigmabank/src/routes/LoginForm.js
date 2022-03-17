@@ -4,10 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
 import NavbarLogin from "../components/navbarLogin";
 import FooterMain from "../components/footer";
-import NavbarLogin from "../components/navbarLogin";
 import "../css/login.css";
 import "../css/App.css";
-import { useCookies } from "react-cookie";
+
 
 export default function LoginForm() {
   const [email, setEmail] = useState(null);

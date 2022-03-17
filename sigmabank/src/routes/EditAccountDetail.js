@@ -6,7 +6,6 @@ import { endpoint, POST_FETCH } from "../APIfunctions";
 import NavbarHome from "../components/navbarHome";
 import "../css/App.css";
 import "../css/login.css";
-import { useCookies } from "react-cookie";
 
 export default function EditAccountForm() {
   const [newUsername, setNewUsername] = useState(null);
