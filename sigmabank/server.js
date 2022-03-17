@@ -262,44 +262,100 @@ app.post('/make_transaction', (req, res) => {
     var amount = req.body.amount;
     var timestamp = req.body.timestamp;
     var ownerId = req.body.ownerId;
+    var passwd = req.body.passwd;
 
     if (!(senderId && receiverId && amount)) {
         res.sendStatus(400);
     }
+    else {
+        client.query(`SELECT * FROM Bank_Accounts WHERE owner='${ownerId}' AND bid='${senderId}';`, (err, result) => {
+            if(err) throw err;
+            if (result.rowCount != 1) {
+                res.sendStatus(404);
+            }
+            else if (passwd) {
+                // Record (pending) transaction if a password is set
+                client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${amount}', '${timestamp}','${receiverId}','${senderId}', MD5('${passwd}'), 'false');`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        return Promise.reject('error');
+                    }
+                    else {
+                        res.sendStatus(200);
+                        log_stat(`[PENDING TRANSFER] ${senderId} -> ${receiverId} ($${amount})`);
+                    }
+                });
+            }
+            else {
+                // Add (amount) to receiver
+                client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${amount}' WHERE bid='${receiverId}';`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        res.sendStatus(404);
+                    }
+            else {
+                // Take (amount) from sender
+                client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${amount}' WHERE bid='${senderId}';`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        res.sendStatus(404);
+                    }
+            else {
+                // Record transaction
+                client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${amount}', '${timestamp}','${receiverId}','${senderId}', NULL, 'true');`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        return Promise.reject('error');
+                    }
+            else {
+                res.sendStatus(200);
+                log_stat(`[TRANSFER] ${senderId} -> ${receiverId} ($${amount})`);
+            }
+        })}})}})}});
+    }
+});
 
-    client.query(`SELECT * FROM Bank_Accounts WHERE owner='${ownerId}' AND bid='${senderId}';`, (err, result) => {
-        if(err) throw err;
-        if (result.rowCount != 1) {
-            res.sendStatus(404);
-        } else {
-            // Add (amount) to receiver
-            client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${amount}' WHERE bid='${receiverId}';`, (err, result) => {
-                if(err) throw err;
-                if (result.rowCount != 1) {
-                    res.sendStatus(404);
-                } else {
-                    // Take (amount) from sender
-                    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${amount}' WHERE bid='${senderId}';`, (err, result) => {
-                        if(err) throw err;
-                        if (result.rowCount != 1) {
-                            res.sendStatus(404);
-                        } else {
-                            // Record transaction
-                            client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${amount}', '${timestamp}','${receiverId}','${senderId}', 'true');`, (err, result) => {
-                                if(err) throw err;
-                                if (result.rowCount != 1) {
-                                    return Promise.reject('error');
-                                } else {
-                                    res.sendStatus(200);
-                                    log_stat(`[TRANSFER] ${receiverId} -> ${senderId} ($${amount})`);
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }
-    });
+app.post('/complete_transaction', (req, res) => {
+    var transactionId = req.body.transactionId;
+    var passwd = req.body.passwd;
+    
+    if (!(transactionId && passwd)) {
+        res.sendStatus(400);
+    }
+    else {
+        client.query(`SELECT * FROM Transactions WHERE tid='${transactionId}' AND password_hash=MD5('${passwd}') AND processed='f';`, (err, result) => {
+            if(err) throw err;
+            if (result.rowCount != 1) {
+                res.sendStatus(404);
+            }
+            else {
+                var transaction = result.rows[0];
+                // Add (amount) to receiver
+                client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${transaction.amount}' WHERE bid='${transaction.toaccount}';`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        res.sendStatus(404);
+                    }
+            else {
+                // Take (amount) from sender
+                client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${transaction.amount}' WHERE bid='${transaction.fromaccount}';`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        res.sendStatus(404);
+                    }
+            else {
+                // Complete (update) transaction
+                client.query(`UPDATE Transactions SET processed='t' WHERE tid='${transactionId}';`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        return Promise.reject('error');
+                    }
+            else {
+                res.sendStatus(200);
+                log_stat(`[COMPLETE TRANSFER] ${transaction.fromAccount} -> ${transaction.toAccount} ($${transaction.amount})`);
+            }
+        })}})}})}});
+    }
 });
 
 // app init
