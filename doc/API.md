@@ -12,6 +12,7 @@
 | **POST** |  /get_transactions | Get a list of transactions belonging to the given account | |
 | **GET** |  /get_timestamp | Get the current timestamp | |
 | **POST** |  /make_transaction | Creates a transaction with form data | |
+| **POST** |  /complete_transaction | Updates a transaction with the given id and password | |
 
 <br>
 <br>
@@ -174,4 +175,16 @@ or 400 status or 404 Status
 ### Return Model
 ```
 200 status or 404 Status
+```
+## POST /complete_transaction
+### Form Model
+```
+{
+    transactionId: transaction_id,
+    passwd: transaction_password,
+}
+```
+### Return Model
+```
+200 status or 400 status or 404 status
 ```
