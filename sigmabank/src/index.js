@@ -16,7 +16,7 @@ import LoginForm from "./routes/LoginForm";
 import {MakeTransaction, SendMoney} from  "./routes/MakeTransaction";
 import TransactionHistory from "./routes/TransactionHistory";
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
-import {SetupAutoPay} from "./routes/makeAutoTransaction";
+import {SetupAutoPay} from "./routes/makeAutopay";
 
 ReactDOM.render(
   <CookiesProvider>

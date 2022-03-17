@@ -49,6 +49,7 @@ export function SetupAutoPay() {
     const [fromAccount, setFromAccount] = useState(null);
     const [amount, setAmount] = useState(0);
     const [frequency, setFrequency] = useState(1);
+    const [datetime, setDatetime] = useState(null);
     const [pass, setPass] = useState(null);
 
     function handleSubmit(event) {
@@ -81,7 +82,7 @@ export function SetupAutoPay() {
                             .then((data) => {
                                 var payload = Object.assign({
                                     body: JSON.stringify(
-                                        {passwd: pass, senderId: fromAccount, receiverId: toAccount, ownerId: aid , amount: amount, frequency: frequency, timestamp: data[0].now})
+                                        {passwd: pass, senderId: fromAccount, receiverId: toAccount, ownerId: aid , amount: amount, frequency: frequency, datetime: datetime, timestamp: data[0].now})
                                 }, POST_FETCH);
                                 fetch(endpoint("make_transaction"), payload).then((resp) => setSuccess(resp.status));
                             })
@@ -112,7 +113,13 @@ export function SetupAutoPay() {
                 <input className="TransactionInput" placeholder='From Account' onFocus={() => setSuccess(-1)} onChange={(event) => setFromAccount(event.target.value)}/>
                 <input className="TransactionInput" placeholder='To Account' onFocus={() => setSuccess(-1)} onChange={(event) => setToAccount(event.target.value)}/>
                 <input className="TransactionInput" placeholder='Amount' onFocus={() => setSuccess(-1)} onChange={(event) => setAmount(event.target.value)}/>
-                <input className="TransactionInput" placeholder='Frequency (once per n months)' onFocus={() => setSuccess(-1)} onChange={(event) => setFrequency(event.target.value)}/>
+
+                <label htmlFor="frequencyInput">Frequency: every n months</label>
+                <p >Enter 0 for one-time payment</p>
+                <input id="frequencyInput" className="TransactionInput" placeholder='Frequency' onFocus={() => setSuccess(-1)} onChange={(event) => setFrequency(event.target.value)}/>
+                
+                <label htmlFor="timeInput">payment time:</label>
+                <input id="timeInput" type="datetime-local" className="TransactionInput" placeholder='payment time' onFocus={() => setSuccess(-1)} onChange={(event) => setDatetime(event.target.value)}/>
                 <input className="TransactionInput" placeholder='Password (optional)' onFocus={() => setSuccess(-1)} onChange={(event) => setPass(event.target.value)}/>
                 <button className="TransactionButtons" type="submit">Submit</button>
             </form>
