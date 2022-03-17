@@ -29,10 +29,7 @@ export default function ChatPage() {
   return (
     <React.Fragment>
       <NavbarHome/>
-        <div className="Chat">
-          {/* <ChatMsg /> */}
-        </div>
-        <div className="TEST">
+        <div >
           <MessageUI />
         </div>
     </React.Fragment>
