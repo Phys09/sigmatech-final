@@ -4,6 +4,7 @@ CREATE TABLE Transactions (
     transactionTime TIMESTAMP,
     toAccount integer REFERENCES Bank_Accounts(bid), 
     fromAccount integer REFERENCES Bank_Accounts(bid), 
+    password_hash VARCHAR, 
     processed boolean
 );
 
