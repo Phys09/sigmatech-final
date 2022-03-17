@@ -247,6 +247,16 @@ app.post('/get_transaction_report', (req, res) => {
     });
 });
 
+app.post('/apply_loan', (req, res) => {
+    var amount = req.body.amount;
+    var ownerId = req.body.ownerId;
+    client.query(`INSERT INTO loans (loaned_to, amount_loaned, interest_rate) VALUES ('${ownerId}', '${amount}', 0.1);`, (err, result) => {
+        if(err) throw err;
+
+    });
+});
+
+
 app.post('/get_user', (req, res) => {
     var username = req.body.accountName;
     client.query(`SELECT 1 FROM Accounts WHERE username='${username}';`, (err, result) => {
