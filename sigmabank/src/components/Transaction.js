@@ -19,7 +19,7 @@ export function Transaction(props){
 function passHandler(e){
   e.preventDefault();
   var payload = Object.assign(
-    { body: JSON.stringify({ transactionId: props.key, passwd: pass }) },
+    { body: JSON.stringify({ transactionId: props.transaction.tid, passwd: pass }) },
     POST_FETCH
   );
   fetch(endpoint("complete_transaction"), payload)
@@ -30,19 +30,28 @@ function passHandler(e){
     else if(resp.status == 404){
       alert("Transaction not found")
     }
+    else if (resp.status == 200) {
+      alert("Transaction processed")
+    }
   })
 
 }
 
   function acceptanceDisplay(){
-    if(!processed && !passInput && props.transaction.toaccount==bid){
-      return <td><button className="AccountButtons" onClick={() => setPassInput(true)}>Process</button></td>
+    if(!processed && !passInput){
+      if (props.transaction.toaccount==bid) {
+        return <td><button className="AccountButtons" onClick={() => setPassInput(true)}>Process</button></td>
+      }
+      else {
+        return <td>Pending</td>
+      }
     }
     else if(!processed && passInput){
       return (
       <td>
         <form onSubmit={passHandler}>
-          <input className="AccountInput" value={pass} onChange={(e)=> setPass(e.target.value)} />
+          <input className="AccountInput" placeholder='Password' onChange={(e)=> setPass(e.target.value)} />
+          <button className="AccountButtons" type="submit">Submit</button>
           <button className="AccountButtons" onClick={() => setPassInput(false)}>Cancel</button>
         </form>
       </td>
