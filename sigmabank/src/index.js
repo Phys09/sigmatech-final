@@ -14,12 +14,14 @@ import LoginForm from "./routes/LoginForm";
 import TransactionHistory from "./routes/TransactionHistory";
 import EditAccountForm from "./routes/EditAccountDetail";
 import AdminPanel from "./routes/AdminPanel";
+import LoanApplication from "./routes/LoanApplication";
 
 ReactDOM.render (
   <AuthContextProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/loans" element={<LoanApplication />} />
         <Route path="/signup" element={<CreateAccountForm />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/transactions" element={<TransactionHistory />} />
