@@ -9,7 +9,7 @@ class OneChat extends React.Component {
     attributes:
     - msg: text message
     - timestamp: unix time string -> converts to readable string in frontend
-    - sender: by me or received from remote
+    - sndr: sender ("me", or "remote")
 
     TODO: convert timestamp to readable time
 
@@ -23,18 +23,33 @@ class OneChat extends React.Component {
     //   var dateTime = new Date(this.props.timestamp);
     //   var dateString = dateTime.toISOString(); // Returns "2013-05-31T11:54:44.000Z"
 
-    return (
+    if (this.props.sndr == "remote"){
+        return (
+            <li>
+                <div className="message-data text-left">
+                <span className="status"> {this.props.timestamp} </span>
+                </div>
+                <div className="message remote-message">
+                {this.props.msg}
+                </div>
+            </li>
+        );
+    }
 
-        //  One single msg from support 
-        <li>
-            <div className="message-data text-left">
-            <span className="status"> {this.props.timestamp} </span>
+    else if (this.props.sndr == "me"){
+        return (
+            <li className="clearfix">
+            <div className="message-data text-right">
+              <span className="status">{this.props.timestamp}</span>
+              <img src="chat3.png" alt="avatar" />
             </div>
-            <div className="message remote-message">
-            {this.props.msg}
-            </div>
-        </li>
-    );
+
+            {/* "my" messages have from-me tag, which tags to the right */}
+            <div className="message from-me">Chat, Chat I'm a chat</div>
+          </li>
+        );
+    }
+
 
 
     }

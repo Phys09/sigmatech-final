@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+
 import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
 import NavbarHome from "../components/navbarHome";
 import "../css/App.css";
 import "../css/login.css";
+import { useCookies } from "react-cookie";
 
 export default function EditAccountForm() {
   const [newUsername, setNewUsername] = useState(null);
@@ -88,6 +90,7 @@ export default function EditAccountForm() {
           removeCookie("type", {path:"/"});
           removeCookie("username", {path:"/"});
           removeCookie("password", {path:"/"});
+
           navigate("/");
           return response.json();
         }
