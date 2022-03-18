@@ -13,6 +13,7 @@
 | **GET** |  /get_timestamp | Get the current timestamp | |
 | **POST** |  /make_transaction | Creates a transaction with form data | |
 | **POST** |  /complete_transaction | Updates a transaction with the given id and password | |
+| **POST** |  /get_stats | Get a list of all system-related historical stats (signup, login, transfer)  | |
 
 <br>
 <br>
@@ -188,3 +189,19 @@ or 400 status or 404 Status
 ```
 200 status or 400 status or 404 status
 ```
+
+## POST /get_stats
+### Form Model
+```
+{
+    passwd: admin_password
+}
+```
+### Return Model
+```
+[
+    (stat1id, stat1description, stat1stamp),
+    (stat2id, stat2description, stat2stamp)
+]
+```
+
