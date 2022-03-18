@@ -1,21 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
-import NavbarLogin from "../components/navbarLogin";
 import FooterMain from "../components/footer";
-import "../css/login.css";
+import NavbarLogin from "../components/navbarLogin";
 import "../css/App.css";
-import { useCookies } from "react-cookie";
+import "../css/login.css";
 
 export default function LoginForm() {
-	// BAD implementation, change it later
-	const currResponse= "";
   const [email, setEmail] = useState(null);
   const [passwd, setPasswd] = useState(null);
   const [cookies, setCookie] = useCookies(["user"]);
+  const aid = cookies.userId;
+
 	const myArticle = document.querySelector('.notify');
   var navigate = useNavigate();
 
+  useEffect(() => {
+    if (aid) {
+      alert("Already logged in.");
+      navigate("/transactions");
+    }
+  }, [])
 
   function handleChange(value) {
     return (event) => {
@@ -47,6 +53,8 @@ export default function LoginForm() {
       })
       .then((data) => {
         setCookie("userId", data[0].aid, {path: "/"});
+        setCookie("type", data[0].type, {path: "/"});
+
         setCookie("username", data[0].username, {path: "/"});
         setCookie("password", passwd, {path: "/"});
         navigate("/transactions");
@@ -77,9 +85,7 @@ export default function LoginForm() {
 			    <button className="btn btn-primary btn-block" type="submit">
 				    Login
 			    </button>
-			    <a id="errors" className="notify mx-auto">
-				    {/* {this.state.tags.currResponse === 0 && this.state.currResponse} */}
-			    </a>
+			    <a id="errors" className="notify mx-auto"></a>
 			    <a className="forgot mx-auto" href="/signup">
             Not a user? Register here!
           </a>
