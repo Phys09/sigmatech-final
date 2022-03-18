@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+
 import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
 import NavbarHome from "../components/navbarHome";
@@ -88,6 +89,7 @@ export default function EditAccountForm() {
           removeCookie("type", {path:"/"});
           removeCookie("username", {path:"/"});
           removeCookie("password", {path:"/"});
+
           navigate("/");
           return response.json();
         }

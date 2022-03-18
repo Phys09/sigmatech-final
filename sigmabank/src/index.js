@@ -15,7 +15,9 @@ import EditAccountForm from "./routes/EditAccountDetail";
 import LoginForm from "./routes/LoginForm";
 import {MakeTransaction, SendMoney} from  "./routes/MakeTransaction";
 import TransactionHistory from "./routes/TransactionHistory";
+
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
+import {SetupAutoPay} from "./routes/makeAutopay";
 
 ReactDOM.render(
   <CookiesProvider>
@@ -28,8 +30,11 @@ ReactDOM.render(
         <Route path="/edit" element={<EditAccountForm />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/transactions" element={<TransactionHistory />} />
+        <Route path="/makeAutopay" element={<SetupAutoPay />}/>
+
         <Route path="/makeTransactions" element={<MakeTransaction />}>
-          <Route path="sendMoney" element={<SendMoney />}/>
+        <Route path="sendMoney" element={<SendMoney />}/>
+
         </Route>
       </Routes>
     </BrowserRouter>
