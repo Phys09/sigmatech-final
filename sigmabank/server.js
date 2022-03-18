@@ -352,7 +352,7 @@ app.post('/complete_transaction', (req, res) => {
                     }
             else {
                 res.sendStatus(200);
-                log_stat(`[COMPLETE TRANSFER] ${transaction.fromAccount} -> ${transaction.toAccount} ($${transaction.amount})`);
+                log_stat(`[COMPLETE TRANSFER] ${transaction.fromaccount} -> ${transaction.toaccount} ($${transaction.amount})`);
             }
         })}})}})}});
     }
