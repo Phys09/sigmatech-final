@@ -31,6 +31,7 @@ ReactDOM.render(
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/transactions" element={<TransactionHistory />} />
         <Route path="/makeAutopay" element={<SetupAutoPay />}/>
+
         <Route path="/makeTransactions" element={<MakeTransaction />}>
         <Route path="sendMoney" element={<SendMoney />}/>
 
