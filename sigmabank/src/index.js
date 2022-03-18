@@ -15,6 +15,7 @@ import EditAccountForm from "./routes/EditAccountDetail";
 import LoginForm from "./routes/LoginForm";
 import {MakeTransaction, SendMoney} from  "./routes/MakeTransaction";
 import TransactionHistory from "./routes/TransactionHistory";
+import BankStats from "./routes/BankStats";
 
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import {SetupAutoPay} from "./routes/makeAutopay";
@@ -27,6 +28,7 @@ ReactDOM.render(
         <Route path="/signup" element={<CreateAccountForm />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/stats" element={<BankStats />} />
         <Route path="/edit" element={<EditAccountForm />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/transactions" element={<TransactionHistory />} />
