@@ -434,17 +434,27 @@ app.post('/complete_transaction', (req, res) => {
 });
 
 app.post('/setup_automatic_payment', (req, res) => {
+    console.log(req.body);
+
+    var ownerId = req.body.ownerId;
     var senderId = req.body.senderId;
     var receiverId = req.body.receiverId;
     var amount = req.body.amount;
     var recurring = req.body.recurring;
     var paymentDate = req.body.paymentDate;
 
-    if (senderId && receiverId && amount && recurring && paymentDate) {
-        client.query(`INSERT INTO Automatic_Payments (fromAccount, toAccount, amount, recurring, nextPaymentDate) 
-                    VALUES ('${senderId}', '${receiverId}', '${amount}', '${recurring}', '${paymentDate}');`, (err) => {
+    if (senderId && receiverId && amount && recurring != null && paymentDate) {
+        client.query(`SELECT * FROM Bank_Accounts WHERE owner='${ownerId}' AND bid='${senderId}';`, (err, result) => {
             if (err) throw err;
-            res.sendStatus(200);
+            if (result.rowCount != 1) {
+                res.sendStatus(404);
+            } else {
+                client.query(`INSERT INTO Automatic_Payments (fromAccount, toAccount, amount, recurring, nextPaymentDate) 
+                            VALUES ('${senderId}', '${receiverId}', '${amount}', '${recurring}', '${paymentDate}');`, (err) => {
+                    if (err) throw err;
+                    res.sendStatus(200);
+                });
+            }
         });
     } else {
         res.sendStatus(400);
@@ -478,7 +488,7 @@ console.log("Server started on port 5000");
 // Replace cronExpression with this... 
 //  - When testing: '* * * * *'
 //  - After testing: '0 0 0 * * *'
-cron.schedule('0 0 0 * * *', () => {
+cron.schedule('* * * * *', () => {
     console.log('Running daily automatic payments');
     makeAutomaticPayments();
 });
