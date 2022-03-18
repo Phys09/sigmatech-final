@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
-import NavbarLogin from "../components/navbarLogin";
 import FooterMain from "../components/footer";
-import "../css/login.css";
+import NavbarLogin from "../components/navbarLogin";
 import "../css/App.css";
-
+import "../css/login.css";
 
 export default function LoginForm() {
   const [email, setEmail] = useState(null);
