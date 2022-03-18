@@ -33,7 +33,7 @@ function makeAutomaticPayments() {
                         if (err) throw err;
                         client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${result.rows[i].amount}' WHERE bid='${result.rows[i].fromaccount}';`, (err) => {
                             if (err) throw err;    
-                            client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${result.rows[i].amount}', '${timestamp.rows[0].now.toDateString()}':: TIMESTAMP, '${result.rows[i].toaccount}', '${result.rows[i].fromaccount}', 'true');`, (err) => {
+                            client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${result.rows[i].amount}', '${timestamp.rows[0].now.toDateString()}':: TIMESTAMP, '${result.rows[i].toaccount}', '${result.rows[i].fromaccount}', NULL, 'true');`, (err) => {
                                 if (err) throw err;
                                 log_stat(`[AUTO PAYMENT] ${result.rows[i].fromaccount} -> ${result.rows[i].toaccount} ($${result.rows[i].amount})`);
                             });                    
