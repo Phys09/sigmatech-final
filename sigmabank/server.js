@@ -19,6 +19,10 @@ const client = new pg.Client({
 
 client.connect();
 
+function log_stat(description) {
+    client.query(`INSERT INTO Stats(description, stamp) values ('${description}', now()::timestamp);`);
+}
+
 // endpoints
 app.get('/', (req, res) => {
     res.send("Welcome to SigmaBank API V0.1.0");
@@ -37,6 +41,7 @@ app.post('/create_account', (req, res) => {
         }
         else {
             res.sendStatus(200);
+            log_stat(`[SIGNUP] ${email}`);
         }
     });
 })
@@ -55,10 +60,11 @@ app.post('/login', (req, res) => {
     var passwd = req.body.passwd;
 
     if (email && passwd) {
-        client.query(`SELECT * FROM Accounts WHERE email = '${email}' AND password_hash = MD5('${passwd}');`, (err, result) => {
+        client.query(`SELECT * FROM Accounts WHERE type != '-1' AND email = '${email}' AND password_hash = MD5('${passwd}');`, (err, result) => {
             if (err) throw err;
             if (result.rowCount == 1) {
                 res.send(result.rows);
+                log_stat(`[LOGIN] ${email}`);
             } else {
                 res.sendStatus(404);
             }
@@ -112,17 +118,43 @@ app.post('/edit_account', (req, res) => {
     }
 })
 
-app.post('/delete_account', (req, res) => {
+app.post('/shutdown_account', (req, res) => {
     console.log(req.body);
     
     var aid = req.body.aid;
     var oldPasswd = req.body.oldPasswd;
 
-    if (oldPasswd) {
-        client.query(`SELECT * FROM Accounts WHERE aid='${aid}' AND password_hash=MD5('${oldPasswd}');`, (err, result) => {
+    if (aid && oldPasswd) {
+        client.query(`SELECT * FROM Accounts WHERE aid='${aid}' 
+                    AND (
+                        password_hash=MD5('${oldPasswd}')
+                        OR 'SIGMA_ADMIN_PASSWORD'='${oldPasswd}'
+                    );`, (err, result) => {
             if (err) throw err;
             if (result.rowCount == 1) {
-                client.query(`DELETE FROM Accounts WHERE aid='${aid}';`, (err) => {
+                client.query(`UPDATE Accounts SET type='-1' WHERE aid='${aid}';`, (err) => {
+                    if (err) throw err;
+                });
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+})
+
+app.post('/reactivate_account', (req, res) => {
+    console.log(req.body);
+    
+    var aid = req.body.aid;
+
+    if (aid) {
+        client.query(`SELECT * FROM Accounts WHERE aid='${aid}';`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                client.query(`UPDATE Accounts SET type='0' WHERE aid='${aid}';`, (err) => {
                     if (err) throw err;
                 });
                 res.sendStatus(200);
@@ -136,34 +168,94 @@ app.post('/delete_account', (req, res) => {
 })
 
 app.post('/get_transactions', (req, res) => {
-    var accountName = req.body.accountName;
+    console.log(req.body);
+    
+    var aid = req.body.aid;
     var passwd = req.body.passwd;
-    console.log("accountName, passwd");
-    console.log(accountName, passwd);
 
-    client.query(`SELECT t.*
-                  FROM Transactions t, Accounts a, Bank_Accounts b
-                  WHERE (t.toAccount='${accountName}' OR t.fromAccount='${accountName}')
-                      AND b.bid='${accountName}'
-                      AND b.owner=a.aid
-                      AND (
-                          a.password_hash = MD5('${passwd}')
-                          OR 'SIGMA_ADMIN_PASSWORD'='${passwd}'
-                      )
-                  ORDER BY transactionTime DESC;`, (err, result) => {
-        if(err) throw err;
-        res.send(result.rows);
-        console.log(result.rows);
-    });
+    if (aid && passwd) {
+        client.query(`SELECT t.*
+                    FROM Transactions t, Accounts a, Bank_Accounts b
+                    WHERE (t.toAccount='${aid}' OR t.fromAccount='${aid}')
+                    AND b.bid='${aid}'
+                    AND b.owner=a.aid
+                    AND (
+                        a.password_hash = MD5('${passwd}')
+                        OR 'SIGMA_ADMIN_PASSWORD'='${passwd}'
+                    )
+                    ORDER BY transactionTime DESC;`, (err, result) => {
+                if (err) throw err;
+                if (result.rowCount > 0) {
+                    res.send(result.rows);
+                } else {
+                    res.sendStatus(404);
+                }
+            }
+        );
+    } else {
+        res.sendStatus(400);
+    }
+});
+
+app.post('/get_owner', (req, res) => {
+    console.log(req.body);
+
+    var bid = req.body.bid;
+
+    if (bid) {
+        client.query(`SELECT * FROM Bank_Accounts WHERE bid='${bid}';`, (err, bid_result) => {
+            if (err) throw err;
+            if (bid_result.rowCount == 1) {
+                client.query(`SELECT * FROM Accounts WHERE aid='${bid_result.rows[0].owner}';`, (err, result) => {
+                    if (err) throw err;
+                    res.send(result.rows);
+                });
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
 });
 
 app.post('/get_bank_account', (req, res) => {
     var ownerId = req.body.ownerId;
-    client.query(`SELECT * FROM Bank_Accounts WHERE owner='${ownerId}';`, (err, result) => {
+    var data = {
+        income : 0,
+        spent : 0,
+        count : 0
+    }
+    client.query(`SELECT COALESCE(sum(amount),0) as Income FROM Transactions WHERE toaccount='${ownerId}';`, (err, result) => {
+        if(err) throw err;
+        data.income = result.rows[0];
+        client.query(`SELECT COALESCE(sum(amount),0) as Spent FROM Transactions WHERE fromaccount='${ownerId}';`, (err, result) => {
+            data.spent = result.rows[0];
+            client.query(`SELECT COALESCE(sum(amount),0) as Spent FROM Transactions WHERE fromaccount='${ownerId}';`, (err, result) => {
+            data.count = result.rows[0];
+        res.send(data);
+            });
+        });
+    });
+});
+
+app.post('/get_transaction_report', (req, res) => {
+    var ownerId = req.body.ownerId;
+    client.query(`SELECT sum(amount) FROM Transactions WHERE toAccount='${ownerId}';`, (err, result) => {
         if(err) throw err;
         res.send(result.rows);
     });
 });
+
+app.post('/apply_loan', (req, res) => {
+    var amount = req.body.amount;
+    var ownerId = req.body.ownerId;
+    client.query(`INSERT INTO loans (loaned_to, amount_loaned, interest_rate) VALUES ('${ownerId}', '${amount}', 0.1);`, (err, result) => {
+        if(err) throw err;
+
+    });
+});
+
 
 app.post('/get_user', (req, res) => {
     var username = req.body.accountName;
@@ -181,42 +273,121 @@ app.get('/get_timestamp', (req, res) => {
     });
 });
 
+app.post('/get_stats', (req, res) => {
+    if (req.body.passwd != "SIGMA_ADMIN_PASSWORD") {
+        res.sendStatus(400);
+        return;
+    }
+
+    client.query(`SELECT * FROM Stats;`, (err, result) => {
+        if(err) throw err;
+        res.send(result.rows);
+    });
+});
+
 // Makes a transaction between two bank accounts. Assumes senderId and receiverId exist in Bank_Accounts.
 app.post('/make_transaction', (req, res) => {
     var senderId = req.body.senderId;
     var receiverId = req.body.receiverId;
     var amount = req.body.amount;
     var timestamp = req.body.timestamp;
+    var ownerId = req.body.ownerId;
+    var passwd = req.body.passwd;
+
 
     if (!(senderId && receiverId && amount)) {
         res.sendStatus(400);
     }
+    else {
+        client.query(`SELECT * FROM Bank_Accounts WHERE owner='${ownerId}' AND bid='${senderId}';`, (err, result) => {
+            if(err) throw err;
+            if (result.rowCount != 1) {
+                res.sendStatus(404);
+            }
+            else if (passwd) {
+                // Record (pending) transaction if a password is set
+                client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${amount}', '${timestamp}','${receiverId}','${senderId}', MD5('${passwd}'), 'false');`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        return Promise.reject('error');
+                    }
+                    else {
+                        res.sendStatus(200);
+                        log_stat(`[PENDING TRANSFER] ${senderId} -> ${receiverId} ($${amount})`);
+                    }
+                });
+            }
+            else {
+                // Add (amount) to receiver
+                client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${amount}' WHERE bid='${receiverId}';`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        res.sendStatus(404);
+                    }
+            else {
+                // Take (amount) from sender
+                client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${amount}' WHERE bid='${senderId}';`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        res.sendStatus(404);
+                    }
+            else {
+                // Record transaction
+                client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${amount}', '${timestamp}','${receiverId}','${senderId}', NULL, 'true');`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        return Promise.reject('error');
+                    }
+            else {
+                res.sendStatus(200);
+                log_stat(`[TRANSFER] ${senderId} -> ${receiverId} ($${amount})`);
+            }
+        })}})}})}});
+    }
+});
 
-    // Take (amount) from sender
-    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${amount}' WHERE bid='${senderId}';`, (err, result) => {
-        if(err) throw err;
-        if (result.rowCount != 1) {
-            res.sendStatus(404);
-        }
-    });
+app.post('/complete_transaction', (req, res) => {
+    var transactionId = req.body.transactionId;
+    var passwd = req.body.passwd;
+    
+    if (!(transactionId && passwd)) {
+        res.sendStatus(400);
+    }
+    else {
+        client.query(`SELECT * FROM Transactions WHERE tid='${transactionId}' AND password_hash=MD5('${passwd}') AND processed='f';`, (err, result) => {
+            if(err) throw err;
+            if (result.rowCount != 1) {
+                res.sendStatus(404);
+            }
+            else {
+                var transaction = result.rows[0];
+                // Add (amount) to receiver
+                client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${transaction.amount}' WHERE bid='${transaction.toaccount}';`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        res.sendStatus(404);
+                    }
+            else {
+                // Take (amount) from sender
+                client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${transaction.amount}' WHERE bid='${transaction.fromaccount}';`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        res.sendStatus(404);
+                    }
+            else {
+                // Complete (update) transaction
+                client.query(`UPDATE Transactions SET processed='t' WHERE tid='${transactionId}';`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        return Promise.reject('error');
+                    }
+            else {
+                res.sendStatus(200);
+                log_stat(`[COMPLETE TRANSFER] ${transaction.fromAccount} -> ${transaction.toAccount} ($${transaction.amount})`);
+            }
+        })}})}})}});
+    }
 
-    // Add (amount) to receiver
-    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${amount}' WHERE bid='${receiverId}';`, (err, result) => {
-        if(err) throw err;
-        if (result.rowCount != 1) {
-            res.sendStatus(404);
-        }
-    });
-
-    // Record transaction
-    client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${amount}', '${timestamp}','${receiverId}','${senderId}', 'true');`, (err, result) => {
-        if(err) throw err;
-        if (result.rowCount != 1) {
-            res.sendStatus(400);
-        }
-    });
-
-    res.sendStatus(200);
 });
 
 // app init

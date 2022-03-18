@@ -35,7 +35,11 @@ export default class LoanApplicationForm extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <label>
             Loan Type
-            <select className="select-loan-type" value={this.state.value} onchange={this.handleChange}>
+            <select
+              className="select-loan-type"
+              value={this.state.value}
+              onchange={this.handleChange}
+            >
               <option value="business">Business Loan</option>
               <option value="mortgage">Mortgage Loan</option>
               <option value="personal">Personal Loan</option>

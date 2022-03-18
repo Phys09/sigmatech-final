@@ -1,11 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+// import ChatMsg from "../components/chatmsg";
+import MessageUI from "../components/livechat.jsx";
 import NavbarHome from "../components/navbarHome";
-import { TransactionList } from "../components/TransactionList";
-import '../css/TransactionHistory.css';
+import '../css/App.css';
 
-export default function TransactionHistory() {
+/*
+Chat Page:
+  ->  use MessageUI
+      -> ChatMsg1
+      -> ChatMsg2
+      ... 
+*/
+
+export default function ChatPage() {
   const [cookies] = useCookies(["user"]);
   const aid = cookies.userId;
   var navigate = useNavigate();
@@ -20,8 +29,8 @@ export default function TransactionHistory() {
   return (
     <React.Fragment>
       <NavbarHome/>
-        <div className="TransactionHistory">
-          <TransactionList />
+        <div >
+          <MessageUI />
         </div>
     </React.Fragment>
   );

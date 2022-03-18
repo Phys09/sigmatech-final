@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+
 import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
-import { AuthContext } from "../context";
 import NavbarHome from "../components/navbarHome";
 import "../css/App.css";
 import "../css/login.css";
@@ -12,11 +13,17 @@ export default function EditAccountForm() {
   const [newPasswd, setNewPasswd] = useState(null);
   const [newPhonenum, setNewPhonenum] = useState(null);
   const [oldPasswd, setOldPasswd] = useState(null);
-  const auth = useContext(AuthContext);
-  const aid = auth.user;
+  const [cookies, setCookie, removeCookie] = useCookies("user");
+  const aid = cookies.userId;
 	const myArticle = document.querySelector('.notify');
   var navigate = useNavigate();
 
+  useEffect(() => {
+    if (!aid) {
+      alert("Please login to use this page.");
+      navigate("/login");
+    }
+  }, [])
 
   function handleChange(value) {
     return (event) => {
@@ -55,13 +62,10 @@ export default function EditAccountForm() {
             return Promise.reject("Incorrect current password");
         } else {
           if (newUsername) {
-            auth.setUsername(newUsername);
-          }
-          if (newEmail) {
-            auth.setEmail(newEmail);
+            setCookie("username", newUsername, {path: "/"});
           }
           if (newPasswd) {
-            auth.setPassword(newPasswd);
+            setCookie("password", newPasswd, {path: "/"});
           }
           navigate("/transactions");
           return response.json();
@@ -69,10 +73,10 @@ export default function EditAccountForm() {
       }).catch((err) => console.log(err));
   }
 
-  function handleDeleteSubmit(event) {
+  function handleShutdownSubmit(event) {
     event.preventDefault();
     var payload = Object.assign({ body: JSON.stringify({ aid: aid, oldPasswd: oldPasswd }) }, POST_FETCH);
-    fetch(endpoint("delete_account"), payload)
+    fetch(endpoint("shutdown_account"), payload)
       .then((response) => {
         if (response.status == 400) {
           myArticle.innerHTML = "Enter your current password!";
@@ -81,11 +85,11 @@ export default function EditAccountForm() {
           myArticle.innerHTML = "Incorrect current password!";
           return Promise.reject("Incorrect current password");
         } else {
-          auth.setUser(null);
-          auth.setUsername(null);
-          auth.setEmail(null);
-          auth.setPassword(null);
-          auth.setLoggedin(false);
+          removeCookie("userId", {path:"/"});
+          removeCookie("type", {path:"/"});
+          removeCookie("username", {path:"/"});
+          removeCookie("password", {path:"/"});
+
           navigate("/");
           return response.json();
         }
@@ -99,32 +103,21 @@ export default function EditAccountForm() {
 			  <h2>Edit Account</h2>
           <form>
             <div className="form-group">
-              <label for="changeUsername">Change Username:</label>
-              <input type="text" className="form-control" placeholder="New Username" onChange={handleChange("newUsername")}/>
-            </div>
-            <div className="form-group">
-              <label for="changeEmail">Change Email Address:</label>
-              <input type="text" className="form-control" placeholder="New Email" onChange={handleChange("newEmail")}/>
-            </div>
-            <div className="form-group">
-              <label for="changePassword">Change Password:</label>
-              <input type="password" className="form-control" placeholder="New Password" onChange={handleChange("newPasswd")}/>
-            </div>
-            <div className="form-group">
-              <label for="changePhone">Change Phone Number:</label>
-              <input type="text" className="form-control" placeholder="New Phone Number" onChange={handleChange("newPhonenum")}/>
+              <input type="text" className="AccountInput" placeholder="New Username" onChange={handleChange("newUsername")}/>
+              <input type="text" className="AccountInput" placeholder="New Email" onChange={handleChange("newEmail")}/>
+              <input type="password" className="AccountInput" placeholder="New Password" onChange={handleChange("newPasswd")}/>
+              <input type="text" className="AccountInput" placeholder="New Phone Number" onChange={handleChange("newPhonenum")}/>
             </div>
             <br></br>
             <div className="form-group">
-              <label for="changePassword">Confirm Password:</label>
-              <input type="password" className="form-control" placeholder="Current Password" onChange={handleChange("oldPasswd")}/>
+              <input type="password" className="AccountInput" placeholder="Current Password" onChange={handleChange("oldPasswd")}/>
             </div>
             <a id="errors" className="notify mx-auto"></a>
 				    <button className="btn btn-primary btn-block" type="submit" onClick={handleEditSubmit}>
 					    Update Account
 				    </button>
-            <button className ="btn btn-primary btn-block" type="submit" onClick={handleDeleteSubmit}>
-              Delete Account
+            <button className ="btn btn-primary btn-block" type="submit" onClick={handleShutdownSubmit}>
+              Shutdown Account
             </button>
           </form>
       </div>
