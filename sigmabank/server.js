@@ -20,74 +20,46 @@ const client = new pg.Client({
 
 client.connect();
 
-const POST_FETCH = {
-    method: "POST",
-    headers: {"Content-Type": "application/json"}
-}
-
-function endpoint(details) {
-    return 'http://localhost:5000/' + details;
-}
-
 function makeAutomaticPayments() {
-    fetch(endpoint("retrieve_current_automatic_payments"))
-        .then((response) => {
-            console.log("Automatic payments for today");
-            if (response.status == 200) {
-                return response.json();
-            } else {
-                console.log("No automatic payments for today");
-                return Promise.reject("No automatic payments for today");
+    client.query(`SELECT * FROM Automatic_Payments WHERE nextPaymentDate = CURRENT_DATE;`, (err, result) => {
+        if (err) throw err;
+        if (result.rowCount == 0) {
+            console.log("No automatic payments for today");
+        } else {
+            for (let i = 0; i < result.rowCount; i++) {
+                client.query(`SELECT now()::timestamp;`, (err, timestamp) => {
+                    if (err) throw err;
+                    client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance + '${result.rows[i].amount}' WHERE bid='${result.rows[i].toaccount}';`, (err) => {
+                        if (err) throw err;
+                        client.query(`UPDATE Bank_Accounts SET balance = Bank_Accounts.balance - '${result.rows[i].amount}' WHERE bid='${result.rows[i].fromaccount}';`, (err) => {
+                            if (err) throw err;    
+                            client.query(`INSERT INTO Transactions VALUES (DEFAULT, '${result.rows[i].amount}', '${timestamp.rows[0].now.toDateString()}':: TIMESTAMP, '${result.rows[i].toaccount}', '${result.rows[i].fromaccount}', 'true');`, (err) => {
+                                if (err) throw err;
+                            });                    
+                        });
+                    });
+                });
+
+                const latestPaymentDate = result.rows[i].nextpaymentdate.toDateString();
+                if (result.rows[i].recurring) {
+                    client.query(`UPDATE Automatic_Payments 
+                                SET lastPaymentDate='${latestPaymentDate}', 
+                                nextPaymentDate='${latestPaymentDate}':: DATE + 30 
+                                WHERE aid='${result.rows[i].aid}';`, (err) => {
+                        if (err) throw err;
+                    });
+                } else {
+                    client.query(`UPDATE Automatic_Payments 
+                                SET lastPaymentDate='${latestPaymentDate}', 
+                                nextPaymentDate=NULL 
+                                WHERE aid='${result.rows[i].aid}';`, (err) => {
+                        if (err) throw err;
+                    });
+                }
             }
-        })
-        .then((data) => {
-            for (let i = 0; i < data.length; i++) {
-                fetch(endpoint("get_timestamp"))
-                    .then((response) => {
-                        return response.json();
-                    })
-                    .then((timestamp) => {
-                        fetch(endpoint("get_owner"), Object.assign({ body: JSON.stringify({ bid: data[i].fromAccount }) }, POST_FETCH))
-                            .then((response) => {
-                                return response.json();
-                            })
-                            .then((owner) => {
-                                fetch(endpoint("make_transaction"), Object.assign({ body: JSON.stringify(
-                                        { 
-                                            senderId: data[i].fromAccount, 
-                                            receiverId: data[i].toAccount, 
-                                            amount: data[i].amount, 
-                                            timestamp: timestamp[0].now, 
-                                            ownerId: owner[0].aid
-                                        }
-                                    ) }, POST_FETCH))
-                                    .then((response) => {
-                                        return response.json();
-                                    })
-                                    .catch((err) => console.log(err)
-                                );
-                            })
-                            .catch((err) => console.log(err)
-                        );
-                    })
-                    .catch((err) => console.log(err)
-                );
-                fetch(endpoint("update_payment_dates"), Object.assign({ body: JSON.stringify(
-                        { 
-                            aid: data[i].aid, 
-                            recurring: data[i].recurring, 
-                            latestPaymentDate: data[i].nextPaymentDate
-                        }
-                    ) }, POST_FETCH))
-                    .then((response) => {
-                        return response.json();
-                    })
-                    .catch((err) => console.log(err)
-                );
-            }
-        })
-        .catch((err) => console.log(err)
-    );
+            console.log("Completed automatic payments for today");
+        }
+    });
 }
 
 // Endpoints
@@ -372,52 +344,6 @@ app.post('/setup_automatic_payment', (req, res) => {
     }
 });
 
-// Retrieves all automatic payments where the next payment date is today
-app.post('/retrieve_current_automatic_payments', (req, res) => {
-    client.query(`SELECT * FROM Automatic_Payments WHERE nextPaymentDate = CURRENT_DATE;`, (err, result) => {
-        if (err) throw err;
-        if (result.rowCount == 0) {
-            res.sendStatus(404);
-        } else {
-            res.send(result.rows);
-        }
-    });
-});
-
-app.post('/update_payment_dates', (req, res) => {
-    var aid = req.body.aid;
-    var recurring = req.body.recurring;
-    var latestPaymentDate = req.body.latestPaymentDate;
-
-    if (aid && recurring && latestPaymentDate) {
-        client.query(`SELECT * FROM Automatic_Payments WHERE aid='${aid}';`, (err, result) => {
-            if (err) throw err;
-            if (result.rowCount == 1) {
-                if (recurring) {
-                    client.query(`UPDATE Automatic_Payments 
-                                SET lastPaymentDate='${latestPaymentDate}', 
-                                    nextPaymentDate='${latestPaymentDate}':: DATE + 30 
-                                WHERE aid='${aid}';`, (err) => {
-                        if (err) throw err;
-                    });
-                } else {
-                    client.query(`UPDATE Automatic_Payments 
-                                SET lastPaymentDate='${latestPaymentDate}', 
-                                    nextPaymentDate=NULL 
-                                WHERE aid='${aid}';`, (err) => {
-                        if (err) throw err;
-                    });
-                }
-                res.sendStatus(200);
-            } else {
-                res.sendStatus(404);
-            }
-        });
-    } else {
-        res.sendStatus(400);
-    }
-});
-
 app.post('/stop_automatic_payment', (req, res) => {
     var aid = req.body.aid;
 
@@ -440,9 +366,12 @@ app.post('/stop_automatic_payment', (req, res) => {
 
 // app init
 app.listen(5000);
-console.log("server started on port 5000");
+console.log("Server started on port 5000");
 
-cron.schedule('* * * * *', () => {
+// Replace cronExpression with this... 
+//  - When testing: '* * * * *'
+//  - After testing: '0 0 0 * * *'
+cron.schedule('0 0 0 * * *', () => {
     console.log('Running daily automatic payments');
     makeAutomaticPayments();
 });
