@@ -294,7 +294,6 @@ app.post('/make_transaction', (req, res) => {
     var ownerId = req.body.ownerId;
     var passwd = req.body.passwd;
 
-
     if (!(senderId && receiverId && amount)) {
         res.sendStatus(400);
     }
@@ -383,11 +382,10 @@ app.post('/complete_transaction', (req, res) => {
                     }
             else {
                 res.sendStatus(200);
-                log_stat(`[COMPLETE TRANSFER] ${transaction.fromAccount} -> ${transaction.toAccount} ($${transaction.amount})`);
+                log_stat(`[COMPLETE TRANSFER] ${transaction.fromaccount} -> ${transaction.toaccount} ($${transaction.amount})`);
             }
         })}})}})}});
     }
-
 });
 
 // app init
