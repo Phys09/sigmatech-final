@@ -4,6 +4,8 @@ CREATE TABLE Accounts (
     email VARCHAR NOT NULL, type INT, 
     password_hash VARCHAR NOT NULL, 
     phone_number VARCHAR(15), 
+    security_question VARCHAR DEFAULT NULL, 
+    security_answer_hash VARCHAR DEFAULT NULL, 
     PRIMARY KEY(aid)
 );
 

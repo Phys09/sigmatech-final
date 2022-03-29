@@ -503,8 +503,86 @@ app.post('/currency', (req, res) => {
     });
 })
 
+app.post('/set_security_question', (req, res) => { 
+    var aid = req.body.aid;
+    var passwd = req.body.passwd;
+    var question = req.body.question;
+    var answer = req.body.answer;
 
+    if (passwd && question && answer) {
+        client.query(`SELECT * FROM Accounts WHERE (aid='${aid}' AND password_hash=MD5('${passwd}'));`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                client.query(`UPDATE Accounts SET 
+                                security_question = '${question}', 
+                                security_answer_hash = MD5('${answer}') 
+                            WHERE aid='${aid}';`, (err) => {
+                    if (err) throw err;
+                });
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(401);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+})
 
+app.get('/get_security_question', (req, res) => { 
+    var aid = req.body.aid;
+
+    client.query(`SELECT security_question FROM Accounts WHERE (aid='${aid}' AND security_question IS NOT NULL);`, (err, result) => {
+        if (err) throw err;
+        if (result.rowCount == 1) {
+            res.send(result.rows[0].security_question);
+        } else {
+            res.sendStatus(404);
+        }
+    });
+})
+
+app.post('/verify_security_answer', (req, res) => { 
+    var aid = req.body.aid;
+    var answer = req.body.answer;
+
+    if (answer) {
+        client.query(`SELECT * FROM Accounts WHERE (aid='${aid}' AND security_answer_hash=MD5('${answer}'));`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(401);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+})
+
+app.post('/disable_security_question', (req, res) => { 
+    var aid = req.body.aid;
+    var passwd = req.body.passwd;
+
+    if (passwd) {
+        client.query(`SELECT * FROM Accounts WHERE (aid='${aid}' AND password_hash=MD5('${passwd}'));`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                client.query(`UPDATE Accounts SET 
+                                security_question = NULL, 
+                                security_answer_hash = NULL 
+                            WHERE aid='${aid}';`, (err) => {
+                    if (err) throw err;
+                });
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(401);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+})
 
 // App init
 app.listen(5000);
