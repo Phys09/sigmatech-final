@@ -480,6 +480,32 @@ app.post('/stop_automatic_payment', (req, res) => {
     }
 });
 
+app.get('/currency', (req, res) => {
+    client.query(`INSERT INTO currency (currency_name, value) VALUES ('${name}', ${value});
+`, (err, result) => {
+        if (err) throw err;
+        res.send(result.rows);
+    });
+})
+
+app.post('/currency', (req, res) => {
+    var name = req.body.name;
+    var value = req.body.value;
+
+    if(!(name&&value)){
+        res.sendStatus(400);
+        return;
+    }
+
+    client.query(`SELECT * FROM currency;`, (err, result) => {
+        if (err) throw err;
+        res.send(result.rows);
+    });
+})
+
+
+
+
 // App init
 app.listen(5000);
 console.log("Server started on port 5000");
