@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { Outlet, useNavigate } from "react-router-dom";
@@ -33,13 +34,17 @@ export function MakeTransaction() {
     )
 }
 
+
 export function SendMoney() {
+
     const [cookies] = useCookies(["user"]);
     const aid = cookies.userId;
     const [success, setSuccess] = useState(-1);
     const [toAccount, setToAccount] = useState(null);
     const [fromAccount, setFromAccount] = useState(null);
     const [amount, setAmount] = useState(0);
+
+    const [pass, setPass] = useState(null);
     
     function handleSubmit(event) {
         event.preventDefault();
@@ -70,7 +75,7 @@ export function SendMoney() {
                             })
                             .then((data) => {
                                 var payload = Object.assign({
-                                    body: JSON.stringify({senderId: fromAccount, receiverId: toAccount, ownerId: aid , amount: amount, timestamp: data[0].now})
+                                    body: JSON.stringify({passwd: pass, senderId: fromAccount, receiverId: toAccount, ownerId: aid , amount: amount, timestamp: data[0].now})
                                 }, POST_FETCH);
                                 fetch(endpoint("make_transaction"), payload).then((resp) => setSuccess(resp.status));
                             })
@@ -95,11 +100,14 @@ export function SendMoney() {
     }
 
     return (
+
         <div>
             <form onSubmit={handleSubmit}>
                 <input className="TransactionInput" placeholder='From Account' onFocus={() => setSuccess(-1)} onChange={(event) => setFromAccount(event.target.value)}/>
                 <input className="TransactionInput" placeholder='To Account' onFocus={() => setSuccess(-1)} onChange={(event) => setToAccount(event.target.value)}/>
                 <input className="TransactionInput" placeholder='Amount' onFocus={() => setSuccess(-1)} onChange={(event) => setAmount(event.target.value)}/>
+                <input className="TransactionInput" placeholder='Password (optional)' onFocus={() => setSuccess(-1)} onChange={(event) => setPass(event.target.value)}/>
+
                 <button className="TransactionButtons" type="submit">Submit</button>
             </form>
             {successText()}

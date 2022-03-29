@@ -1,11 +1,15 @@
 import React from "react";
+
 import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
+
 import "../css/navbar.css";
 
 export default function NavbarHome() {
     const [cookies, setCookie, removeCookie] = useCookies("user");
+
     const type = cookies.type;
+
     var navigate = useNavigate();
 
     function handleClick(value) {
@@ -21,10 +25,12 @@ export default function NavbarHome() {
 
     function handleLogoutClick(event) {
         event.preventDefault();
+
         removeCookie("userId", {path:"/"});
         removeCookie("type", {path:"/"});
         removeCookie("username", {path:"/"});
         removeCookie("password", {path:"/"});
+
         navigate("/");
     }
 

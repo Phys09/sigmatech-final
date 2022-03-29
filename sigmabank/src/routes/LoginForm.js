@@ -4,14 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
 import FooterMain from "../components/footer";
 import NavbarLogin from "../components/navbarLogin";
-import "../css/login.css";
 import "../css/App.css";
+import "../css/login.css";
 
 export default function LoginForm() {
   const [email, setEmail] = useState(null);
   const [passwd, setPasswd] = useState(null);
   const [cookies, setCookie] = useCookies(["user"]);
   const aid = cookies.userId;
+
 	const myArticle = document.querySelector('.notify');
   var navigate = useNavigate();
 
@@ -53,6 +54,7 @@ export default function LoginForm() {
       .then((data) => {
         setCookie("userId", data[0].aid, {path: "/"});
         setCookie("type", data[0].type, {path: "/"});
+
         setCookie("username", data[0].username, {path: "/"});
         setCookie("password", passwd, {path: "/"});
         navigate("/transactions");

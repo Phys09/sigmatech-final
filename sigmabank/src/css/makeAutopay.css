@@ -1,0 +1,36 @@
+form {
+    min-width: 250px;
+    max-width: 800px!important;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 4px;
+  }
+
+.TransactionInput {
+    margin: 5px;
+    padding: 10px;
+    opacity: 50%;
+    background-color: aliceblue;
+  }
+  .TransactionInput:hover, .TransactionInput:focus {
+    opacity: 80%;
+  }
+
+  .TransactionButtons {
+    background: black;
+    color : white; 
+    border-radius: 99em;
+    border: 10px solid black;
+    margin: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+    font-size: medium;
+    transition-duration: 0.25s;
+  }
+  .TransactionButtons:hover {
+    background-color: white;
+    color: black;
+    border-color: white;
+    transition-duration: 0.25s;
+  }
