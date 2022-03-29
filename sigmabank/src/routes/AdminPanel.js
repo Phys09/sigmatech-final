@@ -7,9 +7,15 @@ import NavbarHome from "../components/navbarHome";
 import { Transaction } from '../components/Transaction';
 import "../css/App.css";
 import "../css/login.css";
+import EditAccountForm from "./EditAccountDetail";
 
 export default function AdminPanel() {
   const [accountID, setAccountID] = useState(null);
+  const [newUsername, setTargetUsername] = useState(null);
+  const [newEmail, setTargetEmail] = useState(null);
+  const [newPasswd, setTargetPasswd] = useState(null);
+  const [newPhonenum, setTargetPhonenum] = useState(null);
+
   const [transactions, setTransactions] = useState([]);
   const [cookies] = useCookies(["user"]);
   const type = cookies.type;
@@ -30,6 +36,18 @@ export default function AdminPanel() {
     return (event) => {
       if (value == "accountID") {
         setAccountID(event.target.value);
+      }
+      if (value == "newUsername") {
+        setTargetUsername(event.target.value);
+      }
+      if (value == "newEmail") {
+        setTargetEmail(event.target.value);
+      }
+      if (value == "newPasswd") {
+        setTargetPasswd(event.target.value);
+      }
+      if (value == "newPhonenum") {
+        setTargetPhonenum(event.target.value);
       }
     }
   }
@@ -100,11 +118,32 @@ export default function AdminPanel() {
     );
   }
 
+  function handleEditTarget(event) {
+    event.preventDefault();
+    var payload = Object.assign({body: JSON.stringify({
+      aid: accountID,
+      newUsername: newUsername, 
+      newEmail: newEmail,
+      newPasswd: newPasswd,
+      newPhonenum: newPhonenum,
+      oldPasswd: "SIGMA_ADMIN_PASSWORD"
+    })}, POST_FETCH);
+    fetch(endpoint("edit_account"), payload).then((resp) => {
+      if (resp.status == 400) {
+        myArticle.innerHTML = "Error"
+      }
+      if (resp.status == 200) {
+        myArticle.innerHTML = "Details updated!"
+        setTimeout(()=>myArticle.innerHTML="", 3000);
+      }
+    })
+  }
+
   return (
 	  <React.Fragment>
 		  <NavbarHome/>
+      <h2 className="mx-auto login-title">SigmaBank Admin Panel</h2>
 		  <div className="login-wrapper d-flex">
-			  <h2 className="mx-auto login-title">SigmaBank Admin Panel</h2>
 			  <form className=" p-3 mt-3">
 				  <input
 					  className="form-field d-flex align-items-center"
@@ -126,6 +165,14 @@ export default function AdminPanel() {
           <br></br>
 				  <p id="errors" className="notify mx-auto"></p>
 			  </form>
+        <form>
+          <h3>Edit Account Details</h3>
+          <input type="text" className="AccountInput" placeholder="New Username" onChange={handleChange("newUsername")}/>
+          <input type="text" className="AccountInput" placeholder="New Email" onChange={handleChange("newEmail")}/>
+          <input type="password" className="AccountInput" placeholder="New Password" onChange={handleChange("newPasswd")}/>
+          <input type="text" className="AccountInput" placeholder="New Phone Number" onChange={handleChange("newPhonenum")}/>
+          <button className ="btn btn-primary btn-block" onClick={handleEditTarget}>Submit Changes</button>
+        </form>
 		  </div>
       <div> { transactions && <>
         <h3>Transaction History</h3>
