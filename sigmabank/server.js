@@ -480,14 +480,6 @@ app.post('/stop_automatic_payment', (req, res) => {
     }
 });
 
-app.get('/currency', (req, res) => {
-    client.query(`INSERT INTO currency (currency_name, value) VALUES ('${name}', ${value});
-`, (err, result) => {
-        if (err) throw err;
-        res.send(result.rows);
-    });
-})
-
 app.post('/currency', (req, res) => {
     var name = req.body.name;
     var value = req.body.value;
@@ -496,6 +488,14 @@ app.post('/currency', (req, res) => {
         res.sendStatus(400);
         return;
     }
+    client.query(`INSERT INTO currency (currency_name, value) VALUES ('${name}', ${value});
+`, (err, result) => {
+        if (err) throw err;
+        res.send(result.rows);
+    });
+})
+
+app.get('/currency', (req, res) => {
 
     client.query(`SELECT * FROM currency;`, (err, result) => {
         if (err) throw err;
