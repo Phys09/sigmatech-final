@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
 import FooterMain from "../components/footer";
-import NavbarLogin from "../components/navbarLogin";
+import Navbar from "../components/navbar";
 import "../css/App.css";
 import "../css/login.css";
 
@@ -64,7 +64,7 @@ export default function LoginForm() {
 
   return (
 	  <React.Fragment>
-		  <NavbarLogin/>
+		  <Navbar page="Login"/>
 	    <div className="login-wrapper d-flex">
 		    <h2 className="mx-auto login-title">SigmaBank Login</h2>					    
         <form onSubmit={handleSubmit} className="centered p-3 mt-3">

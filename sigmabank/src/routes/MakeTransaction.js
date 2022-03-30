@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { Outlet, useNavigate } from "react-router-dom";
 import {endpoint, POST_FETCH} from "../APIfunctions"
-import NavbarHome from "../components/navbarHome"
+import Navbar from "../components/navbar"
 import '../css/App.css';
 import '../css/MakeTransaction.css'
 import '../components/currencyConverter'
@@ -27,7 +27,7 @@ export function MakeTransaction() {
 
     return (
         <React.Fragment>
-            <NavbarHome/>
+            <Navbar page="Make Transactions"/>
             <form>
                 <button className='TransactionButtons' onClick={sendMoneyClick}>Send Money</button>
             </form>

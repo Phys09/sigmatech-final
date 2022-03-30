@@ -1,25 +1,53 @@
-.Options {
-    position: absolute;
+.OptionsLoggedout{
+    position: fixed;
     text-align: center;
     top: -7px;
-    right: 0;
-
-    width: 15vw;
-
-    height: 12vh;
-    margin-right: 50px;
+    width: 4cm;
+    right: 0cm;
+    margin-right: 10px;
     margin-top: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.Admin, .Edit, .Logout {
+.Options{
+    position: fixed;
+    text-align: center;
+    top: -7px;
+    width: 40vw;
+    right: 0cm;
+    margin-right: 100px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+.logo{
+    font-weight: bold;
+    font-size: 36px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+.logoSecondHalf{
+    font-weight: normal;
+    font-size: 28px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .logolink, .logolink:visited, .logolink:hover{
+    text-decoration: none;
+    color: black;
+  }
+
+.NavbarButtonLoggedIn{
     text-decoration: none;
     font-size: medium;
     position: relative;
-    border-radius: 100px;
-    background-color: rgba(0, 0, 0, 1);
+    border-radius: 99em;
+    border-color: transparent;
+    background-color: black;
     color: white;
     padding: 10px;
     font-family: Segoe UI;
@@ -27,20 +55,26 @@
     font-weight: normal;
 }
 
-.Admin:hover, .Edit:hover, .Logout:hover {
+.NavbarButton{
     text-decoration: none;
     font-size: medium;
     position: relative;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 100px;
+    border-radius: 99em;
+    border-color: transparent;
+    background-color: black;
     color: white;
     padding: 10px;
     font-family: Segoe UI;
     font-style: normal;
     font-weight: normal;
+}
+
+.NavbarButton:hover, .NavbarButtonLoggedIn:hover{
+    background: white;
+    color: black;
     transition-duration: 0.25s;
 }
 
-.padding-top { 
-    padding-top: 50px; 
+.padding-top {
+    padding-top: 100px; 
 }
