@@ -6,6 +6,8 @@ import {endpoint, POST_FETCH} from "../APIfunctions"
 import NavbarHome from "../components/navbarHome"
 import '../css/App.css';
 import '../css/MakeTransaction.css'
+import '../components/currencyConverter'
+import Converter from '../components/currencyConverter';
 
 export function MakeTransaction() {
     var navigate = useNavigate();
@@ -111,6 +113,7 @@ export function SendMoney() {
                 <button className="TransactionButtons" type="submit">Submit</button>
             </form>
             {successText()}
+            <Converter />
         </div>
     )
 }
