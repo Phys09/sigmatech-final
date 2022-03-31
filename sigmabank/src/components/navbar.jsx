@@ -54,13 +54,14 @@ export default function Navbar(props) {
 
     function adminCase(){
         if(type == 1){
-            return <button className="Admin" onClick={handleClick("admin")}>Admin Panel</button>
+            return <button className="NavbarButtonLoggedIn" onClick={handleClick("admin")}>Admin Panel</button>
         }
     }
     function loginDisplay(){
         if(user){
             return(
             <div className="Options">
+                {adminCase()}
                 <button className="NavbarButtonLoggedIn" onClick={handleClick("transactions")}>Transactions</button>
                 <button className="NavbarButtonLoggedIn" onClick={handleClick("makeTransactions")}>Make Transactions</button>
                 <button className="NavbarButtonLoggedIn" onClick={handleClick("makeAutopay")}>Setup Autopay</button>
@@ -91,7 +92,6 @@ export default function Navbar(props) {
             </Link>
             </header>
             {loginDisplay()}
-            {adminCase()}
         </div>
     );
 }

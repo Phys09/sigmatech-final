@@ -65,7 +65,7 @@ export default function LoginForm() {
   return (
 	  <React.Fragment>
 		  <Navbar page="Login"/>
-	    <div className="login-wrapper d-flex">
+	    <div className="login-wrapper">
 		    <h2 className="mx-auto login-title">SigmaBank Login</h2>					    
         <form onSubmit={handleSubmit} className="centered p-3 mt-3">
 			    <input

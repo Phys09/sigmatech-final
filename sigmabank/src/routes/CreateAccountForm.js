@@ -40,7 +40,6 @@ export default function CreateAccountForm (){
       <Navbar page="Create Account" />
       <h1>Create Account</h1>
       <form onSubmit={handleSubmit}>
-        <div>
           <input
             className="AccountInput"
             type="text"
@@ -69,7 +68,6 @@ export default function CreateAccountForm (){
             placeholder="Phone Number"
             onChange={handleChange(setPhoneNum)}
           />
-        </div>
         <button className="AccountButtons" type="submit">
           Create Account
         </button>

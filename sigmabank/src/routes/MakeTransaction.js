@@ -40,6 +40,7 @@ export function MakeTransaction() {
 export function SendMoney() {
 
     const [cookies] = useCookies(["user"]);
+    const navigate = useNavigate();
     const aid = cookies.userId;
     const [success, setSuccess] = useState(-1);
     const [toAccount, setToAccount] = useState(null);
@@ -111,6 +112,7 @@ export function SendMoney() {
                 <input className="TransactionInput" placeholder='Password (optional)' onFocus={() => setSuccess(-1)} onChange={(event) => setPass(event.target.value)}/>
 
                 <button className="TransactionButtons" type="submit">Submit</button>
+                <button className='TransactionButtons' onClick={() => navigate("/makeTransactions")}>Cancel</button>
             </form>
             {successText()}
             <Converter />
