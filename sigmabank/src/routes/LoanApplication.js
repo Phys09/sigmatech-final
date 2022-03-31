@@ -1,59 +1,67 @@
 import React, { useContext, useState } from "react";
+import { endpoint, POST_FETCH } from "../APIfunctions";
 import { useNavigate } from "react-router-dom";
 import NavbarLogin from "../components/navbarLogin";
 import FooterMain from "../components/footer";
 import "../css/LoanApplication.css";
 import "../css/App.css";
 import NavbarMain from "../components/navbar";
+import { Cookies, withCookies, useCookies } from "react-cookie";
 
-export default class LoanApplicationForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loanType: "", // type of loan customer is applying for
-      reasoning: "", // reason for requesting a loan
-      amount: 0.0, // the amount they're requesting
-    };
+export default function LoanApplicationForm() {
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    const [ownerId, setOwnerId] = useState(useCookies("user").userId); // id of the owner
+    const [amount, setAmount] = useState(null); // Amount to request for a loan
+
+
+  /**
+   * Method checks if the form was filled out properly by checking the state to see what was processed.
+   * 
+   * @returns true if form is valid, false  otherwise.
+   * 
+   */
+  function FormIsValid() {
+    // Check ownerId
+    if(ownerId === "" && amount <= 0){
+      return false;
+    }
+    
+    return true;
   }
 
-  handleSubmit(event) {
-    alert("Loan applications currently not yet implemented");
+  function handleSubmit(event) {
+    // Remove after done
+    
     event.preventDefault();
+    var payload = Object.assign({ body: JSON.stringify({amount: amount}) });
+
+    if(FormIsValid()){
+      alert("Form is valid")
+    } else {
+      alert("Form is invalid");
+    }
   }
 
-  handleChange(event) {
-    this.setState({ value: event.target.value });
+  function handleChange(event) {
+    console.log(ownerId); // DEBUG: State the owner's id to the console
+    setAmount(event.target.value);
   }
 
-  render() {
-    return (
-      <div className="LoanPage">
-        <NavbarMain />
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Loan Type
-            <select
-              className="select-loan-type"
-              value={this.state.value}
-              onchange={this.handleChange}
-            >
-              <option value="business">Business Loan</option>
-              <option value="mortgage">Mortgage Loan</option>
-              <option value="personal">Personal Loan</option>
-            </select>
-            <input
-              type="text"
-              placeholder="Reason for application"
-              value={this.state.value}
-              onChange={this.handleChange}
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className="LoanPage">
+      <NavbarMain />
+      <form onSubmit={handleSubmit}>
+        <label>
+          <input
+            type="text"
+            placeholder="Amount to request"
+            onChange={handleChange}
+          />
+        </label>
+        <input type="submit" value="Submit Request" />
+      </form>
+    </div>
+  );
 }
+
+
