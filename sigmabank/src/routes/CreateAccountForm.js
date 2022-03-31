@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
+import Navbar from "../components/navbar";
 import "../css/App.css";
 import "../css/CreateAccount.css";
 
@@ -36,15 +37,9 @@ export default function CreateAccountForm (){
 
   return (
     <div className="CreateAccountForm">
-      <header>
-        <Link className="logolink" to="/">
-          <span className="logo">ΣBank</span>
-          <span className="logoSecondHalf">| Create Account</span>
-        </Link>
-      </header>
+      <Navbar page="Create Account" />
       <h1>Create Account</h1>
       <form onSubmit={handleSubmit}>
-        <div>
           <input
             className="AccountInput"
             type="text"
@@ -73,7 +68,6 @@ export default function CreateAccountForm (){
             placeholder="Phone Number"
             onChange={handleChange(setPhoneNum)}
           />
-        </div>
         <button className="AccountButtons" type="submit">
           Create Account
         </button>

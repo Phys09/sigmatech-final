@@ -7,7 +7,7 @@ import "./css/App.css";
 import "./css/HomePage.css";
 import { Link } from "react-router-dom";
 
-import NavbarMain from "./components/navbar";
+import Navbar from "./components/navbar";
 import FooterMain from "./components/footer";
 const VERSION_NUMBER = "1.0.0";
 
@@ -16,7 +16,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <NavbarMain />
+        <Navbar page="Home"/>
         <div className="HomePageMatter">
           <h1 className="Description">Your Next Bank is Here!</h1>
           <Link className="Signup" to="/signup">

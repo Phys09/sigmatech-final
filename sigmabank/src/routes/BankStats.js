@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import NavbarHome from "../components/navbarHome";
+import Navbar from "../components/navbar";
 import { StatList } from "../components/StatList";
 import '../css/BankStats.css';
 
@@ -19,7 +19,7 @@ export default function BankStats() {
 
   return (
     <React.Fragment>
-      <NavbarHome/>
+      <Navbar page="Bank Statistics"/>
         <div className="BankStats">
           <StatList />
         </div>

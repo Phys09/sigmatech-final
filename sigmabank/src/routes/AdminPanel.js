@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
 import FooterMain from "../components/footer";
-import NavbarHome from "../components/navbarHome";
+import Navbar from "../components/navbar";
 import { Transaction } from '../components/Transaction';
 import "../css/App.css";
 import "../css/login.css";
@@ -141,7 +141,7 @@ export default function AdminPanel() {
 
   return (
 	  <React.Fragment>
-		  <NavbarHome/>
+		  <Navbar page="Admin Panel"/>
       <h2 className="mx-auto login-title">SigmaBank Admin Panel</h2>
 		  <div className="login-wrapper d-flex">
 			  <form className=" p-3 mt-3">
