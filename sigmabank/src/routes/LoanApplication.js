@@ -6,13 +6,13 @@ import FooterMain from "../components/footer";
 import "../css/LoanApplication.css";
 import "../css/App.css";
 import NavbarMain from "../components/navbar";
-import { Cookies, withCookies, useCookies } from "react-cookie";
+import { useCookies } from "react-cookie";
 
 export default function LoanApplicationForm() {
 
-    const [ownerId, setOwnerId] = useState(useCookies("user").userId); // id of the owner
-    const [amount, setAmount] = useState(null); // Amount to request for a loan
-
+  const [ownerId, setOwnerId] = useState(null); // id of the owner
+  const [amount, setAmount] = useState(null); // Amount to request for a loan
+  const cookieUser = useCookies("user"); // Store the user information
 
   /**
    * Method checks if the form was filled out properly by checking the state to see what was processed.
@@ -22,18 +22,17 @@ export default function LoanApplicationForm() {
    */
   function FormIsValid() {
     // Check ownerId
-    if(ownerId === "" && amount <= 0){
+    if (amount <= 0 || isNaN(amount)) {
       return false;
+    } else {
+      return true;
     }
-    
-    return true;
   }
 
   function handleSubmit(event) {
-    // Remove after done
-    
     event.preventDefault();
-    var payload = Object.assign({ body: JSON.stringify({amount: amount}) });
+    var payload = Object.assign({body: JSON.stringify({amount: amount, ownerId: ownerId})});
+    setOwnerId(cookieUser.userId);
 
     if(FormIsValid()){
       alert("Form is valid")
@@ -43,6 +42,7 @@ export default function LoanApplicationForm() {
   }
 
   function handleChange(event) {
+    console.log(event.target.value);
     console.log(ownerId); // DEBUG: State the owner's id to the console
     setAmount(event.target.value);
   }
