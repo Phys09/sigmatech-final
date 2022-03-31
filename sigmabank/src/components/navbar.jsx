@@ -86,12 +86,12 @@ export default function Navbar(props) {
     return (
         <div className="padding-top">
             <header>
-            <Link className="logo logolink" to="/">
+            <Link className="Logo logolink" to="/">
                 ΣBank <span className="logoSecondHalf">| {props.page}</span>
             </Link>
+            </header>
             {loginDisplay()}
             {adminCase()}
-            </header>
         </div>
     );
 }

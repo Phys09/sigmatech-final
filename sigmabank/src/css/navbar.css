@@ -24,22 +24,15 @@
     justify-content: space-between;
 }
 
-
-.logo{
-    font-weight: bold;
-    font-size: 36px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-
 .logoSecondHalf{
     font-weight: normal;
     font-size: 28px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  .logolink, .logolink:visited, .logolink:hover{
+}
+.logolink, .logolink:visited, .logolink:hover{
     text-decoration: none;
     color: black;
-  }
+}
 
 .NavbarButtonLoggedIn{
     text-decoration: none;

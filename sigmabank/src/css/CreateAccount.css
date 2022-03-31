@@ -40,32 +40,6 @@
     border-color: white;
     transition-duration: 0.25s;
   }
-  
-.logolink, .logolink:visited {
-
-  /* ΣBank */
-  position: absolute;
-  left: 5px;
-  top: 5px;
-
-  /* Logo */
-
-  font-family: Segoe UI;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 36px;
-  line-height: 22px;
-  /* identical to box height, or 61% */
-
-  display: flex;
-  align-items: center;
-  font-feature-settings: 'tnum' on, 'lnum' on;
-
-  color: #000000;
-
-  text-decoration: none;
-  color: black;
-}
 
 form {
   margin: 0 auto;
