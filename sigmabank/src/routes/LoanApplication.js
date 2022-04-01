@@ -30,8 +30,22 @@ export default function LoanApplicationForm() {
   function handleSubmit(event) {
     var ownerId = cookieUser.userId;
     event.preventDefault();
-    var payload = Object.assign({body: JSON.stringify({amount: amount, ownerId: ownerId})});
+    var payload = Object.assign(
+      {body: JSON.stringify(
+        {amount: amount, ownerId: ownerId})
+    }, POST_FETCH);
 
+    console.log("Before Fetch"); // DEBUG
+
+    fetch(endpoint("apply_loan"), payload)
+      .then((resp) => {
+        if (resp.status == 404) {
+          console.log("error 404"); // DEBUG
+          // Promise.reject("Unable to request a loan"); May not be needed
+        }
+    });
+
+    console.log("After Fetch"); // DEBUG
     if(FormIsValid()){
       alert("Form is valid")
     } else {
