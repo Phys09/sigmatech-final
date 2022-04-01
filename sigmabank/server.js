@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require('body-parser');
 const cron = require('node-cron');
+const nodemailer = require('nodemailer');
 
 app.use(cors());
 app.use(express.json({"limit": "5MB"}));
@@ -67,6 +68,42 @@ function log_stat(description) {
     client.query(`INSERT INTO Stats(description, stamp) values ('${description}', now()::timestamp);`);
 }
 
+// Auth email
+const sigmabankAuthEmail = 'sigmabank.auth@gmail.com';
+const sigmabankAuthPass = 'a7*%yYaV7?1B&7!';
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: sigmabankAuthEmail,
+        pass: sigmabankAuthPass
+    }
+});
+
+function generate_security_code() {
+    let val = Math.random();
+    return ((val === 0.5 ? 0.1: val) + 1).toString(36).slice(2, 7);
+}
+
+function send_security_code(receiverEmail, securityCode) {
+    const mailOptions = {
+        from: sigmabankAuthEmail,
+        to: receiverEmail,
+        subject: 'SigmaBank Security Code',
+        html: `<p>Your SigmaBank security code is <b>${securityCode}</b></p>`
+    };
+
+    transporter.sendMail(mailOptions, (err, result) => {
+        if (err) return;
+        log_stat(`[SENT SECURITY CODE] ${email}`);
+    });
+}
+
+function delete_old_codes() {
+    client.query(`DELETE FROM Security_Codes WHERE stamp >= NOW() - INTERVAL '5 minutes';`, (err, result) => {
+        if (err) throw err;
+    });
+}
+
 // Endpoints
 app.get('/', (req, res) => {
     res.send("Welcome to SigmaBank API V0.1.0");
@@ -107,8 +144,17 @@ app.post('/login', (req, res) => {
         client.query(`SELECT * FROM Accounts WHERE type != '-1' AND email = '${email}' AND password_hash = MD5('${passwd}');`, (err, result) => {
             if (err) throw err;
             if (result.rowCount == 1) {
-                res.send(result.rows);
+                res.sendStatus(200);
                 log_stat(`[LOGIN] ${email}`);
+
+                let code = generate_security_code();
+                send_security_code(email, code);
+                client.query(`INSERT INTO Security_Codes VALUES ('${email}', MD5('${code}'), now()::timestamp);`, (err, result) => {
+                    if(err) throw err;
+                    if (result.rowCount != 1) {
+                        return Promise.reject('error');
+                    }
+                })
             } else {
                 res.sendStatus(404);
             }
@@ -503,8 +549,31 @@ app.get('/currency', (req, res) => {
     });
 })
 
-
-
+app.post('/verify_security_code', (req, res) => {
+    var email = req.body.email;
+    var passwd = req.body.passwd;
+    var code = req.body.code;
+    if (email && code) {
+        client.query(`SELECT * FROM Security_Codes WHERE email='${email}' AND security_hash=MD5('${code}');`, (err, result) => {
+            if (err) throw err;
+            if (result.rowCount == 1) {
+                client.query(`SELECT * FROM Accounts WHERE type != '-1' AND email = '${email}' AND password_hash = MD5('${passwd}');`, (err, rslt) => {
+                    if (err) throw err;
+                    if (rslt.rowCount == 1) {
+                        res.send(rslt.rows);
+                    } else {
+                        res.sendStatus(404);
+                    }
+                });
+                log_stat(`[VERIFIED] ${email}`);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+    } else {
+        res.sendStatus(400);
+    }
+});
 
 // App init
 app.listen(5000);
@@ -516,4 +585,6 @@ console.log("Server started on port 5000");
 cron.schedule('* * * * *', () => {
     console.log('Running daily automatic payments');
     makeAutomaticPayments();
+    console.log('Deleting security codes older than 5 minutes');
+    delete_old_codes();
 });
