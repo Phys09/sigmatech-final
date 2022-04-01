@@ -16,29 +16,7 @@ export default function Navbar(props) {
     function handleClick(value) {
         return (event) => {
             event.preventDefault();
-            switch(value){
-                case "edit":
-                    navigate("/edit")
-                    break;
-                case "admin":
-                    navigate("/admin")
-                    break;
-                case "transactions":
-                    navigate("/transactions")
-                    break;
-                case "login":
-                    navigate("/login")
-                    break;
-                case "signup":
-                    navigate("/signup")
-                    break;
-                case "makeTransactions":
-                    navigate("/makeTransactions")
-                    break;
-                case "makeAutopay":
-                    navigate("/makeAutopay")
-                    break;
-            }
+            navigate(`/${value}`)
         }
     }
 
@@ -50,6 +28,7 @@ export default function Navbar(props) {
         removeCookie("username", {path:"/"});
         removeCookie("password", {path:"/"});
         navigate("/");
+        window.location.reload();
     }
 
     function adminCase(){
@@ -65,6 +44,7 @@ export default function Navbar(props) {
                 <button className="NavbarButtonLoggedIn" onClick={handleClick("transactions")}>Transactions</button>
                 <button className="NavbarButtonLoggedIn" onClick={handleClick("makeTransactions")}>Make Transactions</button>
                 <button className="NavbarButtonLoggedIn" onClick={handleClick("makeAutopay")}>Setup Autopay</button>
+                <button className="NavbarButtonLoggedIn" onClick={handleClick("loans")}>Apply for Loan</button>
                 <button className="NavbarButtonLoggedIn" onClick={handleClick("edit")}>Edit Account</button>
                 <button className="NavbarButtonLoggedIn" onClick={handleLogoutClick}>Logout</button>
             </div>
@@ -90,8 +70,8 @@ export default function Navbar(props) {
             <Link className="Logo logolink" to="/">
                 ΣBank <span className="logoSecondHalf">| {props.page}</span>
             </Link>
-            </header>
             {loginDisplay()}
+            </header>
         </div>
     );
 }
