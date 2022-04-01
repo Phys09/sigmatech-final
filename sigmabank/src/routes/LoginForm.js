@@ -34,13 +34,40 @@ export default function LoginForm() {
       }
     }
   }
+  function verify(event){
+    event.preventDefault();
+    var payload = Object.assign(
+      { body: JSON.stringify({ email: email, code: code, passwd: passwd }) },
+      POST_FETCH
+    );
+    fetch(endpoint("verify_security_code"), payload) 
+      .then((response) => {
+        if (response.status == 400) {
+					myArticle.innerHTML = "Code was not entered";
+          return Promise.reject("Code was not entered");
+        } else if (response.status == 404) {
+					myArticle.innerHTML = "Incorrect code";
+          return Promise.reject("Incorrect code");
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        setCookie("password", passwd, {path: "/"})
+        setCookie("type", data[0].type, {path: "/"})
+        setCookie("userId", data[0].aid, {path: "/"})
+        setCookie("username", data[0].username, {path: "/"})
+        navigate("/transactions")
+      })
+      .catch((err) => console.log(err));
+  }
   function codeCase(){
     if(goTocode){
       return (
-        <div>
+        <>
         <input className="AccountInput" placeholder="Enter Emailed Code" name="code" onChange={(e) => setCode(e.target.value)} />
-        <button className="btn btn-primary btn-block" onClick={verify}>Verify</button>
-        </div>
+        <button type="button" className="btn btn-primary btn-block" onClick={verify}>Verify</button>
+        </>
       )
     }
   }
@@ -66,35 +93,6 @@ export default function LoginForm() {
             alert("Please click the verify button to continue");
           }
         }
-      })
-      .catch((err) => console.log(err));
-  }
-
-  function verify(event){
-    event.preventDefault();
-    var payload = Object.assign(
-      { body: JSON.stringify({ email: email, code: code}) },
-      POST_FETCH
-    );
-    fetch(endpoint("verify_security_code"), payload) 
-      .then((response) => {
-        if (response.status == 400) {
-					myArticle.innerHTML = "Code was not entered";
-          return Promise.reject("Code was not entered");
-        } else if (response.status == 404) {
-					myArticle.innerHTML = "Incorrect code";
-          return Promise.reject("Incorrect code");
-        } else {
-          return response.json()
-        }
-      })
-      .then((data) => {
-        setCookie("password", passwd, {path: "/"})
-        setCookie("type", data[0].type, {path: "/"})
-        setCookie("userId", data[0].aid, {path: "/"})
-        setCookie("username", data.username[0], {path: "/"})
-
-        navigate("/transactions")
       })
       .catch((err) => console.log(err));
   }
