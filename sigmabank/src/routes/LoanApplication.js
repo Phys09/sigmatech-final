@@ -1,11 +1,8 @@
 import React, { useContext, useState } from "react";
 import { endpoint, POST_FETCH } from "../APIfunctions";
-import { useNavigate } from "react-router-dom";
-// import NavbarLogin from "../components/navbarLogin";
-import FooterMain from "../components/footer";
 import "../css/LoanApplication.css";
 import "../css/App.css";
-import NavbarMain from "../components/navbar";
+import Navbar from "../components/navbar";
 import { useCookies } from "react-cookie";
 
 export default function LoanApplicationForm() {
@@ -60,10 +57,10 @@ export default function LoanApplicationForm() {
 
   return (
     <div className="LoanPage">
-      <NavbarMain />
+      <Navbar page="Apply for Loan"/>
       <form onSubmit={handleSubmit}>
         <label>
-          <input
+          <input className="AccountInput"
             type="text"
             placeholder="Amount to request"
             onChange={handleChange}

@@ -15,8 +15,9 @@
     position: fixed;
     text-align: center;
     top: -7px;
-    width: 43vw;
+    width: 51vw;
     right: 0cm;
+    background-color: white;
     margin-right: 90px;
     margin-top: 10px;
     display: flex;
