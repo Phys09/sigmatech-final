@@ -18,7 +18,9 @@
 | **POST** |  /get_stats | Get a list of all system-related historical stats (signup, login, transfer)  | |
 | **POST** |  /setup_automatic_payment | Creates an automatic transaction with form data  | |
 | **POST** |  /stop_automatic_payment | Deletes an automatic transaction  | |
-
+| **GET** |  /currency | Get the names and values of all currencies | |
+| **POST** |  /currency | Add new currency | |
+|
 <br>
 <br>
 
@@ -286,3 +288,34 @@ or 400 status or 404 Status
 ```
 200 Status or 400 Status or 404 Status
 ```
+<br>
+<br>
+
+
+
+## GET /currencies
+### Return Model
+```
+[curencies] 
+```
+
+<br>
+<br>
+
+## POST /currencies
+### Form Model
+```
+{
+    value: value,
+    name: name,
+}
+```
+### Return Model
+```
+200 status or 404 Status
+```
+
+<br>
+<br>
+
+
