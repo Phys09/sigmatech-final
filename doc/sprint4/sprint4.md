@@ -47,4 +47,4 @@
 
 ## Team Capacity
 
-After the assignment of user story points on Jira, the group decided that of the 53 points present, 43 of them could confidently be done this sprint. (we moved some stories to the next sprint)
+After the assignment of user story points on Jira, the group decided that of the 40 points present, 36 of them could confidently be done this sprint. (we moved some stories to the next sprint)
