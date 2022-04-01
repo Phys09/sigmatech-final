@@ -23,6 +23,16 @@ body {
   background: #ecf0f3;
 }
 
+.btn_submit {
+    color: #dfe7f1;
+    background: #000000;
+    border: none;
+    border-radius: 4px;    
+    padding: 11px; 
+    margin-top: 26px;
+    outline: none !important;
+}
+
 .select-loan-type {
     width: 100%;
 

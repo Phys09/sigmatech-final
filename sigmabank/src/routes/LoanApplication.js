@@ -69,7 +69,7 @@ export default function LoanApplicationForm() {
             onChange={handleChange}
           />
         </label>
-        <input type="submit" value="Submit Request" />
+        <input className="btn_submit" type="submit" value="Submit Request" />
       </form>
     </div>
   );
