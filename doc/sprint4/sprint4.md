@@ -24,8 +24,13 @@
     - SIG-125 Implement /verify_security_answer endpoint
     - SIG-126 Integrate backend with frontend
 - SIG-7 [FRONT] As a customer, Kendall wants to be able to apply for a loan/mortgage
+    - SIG-92 Create UI for users to apply for loans
 - SIG-9 [FRONT] As a customer, Destyn wants to receive monthly reports of his spending (on the website)
+    - SIG-139 adding new routing
+    - SIG-140 changing text
 - SIG-39 [BACK] As an admin, Jairaj should be able to view and gather statistics about the bank
+    - SIG-103 View number of active accounts
+    - SIG-104 View amount of money transferred so far
 - SIG-14 [FRONT] As a customer, Destyn wants to be able to receive a security code by email to login
     - SIG-141 Modify login page to require security code on login
     - SIG-142 Incorporate endpoints in frontend
@@ -34,7 +39,10 @@
     - SIG-137 Add functionality to invalidate "old" codes
     - SIG-138 Create new schema for security codes
 - SIG-2 [FRONT] As an admin, Jairaj should be able to edit the details of a customer's account by an ID number
+    - SIG-127 Organize admin panel to accommodate new changes
+    - SIG-128 Add fetch to edit endpoint from admin panel
 - SIG-23 [BACK] As an admin, Jairaj should be able to edit the details of a customer's account by an ID number
+    - SIG-121 Extend functionality of admin panel to include inputs for this feature (basic)
 
 ## User Stories that are SPIKES:
 - SIG-14
