@@ -77,7 +77,8 @@ export default function LoginForm() {
       { body: JSON.stringify({ email: email, passwd: passwd }) },
       POST_FETCH
     );
-    fetch(endpoint("login"), payload) 
+    if (!goTocode) {
+      fetch(endpoint("login"), payload) 
       .then((response) => {
         if (response.status == 400) {
 					myArticle.innerHTML = "Enter email and password!";
@@ -86,15 +87,14 @@ export default function LoginForm() {
 					myArticle.innerHTML = "Incorrect password or account does not exist!";
           return Promise.reject("Incorrect password or account does not exist");
         } else {
-          if(!goTocode){
-            setGoToCode(true);
-          }
-          else if(goTocode){
-            alert("Please click the verify button to continue");
-          }
+          setGoToCode(true);
         }
       })
       .catch((err) => console.log(err));
+    }
+    else if (goTocode) {
+      alert("Please click the verify button to continue");
+    }
   }
   
   return (
