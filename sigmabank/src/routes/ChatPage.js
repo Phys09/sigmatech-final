@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 // import ChatMsg from "../components/chatmsg";
 import MessageUI from "../components/livechat.jsx";
-import NavbarHome from "../components/navbarHome";
+import Navbar from "../components/navbar";
 import '../css/App.css';
 
 /*
@@ -28,7 +28,7 @@ export default function ChatPage() {
 
   return (
     <React.Fragment>
-      <NavbarHome/>
+      <Navbar page="Chat" />
         <div >
           <MessageUI />
         </div>

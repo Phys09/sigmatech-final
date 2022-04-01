@@ -53,7 +53,7 @@ function passHandler(e){
       return (
       <td>
         <form onSubmit={passHandler}>
-          <input className="AccountInput" placeholder='Password' onChange={(e)=> setPass(e.target.value)} />
+          <input className="AccountInput" placeholder='Password' type="password" onChange={(e)=> setPass(e.target.value)} />
           <button className="AccountButtons" type="submit">Submit</button>
           <button className="AccountButtons" onClick={() => setPassInput(false)}>Cancel</button>
         </form>

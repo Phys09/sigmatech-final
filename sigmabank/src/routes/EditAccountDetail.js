@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 
 import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
-import NavbarHome from "../components/navbarHome";
+import Navbar from "../components/navbar";
 import "../css/App.css";
 import "../css/login.css";
 
@@ -98,7 +98,7 @@ export default function EditAccountForm() {
 
   return (
     <React.Fragment>
-		  <NavbarHome/>
+		  <Navbar page="Edit Account"/>
 		  <div className="login-wrapper">
 			  <h2>Edit Account</h2>
           <form>

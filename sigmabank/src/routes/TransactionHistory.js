@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import NavbarHome from "../components/navbarHome";
+import Navbar from "../components/navbar";
 import { TransactionList } from "../components/TransactionList";
 import '../css/TransactionHistory.css';
 
@@ -19,7 +19,7 @@ export default function TransactionHistory() {
 
   return (
     <React.Fragment>
-      <NavbarHome/>
+      <Navbar page="Transactions"/>
         <div className="TransactionHistory">
           <TransactionList />
         </div>

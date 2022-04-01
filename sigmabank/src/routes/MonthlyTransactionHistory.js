@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
-import { StatList } from "../components/StatList";
-import '../css/BankStats.css';
+import { TransactionList } from "../components/TransactionList";
+import '../css/TransactionHistory.css';
 
-export default function BankStats() {
+export default function MonthlyTransactionHistory() {
   const [cookies] = useCookies(["user"]);
   const aid = cookies.userId;
   var navigate = useNavigate();
@@ -19,9 +19,9 @@ export default function BankStats() {
 
   return (
     <React.Fragment>
-      <Navbar page="Bank Statistics"/>
-        <div className="BankStats">
-          <StatList />
+      <Navbar page="Monthly Transactions"/>
+        <div className="MonthlyTransactionHistory">
+          <TransactionList />
         </div>
     </React.Fragment>
   );

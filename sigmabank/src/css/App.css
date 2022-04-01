@@ -18,7 +18,7 @@
 }
 .Logo {
   /* ΣBank */
-  position: absolute;
+  position: fixed;
   left: 5px;
   top: 5px;
 
@@ -53,15 +53,19 @@ header{
   from {opacity: 0%;}
   to {opacity: 100%}
 }
-.Login, .Signup {
+.Signup {
 
-  background: black;
+  background-color: black;
   color: white;
   border-radius: 99em;
-  border: 10px solid black;
   margin: 10px;
   padding: 10px;
   font-size: large;
+}
+
+.Signup:hover{
+  color: black;
+  background-color: white;
   transition-duration: 0.4s;
 }
 
@@ -71,15 +75,6 @@ header{
   pointer-events: none;
 }
 
-.logoSecondHalf{
-  font-weight: normal;
-  font-size: 28px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-.logolink, .logolink:visited{
-  text-decoration: none;
-  color: black;
-}
 header{
   text-align: left;
 

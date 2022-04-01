@@ -4,7 +4,7 @@
 | **GET** |  / | Get a list of all accounts from the backend | Will be deprecated |
 | **GET** |  /list_accounts | Get a list of all accounts from the backend | Will be deprecated |
 | **POST** |  /create_account | Create an account with form data | |
-| **POST** |  /login | Check if form data matches with database | |
+| **POST** |  /login | Check if form data matches with database and sends security code to email | |
 | **POST** |  /edit_account | Edit an account with form data if form data matches with database  | |
 | **POST** |  /shutdown_account | Set an account to shutdown mode if form data matches with database | |
 | **POST** |  /reactivate_account | Revert an account from shutdown mode | |
@@ -18,6 +18,9 @@
 | **POST** |  /get_stats | Get a list of all system-related historical stats (signup, login, transfer)  | |
 | **POST** |  /setup_automatic_payment | Creates an automatic transaction with form data  | |
 | **POST** |  /stop_automatic_payment | Deletes an automatic transaction  | |
+| **GET** |  /currency | Get the names and values of all currencies | |
+| **POST** |  /currency | Add new currency | |
+| **POST** |  /verify_security_code | Verifies form data and security code | |
 
 <br>
 <br>
@@ -286,3 +289,49 @@ or 400 status or 404 Status
 ```
 200 Status or 400 Status or 404 Status
 ```
+<br>
+<br>
+
+
+
+## GET /currencies
+### Return Model
+```
+[curencies] 
+```
+
+<br>
+<br>
+
+## POST /currencies
+### Form Model
+```
+{
+    value: value,
+    name: name,
+}
+```
+### Return Model
+```
+200 status or 404 Status
+```
+
+<br>
+<br>
+
+## POST /verify_security_code
+### Form Model
+```
+{
+    email: user_email,
+    passwd: user_password,
+    code: security_code
+}
+```
+### Return Model
+```
+200 status or 400 status or 404 Status
+```
+
+<br>
+<br>

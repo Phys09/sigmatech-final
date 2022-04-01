@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { Outlet, useNavigate } from "react-router-dom";
 import {endpoint, POST_FETCH} from "../APIfunctions"
-import NavbarHome from "../components/navbarHome"
+import Navbar from "../components/navbar"
 import '../css/App.css';
 import '../css/makeAutopay.css'
 
@@ -79,6 +79,7 @@ export function SetupAutoPay() {
 
     return (
         <div>
+        <Navbar page="Setup Autopay" />
             <h1>Setup Automatic Transaction</h1>
             <form onSubmit={handleSubmit}>
                 <input className="TransactionInput" placeholder='From Account' onFocus={() => setSuccess(-1)} onChange={(event) => setFromAccount(event.target.value)}/>

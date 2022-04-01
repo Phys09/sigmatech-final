@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { endpoint, POST_FETCH } from "../APIfunctions";
 import FooterMain from "../components/footer";
-import NavbarLogin from "../components/navbarLogin";
+import Navbar from "../components/navbar";
 import "../css/App.css";
 import "../css/login.css";
 
@@ -11,6 +11,8 @@ export default function LoginForm() {
   const [email, setEmail] = useState(null);
   const [passwd, setPasswd] = useState(null);
   const [cookies, setCookie] = useCookies(["user"]);
+  const [goTocode, setGoToCode] = useState(false);
+  const [code, setCode] = useState(null);
   const aid = cookies.userId;
 
 	const myArticle = document.querySelector('.notify');
@@ -32,14 +34,51 @@ export default function LoginForm() {
       }
     }
   }
-
+  function verify(event){
+    event.preventDefault();
+    var payload = Object.assign(
+      { body: JSON.stringify({ email: email, code: code, passwd: passwd }) },
+      POST_FETCH
+    );
+    fetch(endpoint("verify_security_code"), payload) 
+      .then((response) => {
+        if (response.status == 400) {
+					myArticle.innerHTML = "Code was not entered";
+          return Promise.reject("Code was not entered");
+        } else if (response.status == 404) {
+					myArticle.innerHTML = "Incorrect code";
+          return Promise.reject("Incorrect code");
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        setCookie("password", passwd, {path: "/"})
+        setCookie("type", data[0].type, {path: "/"})
+        setCookie("userId", data[0].aid, {path: "/"})
+        setCookie("username", data[0].username, {path: "/"})
+        navigate("/transactions")
+      })
+      .catch((err) => console.log(err));
+  }
+  function codeCase(){
+    if(goTocode){
+      return (
+        <>
+        <input className="AccountInput" placeholder="Enter Emailed Code" name="code" onChange={(e) => setCode(e.target.value)} />
+        <button type="button" className="btn btn-primary btn-block" onClick={verify}>Verify</button>
+        </>
+      )
+    }
+  }
   function handleSubmit(event) {
     event.preventDefault();
     var payload = Object.assign(
       { body: JSON.stringify({ email: email, passwd: passwd }) },
       POST_FETCH
     );
-    fetch(endpoint("login"), payload) 
+    if (!goTocode) {
+      fetch(endpoint("login"), payload) 
       .then((response) => {
         if (response.status == 400) {
 					myArticle.innerHTML = "Enter email and password!";
@@ -48,24 +87,20 @@ export default function LoginForm() {
 					myArticle.innerHTML = "Incorrect password or account does not exist!";
           return Promise.reject("Incorrect password or account does not exist");
         } else {
-          return response.json();
+          setGoToCode(true);
         }
       })
-      .then((data) => {
-        setCookie("userId", data[0].aid, {path: "/"});
-        setCookie("type", data[0].type, {path: "/"});
-
-        setCookie("username", data[0].username, {path: "/"});
-        setCookie("password", passwd, {path: "/"});
-        navigate("/transactions");
-      })
       .catch((err) => console.log(err));
+    }
+    else if (goTocode) {
+      alert("Please click the verify button to continue");
+    }
   }
-
+  
   return (
 	  <React.Fragment>
-		  <NavbarLogin/>
-	    <div className="login-wrapper d-flex">
+		  <Navbar page="Login"/>
+	    <div className="login-wrapper">
 		    <h2 className="mx-auto login-title">SigmaBank Login</h2>					    
         <form onSubmit={handleSubmit} className="centered p-3 mt-3">
 			    <input
@@ -82,6 +117,7 @@ export default function LoginForm() {
 				    placeholder="Password"
 				    onChange={handleChange("passwd")}
 			    />
+          {codeCase()}
 			    <button className="btn btn-primary btn-block" type="submit">
 				    Login
 			    </button>

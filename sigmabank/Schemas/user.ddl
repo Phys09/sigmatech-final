@@ -1,7 +1,8 @@
 CREATE TABLE Accounts (
     aid int GENERATED ALWAYS AS IDENTITY, 
     username VARCHAR(20) NOT NULL, 
-    email VARCHAR NOT NULL, type INT, 
+    email VARCHAR NOT NULL,
+    type INT, 
     password_hash VARCHAR NOT NULL, 
     phone_number VARCHAR(15), 
     PRIMARY KEY(aid)
@@ -14,4 +15,8 @@ CREATE TABLE Bank_Accounts (
     owner int REFERENCES Accounts(aid) NOT NULL
 );
 
-
+CREATE TABLE Security_Codes (
+    email VARCHAR NOT NULL,
+    security_hash VARCHAR NOT NULL,
+    stamp TIMESTAMP
+);

@@ -6,7 +6,6 @@ form {
     min-width: 250px;
     max-width: 250px;
     width: 100%;
-    background-color: #ffffff;
     padding: 40px;
     border-radius: 4px;
   }
@@ -17,10 +16,6 @@ form {
     box-sizing: border-box;
     font-family: 'Segoe UI', sans-serif;
     text-align: center;
-}
-
-body {
-    background: #ecf0f3
 }
 
 .btn-primary{
@@ -38,7 +33,7 @@ body {
 }
 
 .login-wrapper form .form-control {
-    background: #f7f9fc;
+
     border: none;
     border-bottom: 1px solid #dfe7f1;
     text-indent: 8px;
@@ -46,7 +41,7 @@ body {
   }
 
 .login-wrapper form .btn-primary {
-    color: #dfe7f1;
+
     background: #000000;
     border: none;
     border-radius: 4px;    
@@ -64,9 +59,9 @@ body {
 
 /* from createAcount.css */
 .login-wrapper form .btn-primary:hover, .login-clean form .btn-primary:active {
-    background-color: white;
+
     color: black;
-    border-color: white;
+    background-color: white;
     transition-duration: 0.25s;
   }
 
