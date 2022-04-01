@@ -6,7 +6,6 @@ form {
   min-width: 250px;
   max-width: 250px;
   width: 100%;
-  background-color: #ffffff;
   padding: 40px;
   border-radius: 4px;
 }
@@ -19,12 +18,8 @@ form {
   text-align: center;
 }
 
-body {
-  background: #ecf0f3;
-}
-
 .btn_submit {
-    color: #dfe7f1;
+    color: white;
     background: #000000;
     border: none;
     border-radius: 4px;    
@@ -32,7 +27,12 @@ body {
     margin-top: 26px;
     outline: none !important;
 }
+.btn_submit:hover {
 
+  color: black;
+  background-color: white;
+  transition-duration: 0.25s;
+}
 .select-loan-type {
     width: 100%;
 
@@ -60,7 +60,6 @@ input {
 }
 
 .login-wrapper form .form-control {
-  background: #f7f9fc;
   border: none;
   border-bottom: 1px solid #dfe7f1;
   text-indent: 8px;
@@ -87,7 +86,6 @@ input {
 /* from createAcount.css */
 .login-wrapper form .btn-primary:hover,
 .login-clean form .btn-primary:active {
-  background-color: white;
   color: black;
   border-color: white;
   transition-duration: 0.25s;
