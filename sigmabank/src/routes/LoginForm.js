@@ -11,6 +11,8 @@ export default function LoginForm() {
   const [email, setEmail] = useState(null);
   const [passwd, setPasswd] = useState(null);
   const [cookies, setCookie] = useCookies(["user"]);
+  const [goTocode, setGoToCode] = useState(false);
+  const [code, setCode] = useState(null);
   const aid = cookies.userId;
 
 	const myArticle = document.querySelector('.notify');
@@ -32,7 +34,16 @@ export default function LoginForm() {
       }
     }
   }
-
+  function codeCase(){
+    if(goTocode){
+      return (
+        <div>
+        <input className="AccountInput" placeholder="Enter Emailed Code" name="code" onChange={(e) => setCode(e.target.value)} />
+        <button className="btn btn-primary btn-block" onClick={verify}>Verify</button>
+        </div>
+      )
+    }
+  }
   function handleSubmit(event) {
     event.preventDefault();
     var payload = Object.assign(
@@ -48,20 +59,46 @@ export default function LoginForm() {
 					myArticle.innerHTML = "Incorrect password or account does not exist!";
           return Promise.reject("Incorrect password or account does not exist");
         } else {
-          return response.json();
+          if(!goTocode){
+            setGoToCode(true);
+          }
+          else if(goTocode){
+            alert("Please click the verify button to continue");
+          }
         }
-      })
-      .then((data) => {
-        setCookie("userId", data[0].aid, {path: "/"});
-        setCookie("type", data[0].type, {path: "/"});
-
-        setCookie("username", data[0].username, {path: "/"});
-        setCookie("password", passwd, {path: "/"});
-        navigate("/transactions");
       })
       .catch((err) => console.log(err));
   }
 
+  function verify(event){
+    event.preventDefault();
+    var payload = Object.assign(
+      { body: JSON.stringify({ email: email, code: code}) },
+      POST_FETCH
+    );
+    fetch(endpoint("verify_security_code"), payload) 
+      .then((response) => {
+        if (response.status == 400) {
+					myArticle.innerHTML = "Code was not entered";
+          return Promise.reject("Code was not entered");
+        } else if (response.status == 404) {
+					myArticle.innerHTML = "Incorrect code";
+          return Promise.reject("Incorrect code");
+        } else {
+          return response.json()
+        }
+      })
+      .then((data) => {
+        setCookie("password", passwd, {path: "/"})
+        setCookie("type", data[0].type, {path: "/"})
+        setCookie("userId", data[0].aid, {path: "/"})
+        setCookie("username", data.username[0], {path: "/"})
+
+        navigate("/transactions")
+      })
+      .catch((err) => console.log(err));
+  }
+  
   return (
 	  <React.Fragment>
 		  <Navbar page="Login"/>
@@ -82,6 +119,7 @@ export default function LoginForm() {
 				    placeholder="Password"
 				    onChange={handleChange("passwd")}
 			    />
+          {codeCase()}
 			    <button className="btn btn-primary btn-block" type="submit">
 				    Login
 			    </button>
