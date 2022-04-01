@@ -27,7 +27,12 @@
 - SIG-9 [FRONT] As a customer, Destyn wants to receive monthly reports of his spending (on the website)
 - SIG-39 [BACK] As an admin, Jairaj should be able to view and gather statistics about the bank
 - SIG-14 [FRONT] As a customer, Destyn wants to be able to receive a security code by email to login
+    - SIG-141 Modify login page to require security code on login
+    - SIG-142 Incorporate endpoints in frontend
 - SIG-42 [BACK] As a customer, Destyn wants to be able to receive a security code by email to login
+    - SIG-136 Create endpoints for sending security code by email and verifying security code
+    - SIG-137 Add functionality to invalidate "old" codes
+    - SIG-138 Create new schema for security codes
 - SIG-2 [FRONT] As an admin, Jairaj should be able to edit the details of a customer's account by an ID number
 - SIG-23 [BACK] As an admin, Jairaj should be able to edit the details of a customer's account by an ID number
 
