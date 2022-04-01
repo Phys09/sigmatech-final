@@ -19,6 +19,10 @@
 - SIG-25 [BACK] As an international customer, Jairaj wants to be able to convert concurrency to his local currency when a transaction is made
 - SIG-12 [FRONT] As a customer, Destyn wants to be asked security questions when he login
 - SIG-37 [BACK] As a customer, Destyn wants to be asked security questions when he login
+    - SIG-123 Implement /set_security_question and /disable_security_question endpoints
+    - SIG-124 Implement /get_security_question endpoint
+    - SIG-125 Implement /verify_security_answer endpoint
+    - SIG-126 Integrate backend with frontend
 - SIG-7 [FRONT] As a customer, Kendall wants to be able to apply for a loan/mortgage
 - SIG-9 [FRONT] As a customer, Destyn wants to receive monthly reports of his spending (on the website)
 - SIG-39 [BACK] As an admin, Jairaj should be able to view and gather statistics about the bank
