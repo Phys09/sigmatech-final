@@ -19,6 +19,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 import { MakeTransaction, SendMoney } from "./routes/MakeTransaction";
 import { SetupAutoPay } from "./routes/makeAutopay";
+import MonthlyTransactionHistory from "./routes/MonthlyTransactionHistory";
 
 ReactDOM.render(
   <CookiesProvider>
@@ -33,6 +34,7 @@ ReactDOM.render(
         <Route path="/edit" element={<EditAccountForm />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/transactions" element={<TransactionHistory />} />
+        <Route path="/summary" element={<MonthlyTransactionHistory />} />
         <Route path="/makeAutopay" element={<SetupAutoPay />}/>
         <Route path="/makeTransactions" element={<MakeTransaction />}>
           <Route path="sendMoney" element={<SendMoney />} />
