@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { endpoint, POST_FETCH } from "../APIfunctions";
 import { useNavigate } from "react-router-dom";
-import NavbarLogin from "../components/navbarLogin";
+// import NavbarLogin from "../components/navbarLogin";
 import FooterMain from "../components/footer";
 import "../css/LoanApplication.css";
 import "../css/App.css";
