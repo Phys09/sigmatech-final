@@ -99,7 +99,7 @@ function send_security_code(receiverEmail, securityCode) {
 }
 
 function delete_old_codes() {
-    client.query(`DELETE FROM Security_Codes WHERE stamp >= NOW() - INTERVAL '5 minutes';`, (err, result) => {
+    client.query(`DELETE FROM Security_Codes WHERE stamp <= NOW() - INTERVAL '5 minutes';`, (err, result) => {
         if (err) throw err;
     });
 }
