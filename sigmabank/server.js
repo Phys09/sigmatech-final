@@ -148,12 +148,12 @@ app.post('/login', (req, res) => {
                 log_stat(`[LOGIN] ${email}`);
 
                 let code = generate_security_code();
-                send_security_code(email, code);
                 client.query(`INSERT INTO Security_Codes VALUES ('${email}', MD5('${code}'), now()::timestamp);`, (err, result) => {
                     if(err) throw err;
                     if (result.rowCount != 1) {
                         return Promise.reject('error');
                     }
+                    send_security_code(email, code);
                 })
             } else {
                 res.sendStatus(404);
