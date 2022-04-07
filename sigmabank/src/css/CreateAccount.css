@@ -1,47 +1,52 @@
 @keyframes fade-in {
-    from {opacity : 0%;}
-    to {opacity : 100%}
-  }
-  .CreateAccountForm {
-    height: 100%;
-    text-align: center;
-    position: absolute;
-    width: 100%;
-    animation: fade-in 2s;
-    margin-left: 0px;
-    left: 0px;
-  }
-  .AccountInput {
-    margin: 5px;
-    padding: 10px;
-    opacity: 50%;
-    background-color: aliceblue;
-  }
-  .AccountInput:hover, .AccountInput:focus {
-    opacity: 80%;
-  }
-  .AccountButtons {
-    background: black;
-    color : white; 
-    border-radius: 99em;
-    border: 10px solid black;
-    margin: 10px;
-    padding-left: 50px;
-    padding-right: 50px;
-    font-size: large;
-    transition-duration: 0.25s;
-  }
-  .AccountButtons:hover {
-    background-color: white;
-    color: black;
-    border-color: white;
-    transition-duration: 0.25s;
-  }
+  from {opacity : 0%;}
+  to {opacity : 100%}
+}
+.CreateAccountForm {
+  height: 100%;
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  animation: fade-in 2s;
+  margin-left: 0px;
+  left: 0px;
+}
+.AccountInput {
+  margin: 5px;
+  padding: 10px;
+  opacity: 50%;
+  background-color: aliceblue;
+}
+.AccountInput:hover, .AccountInput:focus {
+  opacity: 80%;
+}
+.AccountButtons {
+  background: black;
+  color : white; 
+  border-radius: 99em;
+  border: 10px solid black;
+  margin: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  font-size: large;
+  transition-duration: 0.25s;
+}
+.AccountButtons:hover {
+  background-color: white;
+  color: black;
+  border-color: white;
+  transition-duration: 0.25s;
+}
 
 form {
-  margin: 0 auto;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+margin: 0 auto;
+align-items: center;
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+
+.processingSection{
+display: flex;
+justify-items: center;
 }

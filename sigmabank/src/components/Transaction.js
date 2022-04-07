@@ -35,6 +35,7 @@ function passHandler(e){
     }
     else if (resp.status == 200) {
       alert("Transaction processed")
+      setPassInput(false)
     }
   })
 
@@ -51,7 +52,7 @@ function passHandler(e){
     }
     else if(!processed && passInput){
       return (
-      <td>
+      <td className="processingSection">
         <form onSubmit={passHandler}>
           <input className="AccountInput" placeholder='Password' type="password" onChange={(e)=> setPass(e.target.value)} />
           <button className="AccountButtons" type="submit">Submit</button>

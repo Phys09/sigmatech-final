@@ -109,7 +109,7 @@ export function SendMoney() {
                 <input className="TransactionInput" placeholder='From Account' onFocus={() => setSuccess(-1)} onChange={(event) => setFromAccount(event.target.value)}/>
                 <input className="TransactionInput" placeholder='To Account' onFocus={() => setSuccess(-1)} onChange={(event) => setToAccount(event.target.value)}/>
                 <input className="TransactionInput" placeholder='Amount' onFocus={() => setSuccess(-1)} onChange={(event) => setAmount(event.target.value)}/>
-                <input className="TransactionInput" placeholder='Password (optional)' onFocus={() => setSuccess(-1)} onChange={(event) => setPass(event.target.value)}/>
+                <input className="TransactionInput" type="password" placeholder='Password (optional)' onFocus={() => setSuccess(-1)} onChange={(event) => setPass(event.target.value)}/>
 
                 <button className="TransactionButtons" type="submit">Submit</button>
                 <button className='TransactionButtons' onClick={() => navigate("/makeTransactions")}>Cancel</button>
