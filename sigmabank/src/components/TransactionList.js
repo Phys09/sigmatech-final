@@ -30,24 +30,19 @@ export const TransactionList = () => {
   // Return header and table of transactions only when required information is received
   return (
     <div>
-      {
-        transactions &&
-        <>
-          <h3>Transaction History for {username}</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Counterparty ID</th>
-                <th>Date</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {transactions.map(transaction => (<Transaction key={transaction.tid} transaction={transaction} />))}
-            </tbody>
-          </table>
-        </>
-      }
+      <h3>Transaction History for {username}</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Counterparty ID</th>
+            <th>Date</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transactions.map(transaction => (<Transaction key={transaction.tid} transaction={transaction} />))}
+        </tbody>
+      </table>
     </div>
   );
 };

@@ -35,7 +35,7 @@ function passHandler(e){
     }
     else if (resp.status == 200) {
       alert("Transaction processed")
-      setPassInput(false)
+      setProcessed(true);
     }
   })
 

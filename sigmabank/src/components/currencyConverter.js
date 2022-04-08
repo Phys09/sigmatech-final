@@ -12,7 +12,7 @@ function Currency(props){
     }, [])
     
     return(
-        <li>
+        <li style={{listStyleType: "none"}}>
             <input placeholder={currency} onChange={(e)=> setAmount(parseFloat(e.target.value))}/>
             <input readOnly value={amount*conversionFactor ? amount*conversionFactor : 0} />
         </li>
