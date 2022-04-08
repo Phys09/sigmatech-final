@@ -44,7 +44,7 @@ function passHandler(e){
   function acceptanceDisplay(){
     if(!processed && !passInput){
       if (props.transaction.toaccount==bid) {
-        return <td><button className="AccountButtons" onClick={() => setPassInput(true)}>Process</button></td>
+        return <td className="processingSection"><button className="AccountButtons" onClick={() => setPassInput(true)}>Process</button></td>
       }
       else {
         return <td>Pending</td>
